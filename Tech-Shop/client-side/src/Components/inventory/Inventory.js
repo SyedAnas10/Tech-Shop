@@ -57,7 +57,7 @@ function Inventory() {
                     </NavItem>
                     <NavItem>
                         <NavLink className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
-                            Low Stock List <Badge color='warning'>{lowStocked.length}</Badge>
+                            Low Stock List <Badge color='success'>{lowStocked.length}</Badge>
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -67,16 +67,16 @@ function Inventory() {
                 <TabPane tabId='1'>
                 <Input type='text' id="myInput" placeholder="Search" autoComplete='off'/>
                     <div style={Center}>
-                        <Table dark hover responsive id='myTable'>
+                        <Table hover responsive>
                             <thead>
-                                <tr>
+                                <tr style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
                                     <th>Name</th>
                                     <th>Model</th>
                                     <th>Stock Pieces</th>
                                     <th>Cost</th>
                                     <th>Retail</th>
                                     <th>Approx. Profit</th>
-                                    <th><Button color='warning' size='sm' onClick={() => {toggleEnter(!enterNew)}}>{enterNew?'Cancel':'Add new'}</Button></th>
+                                    <th><Button color='dark' size='sm' onClick={() => {toggleEnter(!enterNew)}}>{enterNew?'Cancel':'Add new'}</Button></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,8 +88,8 @@ function Inventory() {
                 </TabPane>
                 <TabPane tabId='2'>
                     <div style={Center}>
-                        <Table dark hover responsive>
-                            <thead>
+                        <Table hover responsive>
+                            <thead style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
                                 <tr>
                                     <th>Name</th>
                                     <th>Model</th>
