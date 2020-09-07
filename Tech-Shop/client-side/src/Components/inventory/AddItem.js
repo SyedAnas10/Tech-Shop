@@ -35,11 +35,11 @@ function AddItemForm() {
 
     return (
         <tr>
-            <th><Input type='text' id='itemName' autoComplete='off' value={name} onChange={nameChange} /></th>
-            <th><Input type='text' id='itemName' autoComplete='off' value={model} onChange={modelChange} /></th>
-            <th><Input type='text' id='itemName' autoComplete='off' value={count} onChange={pieceChange} /></th>
-            <th><Input type='text' id='itemName' autoComplete='off' value={cost_price} onChange={costChange} /></th>
-            <th><Input type='text' id='itemName' autoComplete='off' value={retail_price} onChange={retailChange} /></th>
+            <th><Input type='text' autoComplete='off' value={name} onChange={nameChange} /></th>
+            <th><Input type='text' autoComplete='off' value={model} onChange={modelChange} /></th>
+            <th><Input type='text' autoComplete='off' value={count} onChange={pieceChange} /></th>
+            <th><Input type='text' autoComplete='off' value={cost_price} onChange={costChange} /></th>
+            <th><Input type='text' autoComplete='off' value={retail_price} onChange={retailChange} /></th>
             <th><Button color='warning' size='sm' onClick={saveChanges}>Save</Button> </th>
         </tr>
     )

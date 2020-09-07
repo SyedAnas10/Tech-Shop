@@ -17,8 +17,7 @@ const PCmakeSlice = createSlice({
     reducers: {
         orderAdded(state, action) {
             action.payload._id = state.length+1
-            state.unshift(action.payload)
-            console.log(action.payload)
+            state.push(action.payload)
         }
     }
 })
