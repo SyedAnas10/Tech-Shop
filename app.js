@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -40,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/items', items_router);
+app.use('/items', cors(), items_router);
 app.use('/individual_items_sales', individual_items_sales_router);
 app.use('/pc_making', pc_making_router);
 app.use('/repairing', repairing_router);
