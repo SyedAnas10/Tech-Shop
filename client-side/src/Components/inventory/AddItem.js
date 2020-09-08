@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Input } from 'reactstrap'
 import { useDispatch } from 'react-redux'
-import { productAdded } from '../../Redux/InventorySlice'
+// import { productAdded } from '../../Redux/InventorySlice'
+import { post_item } from '../../Redux/ActionCreators';
 
 function AddItemForm() {
     
@@ -21,10 +22,8 @@ function AddItemForm() {
 
     const saveChanges = () => {
         if(name&&model&&count&&cost_price&&retail_price) {
-            dispatch(productAdded({
-                _id: Number,
-                name,model,count,cost_price,retail_price
-            }))
+            dispatch(post_item(name, model, count, cost_price, retail_price));
+
             setName('')
             setModel('')
             setPieces('')

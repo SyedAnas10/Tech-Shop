@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const ItemSchema = Schema({
     count: {
         type: Number,
-        default: 1
     },
     name: {
         type: String,

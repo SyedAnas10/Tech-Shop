@@ -47,3 +47,33 @@ export const fetch_items = () => (dispatch) => {
         dispatch(items_failed(error.message));
     });
 }
+
+export const post_item = (name, model, count, cost_price, retail_price) => (dispatch) => {
+    return fetch(baseUrl + 'items', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name,
+            model: model,
+            count: count,
+            cost_price: cost_price,
+            retail_price: retail_price
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(response => {
+        alert(response);
+        dispatch(fetch_items());
+    }, error => { throw error; })
+    .catch(error => alert(error.message));
+}
