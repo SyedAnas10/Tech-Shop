@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Table, Nav, NavItem, NavLink, TabContent, TabPane, Navbar, Button, Input } from 'reactstrap';
+import { Table, Nav, NavItem, NavLink, TabContent, TabPane, Navbar, Badge, Button, Input } from 'reactstrap';
 import AddItemForm from './AddItem';
 
 import { fetch_items } from '../../Redux/ActionCreators';
@@ -12,7 +12,7 @@ function Inventory() {
 // PRIVATE STATE
     const dispatch = useDispatch();
     const products = useSelector(state => state.items)
-    //const lowStocked = products.filter(product => product.count <= 10)
+    const lowStocked = products.items.filter(product => product.count <= 10)
     const [activeTab, setActiveTab] = useState('1')
     const [enterNew, toggleEnter] = useState(false)
     const Center = {
@@ -36,17 +36,6 @@ function Inventory() {
             setActiveTab(tab)
     }
 
-    // const renderLowProduct = lowStocked.map(product => (
-    //     <tr key={product._id}>
-    //         <th scope="row">{product.name}</th>
-    //         <th>{product.model}</th>
-    //         <th>{product.count}</th>
-    //         <th>{product.cost_price}</th>
-    //         <th>{product.retail_price}</th>
-    //         <th>{product.retail_price - product.cost_price}</th>
-    //     </tr>
-    // ))
-
     if(products.isLoading) {
         return(
             <div>
@@ -64,7 +53,18 @@ function Inventory() {
                 <th>{product.retail_price}</th>
                 <th>{product.retail_price - product.cost_price}</th>
             </tr>
-        ))
+        ));
+
+        const renderLowProduct = lowStocked.map(product => (
+            <tr key={product._id}>
+                <th scope="row">{product.name}</th>
+                <th>{product.model}</th>
+                <th>{product.count}</th>
+                <th>{product.cost_price}</th>
+                <th>{product.retail_price}</th>
+                <th>{product.retail_price - product.cost_price}</th>
+            </tr>
+        ));
 
         return (
             <div>
@@ -77,7 +77,7 @@ function Inventory() {
                         </NavItem>
                         <NavItem>
                             <NavLink className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
-                                { /*Low Stock List <Badge color='success'>{lowStocked.length}</Badge>*/}
+                                Low Stock List <Badge color='success'>{lowStocked.length}</Badge>
                             </NavLink>
                         </NavItem>
                     </Nav>
@@ -120,7 +120,7 @@ function Inventory() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/*renderLowProduct*/}
+                                    {renderLowProduct}
                                 </tbody>
                             </Table>
                         </div>
