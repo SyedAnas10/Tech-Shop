@@ -1,0 +1,7 @@
+export const ITEMS_LOADING = 'ITEMS_LOADING';
+export const ADD_ITEMS = 'ADD_ITEMS';
+export const ITEMS_FAILED = 'ITEMS_FAILED';
+
+export const PC_MAKING_LOADING = 'PC_MAKING_LOADING';
+export const ADD_PC_MAKING = 'ADD_PC_MAKING';
+export const PC_MAKING_FAILED = 'PC_MAKING_FAILED';
