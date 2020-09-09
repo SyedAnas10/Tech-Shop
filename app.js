@@ -43,7 +43,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/items', cors(), items_router);
 app.use('/individual_items_sales', individual_items_sales_router);
-app.use('/pc_making', pc_making_router);
+app.use('/pc_making', cors(), pc_making_router);
 app.use('/repairing', repairing_router);
 app.use('/purchasing', purchasing_router)
 

@@ -33,6 +33,7 @@ router.post('/', (req, res, next) => {
         customer_name: req.body.customer_name,
         specs_list: req.body.specs_list,
         specs_cost: req.body.specs_cost,
+        specs_retail: req.body.specs_retail,
         profit: req.body.profit,
         advance_payment: req.body.advance_payment
     })

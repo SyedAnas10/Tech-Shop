@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { orderAdded } from '../../Redux/PCmakeSlice';
+// import { orderAdded } from '../../Redux/PCmakeSlice';
+import { post_pc_making } from '../../Redux/ActionCreators';
 
 
 function AddWishList() {
@@ -27,10 +28,7 @@ function AddWishList() {
 
     const saveChanges = () => {
         if(customer_name&&specs_list&&specs_cost&&specs_retail&&advance_payment) {
-            dispatch(orderAdded({
-                _id: Number,
-                customer_name,specs_list,specs_cost,specs_retail,advance_payment,profit:''
-            }))
+            dispatch(post_pc_making(customer_name, specs_list, specs_cost, specs_retail, advance_payment))
             setName('')
             setList('')
             setCost('')
