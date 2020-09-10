@@ -148,3 +148,77 @@ export const post_pc_making = (name, specs, cost, retail, advance) => (dispatch)
     }, err => { throw err; })
     .catch(err => alert(err));
 }
+
+//PC REPAIRING
+
+export const pc_repairing_loading = () => {
+    return {
+        type: ActionTypes.PC_REPAIRING_LOADING
+    };
+}
+
+export const add_pc_repairing = (pc_repairing) => {
+    return {
+        type: ActionTypes.ADD_PC_REPAIRING,
+        payload: pc_repairing
+    };
+}
+
+export const pc_repairing_failed = (errMess) => {
+    return {
+        type: ActionTypes.PC_REPAIRING_FAILED,
+        payload: errMess
+    };
+}
+
+
+export const fetch_pc_repairing = () => (dispatch) => {
+    return fetch(baseUrl + 'pc_repairing')
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(pc_repairing => {
+        // alert(JSON.stringify(pc_repairing));
+        dispatch(add_pc_repairing(pc_repairing));
+    }, error => { throw error; })
+    .catch(error => {
+        // alert(error);
+        dispatch(pc_repairing_failed(error.message));
+    });
+}
+
+export const post_pc_repairing = (name, specs, cost, retail, advance) => (dispatch) => {
+    alert(name, specs, cost, retail, advance)
+    return fetch(baseUrl + 'pc_repairing', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            customer_name: name,
+            specs_list: specs,
+            specs_cost: cost,
+            specs_retail: retail,
+            advance_payment: advance
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, err => { throw err; })
+    .then(response => response.json())
+    .then(() => {
+        dispatch(fetch_pc_repairing());
+    }, err => { throw err; })
+    .catch(err => alert(err));
+}

@@ -24,7 +24,7 @@ function Header() {
                     <NavLink to="/inventory" className='nav-link'> <i className="fa fa-database"></i> Inventory</NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink to="/repair" className='nav-link'> <i className="fa fa-wrench"></i> Repairing</NavLink>
+                    <NavLink to="/pc-repairing" className='nav-link'> <i className="fa fa-wrench"></i> Repairing</NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink to="/pc-making" className='nav-link'> <i className="fa fa-desktop"></i> Making</NavLink>
