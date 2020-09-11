@@ -7,6 +7,7 @@ import Inventory from './Components/inventory/Inventory';
 import Orders from './Components/Orders';
 import Statistics from './Components/Statistics';
 import MakeList from './Components/pcMake/PC_Make';
+import RepairList from './Components/pcRepairing/pcRepair';
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
           </Route>
           <Route path='/orders'>
             <Orders />
+          </Route>
+          <Route path='/pc-repairing'>
+            <RepairList />
           </Route>
           <Route path='/'>
             <Redirect to='/dashboard'/>

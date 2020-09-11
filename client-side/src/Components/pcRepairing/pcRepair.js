@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
-import AddWishList from './AddList'
+import AddWishListUtil from './AddlistUtil'
 
-import { fetch_pc_making } from '../../Redux/ActionCreators';
+import { fetch_pc_repairing } from '../../Redux/ActionCreators';
 
 let fetch_called = false;
 
-function MakeList() {
+function RepairList() {
     const dispatch = useDispatch();
-    const orders = useSelector(state => state.pc_making)
+    const orders = useSelector(state => state.pc_repairing)
     const [activeTab, setActiveTab] = useState('1')
     const Center = {
         padding: '20px',
@@ -21,7 +21,7 @@ function MakeList() {
 
     useEffect(() => {
         if(!fetch_called) {
-            dispatch(fetch_pc_making());
+            dispatch(fetch_pc_repairing());
             fetch_called = true;
         }
     }, [orders]);
@@ -34,23 +34,19 @@ function MakeList() {
     if(orders.isLoading) {
         return(
             <div>
-                Loading
+                Under Construction
             </div>
         );
     }
     else {
-        const renderList = orders.pc_making.map(order => (
+        const renderList = orders.pc_repairing.map(order => (
             <Card body key={order._id}>
                 <CardHeader>{order.customer_name}</CardHeader>
                 <CardBody>
                     <CardText>
-                        {order.specs_list.split(' ').map(item => (
-                            <p>
-                                {item}
-                            </p>
-                        ))}
+                        
                     </CardText>
-                    <Button outline color='success'><Badge color='success'pill>Rs. {order.specs_retail}</Badge></Button>
+                    <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
                 </CardBody>
             </Card>
         ))
@@ -79,7 +75,7 @@ function MakeList() {
                         </div>
                     </TabPane>
                     <TabPane tabId='2'>
-                        <AddWishList/>
+                        <AddWishListUtil/>
                     </TabPane>
                 </TabContent>
             </div>
@@ -87,4 +83,4 @@ function MakeList() {
     }
 }
 
-export default MakeList;
+export default RepairList;

@@ -41,25 +41,25 @@ export const pc_making_failed = (errMess) => {
     };
 }
 
-export const orders_loading = () => {
-    return {
-        type: ActionTypes.ORDERS_LOADING
-    };
-}
+// export const orders_loading = () => {
+//     return {
+//         type: ActionTypes.ORDERS_LOADING
+//     };
+// }
 
-export const add_orders = (orders) => {
-    return {
-        type: ActionTypes.ORDERS_LOADING,
-        payload: orders
-    };
-}
+// export const add_orders = (orders) => {
+//     return {
+//         type: ActionTypes.ORDERS_LOADING,
+//         payload: orders
+//     };
+// }
 
-export const orders_failed = (err_mess) => {
-    return {
-        type: ActionTypes.ORDERS_LOADING,
-        payload: err_mess
-    };
-}
+// export const orders_failed = (err_mess) => {
+//     return {
+//         type: ActionTypes.ORDERS_LOADING,
+//         payload: err_mess
+//     };
+// }
 
 export const fetch_items = () => (dispatch) => {
     dispatch(items_loading());
@@ -169,10 +169,65 @@ export const post_pc_making = (name, specs, cost, retail, advance) => (dispatch)
     .catch(err => alert(err));
 }
 
-export const fetch_orders = () => (dispatch) => {
-    dispatch(orders_loading());
+export const pc_repairing_loading = () => {
+    return {
+        type: ActionTypes.PC_REPAIRING_LOADING
+    };
+}
 
-    return fetch(baseUrl + 'orders')
+export const add_pc_repairing = (pc_repairing) => {
+    return {
+        type: ActionTypes.ADD_PC_REPAIRING,
+        payload: pc_repairing
+    };
+}
+
+export const pc_repairing_failed = (errMess) => {
+    return {
+        type: ActionTypes.PC_REPAIRING_FAILED,
+        payload: errMess
+    };
+}
+
+
+export const fetch_pc_repairing = () => (dispatch) => {
+    dispatch(pc_repairing_loading());
+
+    return fetch(baseUrl + 'repairing')
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(pc_repairing => {
+        dispatch(add_pc_repairing(pc_repairing));
+    }, error => { throw error; })
+    .catch(error => {
+        // alert(error);
+        dispatch(pc_repairing_failed(error.message));
+    });
+}
+
+export const post_pc_repairing = (item, s_no, name, contact, cost, retail, details) => (dispatch) => {
+    return fetch(baseUrl + 'pc_repairing', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            item: item,
+            serial_no: s_no,
+            customer_name: name,
+            contact_no: contact,
+            repairing_cost: cost,
+            retail_cost: retail,
+            details: details
+        })
+    })
     .then(response => {
         if(response.ok)
             return response;
@@ -182,8 +237,6 @@ export const fetch_orders = () => (dispatch) => {
         throw error;
     }, err => { throw err; })
     .then(response => response.json())
-    .then(orders => {
-        dispatch(add_orders(orders));
-    }, err => { throw err; })
-    .catch(err => dispatch(orders_failed(err.message)));
+    .then(response => alert(JSON.stringify(response)))
+    .catch(err => alert(err.message));
 }
