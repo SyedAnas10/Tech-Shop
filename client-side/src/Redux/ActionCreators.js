@@ -41,6 +41,26 @@ export const pc_making_failed = (errMess) => {
     };
 }
 
+export const orders_loading = () => {
+    return {
+        type: ActionTypes.ORDERS_LOADING
+    };
+}
+
+export const add_orders = (orders) => {
+    return {
+        type: ActionTypes.ORDERS_LOADING,
+        payload: orders
+    };
+}
+
+export const orders_failed = (err_mess) => {
+    return {
+        type: ActionTypes.ORDERS_LOADING,
+        payload: err_mess
+    };
+}
+
 export const fetch_items = () => (dispatch) => {
     dispatch(items_loading());
 
@@ -147,4 +167,23 @@ export const post_pc_making = (name, specs, cost, retail, advance) => (dispatch)
         dispatch(fetch_pc_making());
     }, err => { throw err; })
     .catch(err => alert(err));
+}
+
+export const fetch_orders = () => (dispatch) => {
+    dispatch(orders_loading());
+
+    return fetch(baseUrl + 'orders')
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, err => { throw err; })
+    .then(response => response.json())
+    .then(orders => {
+        dispatch(add_orders(orders));
+    }, err => { throw err; })
+    .catch(err => dispatch(orders_failed(err.message)));
 }
