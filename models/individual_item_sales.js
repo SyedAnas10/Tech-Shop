@@ -16,6 +16,15 @@ const Individual_Item_Sales_Schema = Schema({
     },
     profit: {
         type: Number, 
+    }, 
+    day: {
+        type: String
+    },
+    month: {
+        type: String
+    },
+    year: {
+        type: String
     }
 }, {
     timestamps: true

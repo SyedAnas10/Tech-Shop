@@ -37,7 +37,19 @@ router.post('/', (req, res, next) => {
     .then(sales => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        return res.json(sales);
+        const full_date = sales.createdAt.toString();
+
+        const month = full_date.slice(4, 7);
+        const day = full_date.slice(8, 10);
+        const year = full_date.slice(11, 15);
+        sales.year = year;
+        sales.month = month;
+        sales.day = day;
+
+        sales.save()
+        .then(sales => {
+            return res.json(sales);
+        }, err => next(err));
     }, err => next(err))
     .catch(err => next(err));
 });
