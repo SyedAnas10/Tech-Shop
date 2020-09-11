@@ -240,3 +240,28 @@ export const post_pc_repairing = (item, s_no, name, contact, cost, retail, detai
     .then(() => dispatch(fetch_pc_repairing()))
     .catch(err => alert(err.message));
 }
+
+export const post_sales = (item, count, rate) => (dispatch) => {
+    return fetch(baseUrl + 'individual_items_sales', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: item,
+            count: count,
+            rate_sold: rate
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(() => alert('Sale Registered'))
+    .catch(error => alert(error));
+}
