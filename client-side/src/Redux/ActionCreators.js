@@ -213,7 +213,7 @@ export const fetch_pc_repairing = () => (dispatch) => {
 }
 
 export const post_pc_repairing = (item, s_no, name, contact, cost, retail, details) => (dispatch) => {
-    return fetch(baseUrl + 'pc_repairing', {
+    return fetch(baseUrl + 'repairing', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -223,7 +223,7 @@ export const post_pc_repairing = (item, s_no, name, contact, cost, retail, detai
             serial_no: s_no,
             customer_name: name,
             contact_no: contact,
-            repairing_cost: cost,
+            repair_cost: cost,
             retail_cost: retail,
             details: details
         })
@@ -237,6 +237,6 @@ export const post_pc_repairing = (item, s_no, name, contact, cost, retail, detai
         throw error;
     }, err => { throw err; })
     .then(response => response.json())
-    .then(response => alert(JSON.stringify(response)))
+    .then(() => dispatch(fetch_pc_repairing()))
     .catch(err => alert(err.message));
 }
