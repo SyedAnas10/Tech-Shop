@@ -4,9 +4,10 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Header from './Components/Header';
 import Dashboard from './Components/Dashboard';
 import Inventory from './Components/inventory/Inventory';
-import Orders from './Components/Orders';
 import Statistics from './Components/Statistics';
 import MakeList from './Components/pcMake/PC_Make';
+import RepairList from './Components/pcRepairing/pcRepair';
+import Sales from './Components/Sales';
 
 function App() {
   return (
@@ -27,8 +28,11 @@ function App() {
           <Route path='/stats'>
             <Statistics />
           </Route>
-          <Route path='/orders'>
-            <Orders />
+          <Route path='/sales'>
+            <Sales />
+          </Route>
+          <Route path='/pc-repairing'>
+            <RepairList />
           </Route>
           <Route path='/'>
             <Redirect to='/dashboard'/>
