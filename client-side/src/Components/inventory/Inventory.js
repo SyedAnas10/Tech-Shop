@@ -12,6 +12,12 @@ function Inventory() {
 // PRIVATE STATE
     const dispatch = useDispatch();
     const products = useSelector(state => state.items)
+    useEffect(() => {
+        if(!fetch_called) {
+            dispatch(fetch_items());
+            fetch_called = true;
+        }
+    }, [products.items])
     const lowStocked = products.items.filter(product => product.count <= 10)
     const [activeTab, setActiveTab] = useState('1')
     const [enterNew, toggleEnter] = useState(false)
@@ -21,13 +27,6 @@ function Inventory() {
         justifyContent: 'center',
         alignItems: 'center'
     }
-
-    useEffect(() => {
-        if(!fetch_called) {
-            dispatch(fetch_items());
-            fetch_called = !fetch_called;
-        }
-    }, [products.items])
 
 
 // RENDER AND LOGIC FUNCTIONS     
@@ -52,6 +51,11 @@ function Inventory() {
                 <th>{product.cost_price}</th>
                 <th>{product.retail_price}</th>
                 <th>{product.retail_price - product.cost_price}</th>
+                <th>
+                    <i className="fa fa-pencil" style={{fontSize:25+'px'}}></i>
+                    <span className='ml-auto'> </span>
+                    <i className="fa fa-trash-o" style={{fontSize:25+'px',marginLeft:20+'px'}}></i>
+                </th>
             </tr>
         ));
 

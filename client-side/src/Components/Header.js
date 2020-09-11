@@ -37,7 +37,7 @@ function Header() {
                 <NavItem className='ml-auto'>
                     <NavLink to="/purchases" className='nav-link'> <i className="fa fa-cog" style={{fontSize:20+'px'}}></i> </NavLink>
                 </NavItem>
-                <NavItem className=''>
+                <NavItem>
                     <NavLink to="/orders" className='nav-link'> <i className="fa fa-cart-plus" style={{fontSize:30+'px'}}></i> </NavLink>
                 </NavItem>
 

@@ -12,11 +12,15 @@ function MakeList() {
     const orders = useSelector(state => state.pc_making)
     const [activeTab, setActiveTab] = useState('1')
     const Center = {
-        padding: '20px',
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         flexWrap: 'wrap',
+        flexDirection: 'row'
+    }
+    const CardBox = {
+        maxWidth: '300px',  
+        border: '0.5px solid lightgray',
+        margin: '10px',
+        textAlign: 'center'
     }
 
     useEffect(() => {
@@ -40,7 +44,7 @@ function MakeList() {
     }
     else {
         const renderList = orders.pc_making.map(order => (
-            <Card body key={order._id}>
+            <Card body key={order._id} style={CardBox}>
                 <CardHeader>{order.customer_name}</CardHeader>
                 <CardBody>
                     <CardText>

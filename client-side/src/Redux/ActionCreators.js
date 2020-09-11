@@ -7,13 +7,11 @@ export const add_items = (items) => {
         payload: items
     };
 }
-
 export const items_loading = () => {
     return {
         type: ActionTypes.ITEMS_LOADING
     };
 }
-
 export const items_failed = (errMess) => {
     return {
         type: ActionTypes.ITEMS_FAILED,
@@ -21,19 +19,18 @@ export const items_failed = (errMess) => {
     };
 };
 
+
 export const pc_making_loading = () => {
     return {
         type: ActionTypes.PC_MAKING_LOADING
     };
 }
-
 export const add_pc_making = (pc_making) => {
     return {
         type: ActionTypes.ADD_PC_MAKING,
         payload: pc_making
     };
 }
-
 export const pc_making_failed = (errMess) => {
     return {
         type: ActionTypes.PC_MAKING_FAILED,
@@ -41,6 +38,7 @@ export const pc_making_failed = (errMess) => {
     };
 }
 
+// Actions 
 export const fetch_items = () => (dispatch) => {
     dispatch(items_loading());
 
@@ -67,7 +65,6 @@ export const fetch_items = () => (dispatch) => {
         dispatch(items_failed(error.message));
     });
 }
-
 export const post_item = (name, model, count, cost_price, retail_price) => (dispatch) => {
     return fetch(baseUrl + 'items', {
         method: 'POST',
@@ -92,12 +89,11 @@ export const post_item = (name, model, count, cost_price, retail_price) => (disp
     }, error => { throw error; })
     .then(response => response.json())
     .then(response => {
-        // alert(response);
         dispatch(fetch_items());
     }, error => { throw error; })
     .catch(error => alert(error.message));
 }
-
+// PcMaking Actions
 export const fetch_pc_making = () => (dispatch) => {
     return fetch(baseUrl + 'pc_making')
     .then(response => {
@@ -110,17 +106,13 @@ export const fetch_pc_making = () => (dispatch) => {
     }, error => { throw error; })
     .then(response => response.json())
     .then(pc_making => {
-        // alert(JSON.stringify(pc_making));
         dispatch(add_pc_making(pc_making));
     }, error => { throw error; })
     .catch(error => {
-        // alert(error);
         dispatch(pc_making_failed(error.message));
     });
 }
-
 export const post_pc_making = (name, specs, cost, retail, advance) => (dispatch) => {
-    alert(name, specs, cost, retail, advance)
     return fetch(baseUrl + 'pc_making', {
         method: 'POST',
         headers: {
