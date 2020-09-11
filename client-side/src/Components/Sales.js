@@ -3,15 +3,15 @@ import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useSelector } from 'react-redux';
 
 
-function Orders() {
-    const products = useSelector(state => state.products)
+function Sales() {
+    const products = useSelector(state => state.items)
     const Center = {
         padding: '50px',
         justifyContent: 'center',
         alignItems: 'center'
     }
 
-    const renderOptions = products.map(product => (
+    const renderOptions = products.items.map(product => (
         <option value={product.name}/>
     ))
 
@@ -48,4 +48,4 @@ function Orders() {
     )
 }
 
-export default Orders;
+export default Sales;

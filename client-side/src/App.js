@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Header from './Components/Header';
 import Dashboard from './Components/Dashboard';
 import Inventory from './Components/inventory/Inventory';
-import Orders from './Components/Orders';
+import Orders from './Components/Sales';
 import Statistics from './Components/Statistics';
 import MakeList from './Components/pcMake/PC_Make';
 import RepairList from './Components/pcRepairing/pcRepair';
