@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import { useSelector, useDispatch } from 'react-redux';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { Col, Form, FormGroup, Label } from 'reactstrap';
+import { Col, Form, FormGroup, Label, Table } from 'reactstrap';
 
 import { fetch_sales_by_date } from '../Redux/ActionCreators';
 
+let fetch_called = false;
+
 function Statistics() {
-    const sales = useSelector(state => state.sales_stats);
     const dispatch = useDispatch();
     const [date, setDate] = useState(new Date())
+    const sales = useSelector(state => state.sales_stats);
+    useEffect(() => {
+        if(!fetch_called) {
+            dispatch(fetch_sales_by_date(day,month,year));
+            fetch_called = true;
+        }
+    }, [sales.stats, date])
     const Center = {
         padding: '10px',
         justifyContent: 'center',
@@ -18,10 +26,18 @@ function Statistics() {
     }
     
     const date_string = date.toString();
-
     const month = date_string.slice(4, 7);
     const day = date_string.slice(8, 10);
     const year = date_string.slice(11, 15);
+
+    const renderSalesList = sales.stats.map(sale => (
+        <tr key={sale._id}>
+            <th scope='row'>{sale.item}</th>
+            <th>{sale.count}</th>
+            <th>{sale.rate}</th>
+            <th>profit</th>
+        </tr>
+    ))
     
     return (
         <div>
@@ -37,6 +53,23 @@ function Statistics() {
                     </Label>
                 </FormGroup>
             </Form>
+            <Table>
+                <thead>
+                    <tr style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
+                        <th>Item</th>
+                        <th>Count</th>
+                        <th>Rate</th>
+                        <th>Profit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {renderSalesList}
+                    <tr>
+                        <th>Total Sales : {sales.stats.length}</th>
+                        <th>Total Profit : N/A</th>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     )
 }
