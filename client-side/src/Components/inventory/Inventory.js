@@ -117,7 +117,7 @@ function Inventory() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {enterNew && <AddItemForm/>}
+                                    {enterNew && <AddItemForm  />}
                                     {renderProduct}
                                 </tbody>
                             </Table>
