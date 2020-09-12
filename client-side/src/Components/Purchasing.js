@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Col, Form, FormGroup, Input, Label } from 'reactstrap';
 import { useDispatch } from 'react-redux';
 
-import { post_purchase } from '../Redux/ActionCreators';
+import { post_purchase, post_item } from '../Redux/ActionCreators';
 
 function Purchasing() {
 
@@ -15,6 +15,11 @@ function Purchasing() {
         padding: '50px',
         justifyContent: 'center',
         alignItems: 'center'
+    }
+
+    const on_purchasing = () => {
+        dispatch(post_purchase(item_name, model, count, total_cost));
+        dispatch(post_item(item_name, model, count, (total_cost / count), '0'));
     }
 
     return(
@@ -46,7 +51,7 @@ function Purchasing() {
 
             <FormGroup check row>
                 <Col sm={{ size:10 , offset:1 }}>
-                    <Button onClick={() => dispatch(post_purchase(item_name, model, count, total_cost))}>
+                    <Button onClick={on_purchasing}>
                         Record Purchase
                     </Button>
                 </Col>
