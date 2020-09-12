@@ -356,3 +356,29 @@ export const delete_item = (_id) => (dispatch) => {
         dispatch(items_failed(err.message));
     });
 }
+
+export const post_purchase = (name, model, count, cost) => (dispatch) => {
+    return fetch(baseUrl + 'purchasing', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            item_name: name,
+            model: model,
+            count: count,
+            total_cost: cost
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, err => { throw err; })
+    .then(response => response.json())
+    .then(() => alert('Details added!'), err => { throw err; })
+    .catch(err => alert(err.message));
+}

@@ -8,6 +8,7 @@ import { Col, Form, FormGroup, Label, Table } from 'reactstrap';
 import { fetch_sales_by_date } from '../../Redux/ActionCreators';
 
 function SalesStats() {
+
     const dispatch = useDispatch();
     const [date, setDate] = useState(new Date())
     const sales = useSelector(state => state.sales_stats);
