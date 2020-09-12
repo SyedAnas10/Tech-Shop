@@ -12,7 +12,18 @@ function Inventory() {
 // PRIVATE STATE
     const dispatch = useDispatch();
     const products = useSelector(state => state.items)
+    useEffect(() => {
+        if(!fetch_called) {
+            dispatch(fetch_items());
+            fetch_called = true;
+            filter(products.items);
+        }
+    }, [products.items])
     const lowStocked = products.items.filter(product => product.count <= 10)
+    const [filtered, filter] = useState(products.items)
+    useEffect(() => {
+        filter(products.items);
+    }, [products.items])
     const [activeTab, setActiveTab] = useState('1')
     const [enterNew, toggleEnter] = useState(false)
     const Center = {
@@ -22,18 +33,19 @@ function Inventory() {
         alignItems: 'center'
     }
 
-    useEffect(() => {
-        if(!fetch_called) {
-            dispatch(fetch_items());
-            fetch_called = !fetch_called;
-        }
-    }, [products.items])
-
 
 // RENDER AND LOGIC FUNCTIONS     
     const toggle = (tab) => {
         if(activeTab !== tab)
             setActiveTab(tab)
+    }
+
+// HANDLE SEARCH-BAR LOGIC 
+    const handleSearch = (event) => {
+        const query = event.target.value.toLowerCase();
+        filter(products.items.filter(product => {
+            return product.name.toLowerCase().indexOf(query) > -1; 
+        }))
     }
 
     if(products.isLoading) {
@@ -44,7 +56,7 @@ function Inventory() {
         );
     }
     else {
-        const renderProduct = products.items.map(product => (
+        const renderProduct = filtered.map(product => (
             <tr key={product._id}>
                 <th scope="row">{product.name}</th>
                 <th>{product.model}</th>
@@ -52,6 +64,11 @@ function Inventory() {
                 <th>{product.cost_price}</th>
                 <th>{product.retail_price}</th>
                 <th>{product.retail_price - product.cost_price}</th>
+                <th>
+                    <i className="fa fa-pencil" style={{fontSize:25+'px'}}></i>
+                    <span className='ml-auto'> </span>
+                    <i className="fa fa-trash-o" style={{fontSize:25+'px',marginLeft:20+'px'}}></i>
+                </th>
             </tr>
         ));
 
@@ -85,7 +102,7 @@ function Inventory() {
     
                 <TabContent activeTab={activeTab}>
                     <TabPane tabId='1'>
-                    <Input type='text' id="myInput" placeholder="Search" autoComplete='off'/>
+                    <Input type='text' placeholder="Search" autoComplete='off' onChange={(event) => handleSearch(event)}/>
                         <div style={Center}>
                             <Table hover responsive>
                                 <thead>

@@ -12,11 +12,15 @@ function MakeList() {
     const orders = useSelector(state => state.pc_making)
     const [activeTab, setActiveTab] = useState('1')
     const Center = {
-        padding: '20px',
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         flexWrap: 'wrap',
+        flexDirection: 'row'
+    }
+    const CardBox = {
+        maxWidth: '300px',  
+        border: '0.5px solid lightgray',
+        margin: '10px',
+        textAlign: 'center'
     }
 
     useEffect(() => {
@@ -31,6 +35,19 @@ function MakeList() {
             setActiveTab(tab)
     }
 
+    function noOrder() {
+        if(orders.pc_making.length === 0 ) {
+            return (
+                <div style={Center}>
+                    No orders currently.
+                </div>
+            )
+        }
+        else {
+            return null;
+        }
+    }
+
     if(orders.isLoading) {
         return(
             <div>
@@ -40,7 +57,7 @@ function MakeList() {
     }
     else {
         const renderList = orders.pc_making.map(order => (
-            <Card body key={order._id}>
+            <Card body key={order._id} style={CardBox}>
                 <CardHeader>{order.customer_name}</CardHeader>
                 <CardBody>
                     <CardText>
@@ -74,6 +91,7 @@ function MakeList() {
     
                 <TabContent activeTab={activeTab}>
                     <TabPane tabId='1'>
+                        {noOrder()}
                         <div style={Center}>
                             {renderList}
                         </div>

@@ -28,8 +28,10 @@ function Sales() {
             <FormGroup row>
                 <Label for="name" sm={1}>Item Name</Label>
                 <Col sm={5}>
-                <Input type="text" name="name" value={item} onChange={value => set_item(value.target.value)} id="name" autoComplete='off' placeholder="Enter item name" list='products' />
-               
+                <Input type="text" name="name" value={item} onChange={value => set_item(value.target.value)} placeholder="Enter item name" list='products' />
+                <datalist id='products'>
+                    {renderOptions}
+                </datalist>
                 </Col>
             </FormGroup>
             <FormGroup row>
