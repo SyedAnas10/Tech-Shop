@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
-import Header from './Components/Header';
-import Dashboard from './Components/Dashboard';
 import Inventory from './Components/inventory/Inventory';
-import Statistics from './Components/Statistics';
+import Statistics from './Components/statistics/Statistics';
 import MakeList from './Components/pcMake/PC_Make';
 import RepairList from './Components/pcRepairing/pcRepair';
+
+import Dashboard from './Components/Dashboard';
+import Header from './Components/Header';
 import Sales from './Components/Sales';
 import Purchasing from './Components/Purchasing';
 

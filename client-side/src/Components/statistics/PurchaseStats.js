@@ -5,19 +5,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Col, Form, FormGroup, Label, Table } from 'reactstrap';
 
-import { fetch_sales_by_date } from '../Redux/ActionCreators';
+import { fetch_sales_by_date } from '../../Redux/ActionCreators';
 
-let fetch_called = false;
+function PurchaseStats() {
 
-function Statistics() {
     const dispatch = useDispatch();
     const [date, setDate] = useState(new Date())
-    const sales = useSelector(state => state.sales_stats);
+    const purchases = useSelector(state => state.sales_stats);
     useEffect(() => {
         dispatch(fetch_sales_by_date(day, month, year));
-        //if(!fetch_called) {
-        //    fetch_called = true;
-        //}
+        
     }, [date])
     const Center = {
         padding: '10px',
@@ -30,11 +27,11 @@ function Statistics() {
     const day = date_string.slice(8, 10);
     const year = date_string.slice(11, 15);
 
-    const renderSalesList = sales.stats.map(sale => (
-        <tr key={sale._id}>
-            <th scope='row'>{sale.name}</th>
-            <th>{sale.count}</th>
-            <th>{sale.rate_sold}</th>
+    const renderPurchaseList = purchases.stats.map(purchase => (
+        <tr key={purchase._id}>
+            <th scope='row'>{purchase.name}</th>
+            <th>{purchase.count}</th>
+            <th>{purchase.rate_sold}</th>
             <th>profit</th>
         </tr>
     ))
@@ -64,10 +61,10 @@ function Statistics() {
                         </tr>
                     </thead>
                     <tbody>
-                        {renderSalesList}
+                        {renderPurchaseList}
                         <tr>
-                            <th>Total Sales : {sales.stats.length}</th>
-                            <th>Total Profit : N/A</th>
+                            <th>Total Purchases : {purchases.stats.length}</th>
+                            <th>Total Expense : N/A</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -78,4 +75,4 @@ function Statistics() {
     )
 }
 
-export default Statistics;
+export default PurchaseStats;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-// import { orderAdded } from '../../Redux/PCmakeSlice';
+
 import { post_pc_making } from '../../Redux/ActionCreators';
 
 

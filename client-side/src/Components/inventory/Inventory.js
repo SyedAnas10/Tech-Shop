@@ -4,6 +4,7 @@ import { Table, Nav, NavItem, NavLink, TabContent, TabPane, Navbar, Badge, Butto
 import AddItemForm from './AddItem';
 
 import { fetch_items, delete_item } from '../../Redux/ActionCreators';
+import EditItemForm from './EditItem';
 
 let fetch_called = false;
 
@@ -24,6 +25,7 @@ function Inventory() {
     useEffect(() => {
         filter(products.items);
     }, [products.items])
+    const [editableItem, setEditItem] = useState()
     const [activeTab, setActiveTab] = useState('1')
     const [enterNew, toggleEnter] = useState(false)
     const Center = {
@@ -70,7 +72,7 @@ function Inventory() {
                 <th>{product.retail_price}</th>
                 <th>{product.retail_price - product.cost_price}</th>
                 <th>
-                    <i className="fa fa-pencil" style={{ fontSize: '25px', color: "rgb(48,201,42)"}}></i>
+                    <i className="fa fa-pencil" onClick={() => setEditItem(product)} style={{ fontSize: '25px', color: "rgb(48,201,42)"}}></i>
                     <i className="fa fa-trash-o" onClick={() => dispatch(delete_item(product._id))} style={buttonStyle}></i>
                 </th>
             </tr>
@@ -86,6 +88,7 @@ function Inventory() {
                 <th>{product.retail_price - product.cost_price}</th>
             </tr>
         ));
+
 
         return (
             <div>
@@ -117,10 +120,12 @@ function Inventory() {
                                         <th>Cost</th>
                                         <th>Retail</th>
                                         <th>Approx. Profit</th>
-                                        <th><Button color='dark' size='sm' onClick={() => {toggleEnter(!enterNew)}}>{enterNew?'Cancel':'Add new'}</Button></th>
+                                        {!editableItem && <th><Button color='dark' size='sm' onClick={() => {toggleEnter(!enterNew)}}>{enterNew?'Cancel':'Add new'}</Button></th>}
+                                        {editableItem && <th><Button color='dark' size='sm' onClick={() => {setEditItem()}}>Cancel</Button></th>}
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {editableItem && <EditItemForm item={editableItem}/> }
                                     {enterNew && <AddItemForm  />}
                                     {renderProduct}
                                 </tbody>
