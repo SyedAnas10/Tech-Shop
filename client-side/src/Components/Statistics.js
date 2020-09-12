@@ -5,19 +5,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Col, Form, FormGroup, Label, Table } from 'reactstrap';
 
-import { fetch_sales_by_date } from '../Redux/ActionCreators';
-
-let fetch_called = false;
+import { fetch_sales_by_date } from '../Redux/ActionCreators'; 
 
 function Statistics() {
     const dispatch = useDispatch();
     const [date, setDate] = useState(new Date())
     const sales = useSelector(state => state.sales_stats);
+    let old_date = date;
     useEffect(() => {
-        if(!fetch_called) {
-            dispatch(fetch_sales_by_date(day, month, year));
-            fetch_called = true;
-        }
+
+        dispatch(fetch_sales_by_date(day, month, year));
+
+        // if(!fetch_called) {
+            
+        //     fetch_called = true;
+        // }
     }, [sales.stats])
     const Center = {
         padding: '10px',
