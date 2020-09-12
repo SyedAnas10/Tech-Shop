@@ -15,6 +15,8 @@ function Header() {
             <NavbarBrand href="/" style={{fontSize: 48+'px'}}>Tech Shop</NavbarBrand>
             <NavbarText style={{paddingTop: 40+'px'}}>Your very own tagline</NavbarText>
         </Navbar>
+
+        {/* LINKS TO EACH COMPONENT FOR BROWSER ROUTER */}
         <Navbar style={{backgroundColor:'rgb(48,201,42)'}} dark expand="md">
             <Nav className="container-fluid" navbar>
                 <NavItem>
@@ -35,7 +37,7 @@ function Header() {
 
 
                 <NavItem className='ml-auto'>
-                    <NavLink to="/purchases" className='nav-link'> <i className="fa fa-cog" style={{fontSize:20+'px'}}></i> </NavLink>
+                    <NavLink to="/purchases" className='nav-link'> <i className="fa fa-credit-card" style={{fontSize:20+'px'}}></i> </NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink to="/sales" className='nav-link'> <i className="fa fa-cart-plus" style={{fontSize:30+'px'}}></i> </NavLink>

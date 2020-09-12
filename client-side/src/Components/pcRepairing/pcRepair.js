@@ -31,10 +31,23 @@ function RepairList() {
             setActiveTab(tab)
     }
 
+    function noOrder() {
+        if(orders.pc_repairing.length === 0 ) {
+            return (
+                <div style={Center}>
+                    No orders currently.
+                </div>
+            )
+        }
+        else {
+            return null;
+        }
+    }
+
     if(orders.isLoading) {
         return(
             <div>
-                Under Construction
+                Loading
             </div>
         );
     }
@@ -70,6 +83,7 @@ function RepairList() {
     
                 <TabContent activeTab={activeTab}>
                     <TabPane tabId='1'>
+                        {noOrder()}
                         <div style={Center}>
                             {renderList}
                         </div>

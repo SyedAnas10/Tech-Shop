@@ -35,6 +35,19 @@ function MakeList() {
             setActiveTab(tab)
     }
 
+    function noOrder() {
+        if(orders.pc_making.length === 0 ) {
+            return (
+                <div style={Center}>
+                    No orders currently.
+                </div>
+            )
+        }
+        else {
+            return null;
+        }
+    }
+
     if(orders.isLoading) {
         return(
             <div>
@@ -78,6 +91,7 @@ function MakeList() {
     
                 <TabContent activeTab={activeTab}>
                     <TabPane tabId='1'>
+                        {noOrder()}
                         <div style={Center}>
                             {renderList}
                         </div>

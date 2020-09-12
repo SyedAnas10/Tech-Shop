@@ -16,9 +16,14 @@ function Inventory() {
         if(!fetch_called) {
             dispatch(fetch_items());
             fetch_called = true;
+            filter(products.items);
         }
     }, [products.items])
     const lowStocked = products.items.filter(product => product.count <= 10)
+    const [filtered, filter] = useState(products.items)
+    useEffect(() => {
+        filter(products.items);
+    }, [products.items])
     const [activeTab, setActiveTab] = useState('1')
     const [enterNew, toggleEnter] = useState(false)
     const Center = {
@@ -35,6 +40,14 @@ function Inventory() {
             setActiveTab(tab)
     }
 
+// HANDLE SEARCH-BAR LOGIC 
+    const handleSearch = (event) => {
+        const query = event.target.value.toLowerCase();
+        filter(products.items.filter(product => {
+            return product.name.toLowerCase().indexOf(query) > -1; 
+        }))
+    }
+
     if(products.isLoading) {
         return(
             <div>
@@ -43,7 +56,7 @@ function Inventory() {
         );
     }
     else {
-        const renderProduct = products.items.map(product => (
+        const renderProduct = filtered.map(product => (
             <tr key={product._id}>
                 <th scope="row">{product.name}</th>
                 <th>{product.model}</th>
@@ -89,7 +102,7 @@ function Inventory() {
     
                 <TabContent activeTab={activeTab}>
                     <TabPane tabId='1'>
-                    <Input type='text' id="myInput" placeholder="Search" autoComplete='off'/>
+                    <Input type='text' placeholder="Search" autoComplete='off' onChange={(event) => handleSearch(event)}/>
                         <div style={Center}>
                             <Table hover responsive>
                                 <thead>
