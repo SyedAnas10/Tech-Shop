@@ -41,26 +41,6 @@ export const pc_making_failed = (errMess) => {
     };
 }
 
-// export const orders_loading = () => {
-//     return {
-//         type: ActionTypes.ORDERS_LOADING
-//     };
-// }
-
-// export const add_orders = (orders) => {
-//     return {
-//         type: ActionTypes.ORDERS_LOADING,
-//         payload: orders
-//     };
-// }
-
-// export const orders_failed = (err_mess) => {
-//     return {
-//         type: ActionTypes.ORDERS_LOADING,
-//         payload: err_mess
-//     };
-// }
-
 export const fetch_items = () => (dispatch) => {
     dispatch(items_loading());
 
@@ -264,4 +244,68 @@ export const post_sales = (item, count, rate) => (dispatch) => {
     .then(response => response.json())
     .then(() => alert('Sale Registered'))
     .catch(error => alert(error));
+}
+
+export const sales_stats_loading = () => {
+    return {
+        type: ActionTypes.SALES_STATS_LOADING
+    };
+}
+
+export const add_sales_stats = (sales_stats) => {
+    return {
+        type: ActionTypes.SALES_STATS_LOADING,
+        payload: sales_stats
+    };
+}
+
+export const sales_stats_failed = (errMess) => {
+    return {
+        type: ActionTypes.SALES_STATS_LOADING,
+        payload: errMess
+    };
+}
+
+export const fetch_sales_by_date = (day, month, year) => (dispatch) => {
+    const query_string = '?day=' + day + '&month=' + month + '&year=' + year;
+    
+    return fetch(baseUrl + 'individual_items_sales' + query_string)
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(sales_stats => {
+        dispatch(add_sales_stats(sales_stats));
+    }, error => { throw error; })
+    .catch(error => {
+        alert(error.message);
+        dispatch(sales_stats_failed(error.message));
+    });
+}
+
+export const fetch_sales_by_month = (month, year) => (dispatch) => {
+    const query_string = '?month=' + month + '&year=' + year;
+    
+    return fetch(baseUrl + 'individual_items_sales' + query_string)
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(sales_stats => {
+        dispatch(add_sales_stats(sales_stats));
+    }, error => { throw error; })
+    .catch(error => {
+        alert(error.message);
+        dispatch(sales_stats_failed(error.message));
+    });
 }
