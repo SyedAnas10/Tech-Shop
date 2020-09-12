@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Table, Nav, NavItem, NavLink, TabContent, TabPane, Navbar, Badge, Button, Input } from 'reactstrap';
 import AddItemForm from './AddItem';
 
-import { fetch_items } from '../../Redux/ActionCreators';
+import { fetch_items, delete_item } from '../../Redux/ActionCreators';
 
 let fetch_called = false;
 
@@ -67,7 +67,7 @@ function Inventory() {
                 <th>
                     <i className="fa fa-pencil" style={{fontSize:25+'px'}}></i>
                     <span className='ml-auto'> </span>
-                    <i className="fa fa-trash-o" style={{fontSize:25+'px',marginLeft:20+'px'}}></i>
+                    <i className="fa fa-trash-o" onClick={() => dispatch(delete_item(product._id))} style={{fontSize:25+'px',marginLeft:20+'px'}}></i>
                 </th>
             </tr>
         ));

@@ -300,3 +300,60 @@ export const fetch_sales_by_month = (month, year) => (dispatch) => {
         dispatch(sales_stats_failed(error.message));
     });
 }
+
+export const edit_item = (_id, name, count, model, cost, retail) => (dispatch) => {
+    const query_string = '?_id=' + _id;
+
+    return fetch(baseUrl + 'items' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name,
+            count: count, 
+            model: model,
+            cost_price: cost,
+            retail_price: retail
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, err => { throw err; })
+    .then(response => response.json())
+    .then(() => dispatch(fetch_items()))
+    .catch(err => {
+        alert(err.message);
+        dispatch(items_failed(err.message));
+    });
+}
+
+export const delete_item = (_id) => (dispatch) => {
+    const query_string = '?_id=' + _id;
+
+    return fetch(baseUrl + 'items' + query_string, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, err => { throw err; })
+    .then(response => response.json())
+    .then(() => dispatch(fetch_items()))
+    .catch(err => {
+        alert(err.message);
+        dispatch(items_failed(err.message));
+    });
+}
