@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, FormGroup, Input, Label } from 'reactstrap';
+import { useDispatch } from 'react-redux';
+
+import { post_purchase } from '../Redux/ActionCreators';
 
 function Purchasing() {
 
+    const dispatch = useDispatch();
     const [item_name, setName] = useState('');
     const [model, setModel] = useState('');
     const [count, setCount] = useState();
@@ -42,7 +46,9 @@ function Purchasing() {
 
             <FormGroup check row>
                 <Col sm={{ size:10 , offset:1 }}>
-                    <Button>Record Purchase</Button>
+                    <Button onClick={() => dispatch(post_purchase(item_name, model, count, total_cost))}>
+                        Record Purchase
+                    </Button>
                 </Col>
             </FormGroup>
         </Form>

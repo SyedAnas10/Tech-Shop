@@ -45,7 +45,7 @@ app.use('/items', cors(), items_router);
 app.use('/individual_items_sales', cors(), individual_items_sales_router);
 app.use('/pc_making', cors(), pc_making_router);
 app.use('/repairing', cors(), repairing_router);
-app.use('/purchasing', purchasing_router)
+app.use('/purchasing', cors(), purchasing_router)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
