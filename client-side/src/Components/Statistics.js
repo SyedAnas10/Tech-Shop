@@ -11,16 +11,10 @@ function Statistics() {
     const dispatch = useDispatch();
     const [date, setDate] = useState(new Date())
     const sales = useSelector(state => state.sales_stats);
-    let old_date = date;
+    
     useEffect(() => {
-
         dispatch(fetch_sales_by_date(day, month, year));
-
-        // if(!fetch_called) {
-            
-        //     fetch_called = true;
-        // }
-    }, [sales.stats])
+    }, [date])
     const Center = {
         padding: '10px',
         justifyContent: 'center',
@@ -55,23 +49,27 @@ function Statistics() {
                     </Label>
                 </FormGroup>
             </Form>
-            <Table>
-                <thead>
-                    <tr style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
-                        <th>Item</th>
-                        <th>Count</th>
-                        <th>Rate</th>
-                        <th>Profit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {renderSalesList}
-                    <tr>
-                        <th>Total Sales : {sales.stats.length}</th>
-                        <th>Total Profit : N/A</th>
-                    </tr>
-                </tbody>
-            </Table>
+            <div style={Center}>
+                <Table responsive hover>
+                    <thead>
+                        <tr style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
+                            <th>Item</th>
+                            <th>Count</th>
+                            <th>Rate</th>
+                            <th>Profit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {renderSalesList}
+                        <tr>
+                            <th>Total Sales : {sales.stats.length}</th>
+                            <th>Total Profit : N/A</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tbody>
+                </Table>
+            </div>
         </div>
     )
 }

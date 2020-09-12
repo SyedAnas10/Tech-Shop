@@ -32,6 +32,11 @@ function Inventory() {
         justifyContent: 'center',
         alignItems: 'center'
     }
+    const buttonStyle = {
+        fontSize: '25px',
+        marginLeft: '20px',
+        color: 'red'
+    }
 
 
 // RENDER AND LOGIC FUNCTIONS     
@@ -65,9 +70,8 @@ function Inventory() {
                 <th>{product.retail_price}</th>
                 <th>{product.retail_price - product.cost_price}</th>
                 <th>
-                    <i className="fa fa-pencil" style={{fontSize:25+'px'}}></i>
-                    <span className='ml-auto'> </span>
-                    <i className="fa fa-trash-o" onClick={() => dispatch(delete_item(product._id))} style={{fontSize:25+'px',marginLeft:20+'px'}}></i>
+                    <i className="fa fa-pencil" style={{ fontSize: '25px', color: "rgb(48,201,42)"}}></i>
+                    <i className="fa fa-trash-o" onClick={() => dispatch(delete_item(product._id))} style={buttonStyle}></i>
                 </th>
             </tr>
         ));
