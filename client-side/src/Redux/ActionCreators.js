@@ -245,21 +245,20 @@ export const sales_stats_loading = () => {
 
 export const add_sales_stats = (sales_stats) => {
     return {
-        type: ActionTypes.SALES_STATS_LOADING,
+        type: ActionTypes.ADD_SALES_STATS,
         payload: sales_stats
     };
 }
 
 export const sales_stats_failed = (errMess) => {
     return {
-        type: ActionTypes.SALES_STATS_LOADING,
+        type: ActionTypes.SALES_STATS_FAILED,
         payload: errMess
     };
 }
 
 export const fetch_sales_by_date = (day, month, year) => (dispatch) => {
     const query_string = '?day=' + day + '&month=' + month + '&year=' + year;
-    
     return fetch(baseUrl + 'individual_items_sales' + query_string)
     .then(response => {
         if(response.ok)
@@ -274,7 +273,7 @@ export const fetch_sales_by_date = (day, month, year) => (dispatch) => {
         dispatch(add_sales_stats(sales_stats));
     }, error => { throw error; })
     .catch(error => {
-        alert(error.message);
+        // alert(error.message);
         dispatch(sales_stats_failed(error.message));
     });
 }

@@ -9,13 +9,14 @@ export const Sales_Stats = (state = {
         case ActionTypes.SALES_STATS_LOADING:
             return state;
 
-        case ActionTypes.ADD_SALES_STATS:
+        case ActionTypes.ADD_SALES_STATS: {
             return {
                 ...state,
                 isLoading: false,
                 stats: action.payload,
                 errMess: null
             };
+        }
 
         case ActionTypes.SALES_STATS_FAILED:
             return {

@@ -15,10 +15,10 @@ function Statistics() {
     const sales = useSelector(state => state.sales_stats);
     useEffect(() => {
         if(!fetch_called) {
-            dispatch(fetch_sales_by_date(day,month,year));
+            dispatch(fetch_sales_by_date(day, month, year));
             fetch_called = true;
         }
-    }, [sales.stats, date])
+    }, [sales.stats])
     const Center = {
         padding: '10px',
         justifyContent: 'center',
@@ -32,9 +32,9 @@ function Statistics() {
 
     const renderSalesList = sales.stats.map(sale => (
         <tr key={sale._id}>
-            <th scope='row'>{sale.item}</th>
+            <th scope='row'>{sale.name}</th>
             <th>{sale.count}</th>
-            <th>{sale.rate}</th>
+            <th>{sale.rate_sold}</th>
             <th>profit</th>
         </tr>
     ))
