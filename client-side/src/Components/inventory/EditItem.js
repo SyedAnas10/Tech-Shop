@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button, Input } from 'reactstrap'
 
+import { edit_item } from '../../Redux/ActionCreators';
+
 function EditItemForm(props) {
 
     const dispatch = useDispatch()
 
+    const _id = props.item._id;
     const [name,setName] = useState(props.item.name)
     const [model,setModel] = useState(props.item.model)
     const [count,setPieces] = useState(props.item.count)
@@ -20,7 +23,7 @@ function EditItemForm(props) {
 
     const saveChanges = () => {
         if(name&&model&&count&&cost_price&&retail_price) {
-            //dispatch(post_item(name, model, count, cost_price, retail_price));
+            dispatch(edit_item(_id, name, count, model, cost_price, retail_price));
 
             setName('')
             setModel('')
