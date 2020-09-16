@@ -35,8 +35,7 @@ function Sales() {
     const renderModels = products.items.map(product => <option value={product.model} />);
 
     const onRegister = () => {
-        const prod = products.items.filter(prod_item => prod_item.name === item);
-
+        const prod = products.items.filter(prod_item => prod_item.name === item && prod_item.model === model);
         if(prod[0].count < count) 
             alert('You don\'t have enough left in inventory');
         else 
