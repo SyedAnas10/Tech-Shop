@@ -30,6 +30,7 @@ function SalesStats() {
     const renderSalesList = sales.stats.map(sale => (
         <tr key={sale._id}>
             <th scope='row'>{sale.name}</th>
+            <th>{sale.model}</th>
             <th>{sale.count}</th>
             <th>{sale.rate_sold}</th>
             <th>profit</th>
@@ -55,6 +56,7 @@ function SalesStats() {
                     <thead>
                         <tr style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
                             <th>Item</th>
+                            <th>Model</th>
                             <th>Count</th>
                             <th>Rate</th>
                             <th>Profit</th>
