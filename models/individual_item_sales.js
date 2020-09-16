@@ -10,6 +10,9 @@ const Individual_Item_Sales_Schema = Schema({
         type: String,
         required: true
     },
+    model: {
+        type: String,
+    },
     rate_sold: {
         type: Number,
         required: true

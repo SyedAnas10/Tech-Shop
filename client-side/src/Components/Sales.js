@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import { fetch_items } from '../Redux/ActionCreators';
 
 import { post_sales } from '../Redux/ActionCreators';
+
+let fetch_called = false;
 
 function Sales() {
     const dispatch = useDispatch();
@@ -13,6 +16,14 @@ function Sales() {
         alignItems: 'center'
     }
 
+    useEffect(() => {
+        if(!fetch_called) {
+            dispatch(fetch_items());
+            fetch_called = true;
+        }
+    }, [products.items]);
+
+    const [model, set_model] = useState('');
     const [item, set_item] = useState('');
     const [rate, set_rate] = useState('');
     const [count, set_count] = useState(0);
@@ -21,7 +32,16 @@ function Sales() {
         <option value={product.name}/>
     ));
 
-    const onRegister = () => dispatch(post_sales(item, count, rate));
+    const renderModels = products.items.map(product => <option value={product.model} />);
+
+    const onRegister = () => {
+        const prod = products.items.filter(prod_item => prod_item.name === item);
+
+        if(prod[0].count < count) 
+            alert('You don\'t have enough left in inventory');
+        else 
+            dispatch(post_sales(item, model, count, rate));
+    }
 
     return (
         <Form style={Center}>
@@ -31,6 +51,15 @@ function Sales() {
                 <Input type="text" name="name" value={item} onChange={value => set_item(value.target.value)} placeholder="Enter item name" list='products' />
                 <datalist id='products'>
                     {renderOptions}
+                </datalist>
+                </Col>
+            </FormGroup>
+            <FormGroup row>
+                <Label for="model" sm={1}>Model</Label>
+                <Col sm={5}>
+                <Input type="text" name="model" value={model} onChange={value => set_model(value.target.value)} placeholder="Enter model" list='models' />
+                <datalist id='models'>
+                    {renderModels}
                 </datalist>
                 </Col>
             </FormGroup>

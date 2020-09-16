@@ -32,6 +32,7 @@ router.post('/', (req, res, next) => {
     Individual_Item_Sales.create({
         count: req.body.count,
         name: req.body.name,
+        model: req.body.model,
         rate_sold: req.body.rate_sold
     })
     .then(sales => {

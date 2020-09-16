@@ -212,7 +212,7 @@ export const post_pc_repairing = (item, s_no, name, contact, cost, retail, detai
     .catch(err => alert(err.message));
 }
 
-export const post_sales = (item, count, rate) => (dispatch) => {
+export const post_sales = (item, model, count, rate) => (dispatch) => {
     return fetch(baseUrl + 'individual_items_sales', {
         method: 'POST',
         headers: {
@@ -221,6 +221,7 @@ export const post_sales = (item, count, rate) => (dispatch) => {
         body: JSON.stringify({
             name: item,
             count: count,
+            model: model,
             rate_sold: rate
         })
     })
