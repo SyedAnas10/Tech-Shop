@@ -3,7 +3,7 @@ import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetch_items } from '../Redux/ActionCreators';
 
-import { post_sales } from '../Redux/ActionCreators';
+import { post_sales, decrease_item_count } from '../Redux/ActionCreators';
 
 let fetch_called = false;
 
@@ -38,8 +38,10 @@ function Sales() {
         const prod = products.items.filter(prod_item => prod_item.name === item && prod_item.model === model);
         if(prod[0].count < count) 
             alert('You don\'t have enough left in inventory');
-        else 
+        else {
             dispatch(post_sales(item, model, count, rate));
+            dispatch(decrease_item_count(prod[0]._id, (prod[0].count - count)));
+        }
     }
 
     return (

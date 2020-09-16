@@ -1,5 +1,6 @@
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../baseUrl';
+import { NotExtended } from 'http-errors';
 
 export const add_items = (items) => {
     return {
@@ -381,5 +382,28 @@ export const post_purchase = (name, model, count, cost) => (dispatch) => {
     }, err => { throw err; })
     .then(response => response.json())
     .then(() => alert('Details added!'), err => { throw err; })
+    .catch(err => alert(err.message));
+}
+
+export const decrease_item_count = (id, count) => (dispatch) => {
+    const query_string = '?_id=' + id;
+    return fetch(baseUrl + 'items' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            count: count
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, err => { throw err; })
+    .then(response => response.json())
     .catch(err => alert(err.message));
 }
