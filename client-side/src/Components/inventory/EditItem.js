@@ -24,7 +24,6 @@ function EditItemForm(props) {
     const saveChanges = () => {
         if(name&&model&&count&&cost_price&&retail_price) {
             dispatch(edit_item(_id, name, count, model, cost_price, retail_price));
-
         }
     }
 
