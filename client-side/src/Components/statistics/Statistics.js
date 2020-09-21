@@ -3,6 +3,7 @@ import { Nav, Navbar, NavItem, NavLink } from 'reactstrap'
 import PurchaseStats from './PurchaseStats'
 import SalesStats from './SalesStats'
 import PCMakingStats from './PCMakingStats'
+import PCRepairStats from './PCRepairStats'
 
 function Statistics() {
 
@@ -40,7 +41,9 @@ function Statistics() {
             </Navbar>
 
             {activeTab === '1' && <SalesStats/>}
+            {activeTab === '2' && <PCRepairStats/>}
             {activeTab === '3' && <PCMakingStats/>}
+            {activeTab === '4' && <PurchaseStats/>}
         
         </div>
     )

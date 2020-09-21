@@ -3,7 +3,7 @@ import ReactDatePicker from 'react-datepicker';
 import { useSelector, useDispatch } from 'react-redux';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { Col, Form, FormGroup, Label, Table } from 'reactstrap';
+import { Col, Form, FormGroup, Label, Table, Button } from 'reactstrap';
 
 import { fetch_pc_making_by_date } from '../../Redux/ActionCreators';
 
@@ -12,8 +12,10 @@ function PCMakingStats() {
     const dispatch = useDispatch();
     const [date, setDate] = useState(new Date())
     const sales = useSelector(state => state.pc_make_stats);
+    const [total_profit, setTotalProfit] = useState(0);
+    const [showTotalProfit, setShowTotalProfit] = useState(false);
     useEffect(() => {
-        dispatch(fetch_pc_making_by_date(day, month, year));
+        dispatch(fetch_pc_making_by_date(day, month, year))
     }, [date])
     const Center = {
         padding: '10px',
@@ -29,12 +31,23 @@ function PCMakingStats() {
     const renderSalesList = sales.stats.map(sale => (
         <tr key={sale._id}>
             <th scope='row'>{sale.customer_name}</th>
-            <th>{sale.specs_list}</th>
             <th>{sale.specs_cost}</th>
             <th>{sale.specs_retail}</th>
-            <th>profit</th>
+            <th>{sale.specs_retail - sale.specs_cost}</th>
         </tr>
     ))
+
+    const get_total_profit = () => {
+        sales.stats.forEach(stat => {
+            setTotalProfit(total_profit + (stat.specs_retail - stat.specs_cost));
+        });
+    }
+
+    const show_total_profit = () => {
+        get_total_profit();
+
+        setShowTotalProfit(!showTotalProfit);
+    }
     
     return (
         <div>
@@ -55,7 +68,6 @@ function PCMakingStats() {
                     <thead>
                         <tr style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
                             <th>Customer</th>
-                            <th>Specs</th>
                             <th>Cost</th>
                             <th>Rate</th>
                             <th>Profit</th>
@@ -65,7 +77,9 @@ function PCMakingStats() {
                         {renderSalesList}
                         <tr>
                             <th>Total Sales : {sales.stats.length}</th>
-                            <th>Total Profit : N/A</th>
+                            <th>{showTotalProfit ? 
+                                <div>Total Profit : {total_profit}</div> 
+                                : <Button onClick={() => show_total_profit()}>Show Profit</Button>}</th>
                             <th></th>
                             <th></th>
                         </tr>

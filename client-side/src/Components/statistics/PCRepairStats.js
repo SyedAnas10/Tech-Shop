@@ -3,18 +3,19 @@ import ReactDatePicker from 'react-datepicker';
 import { useSelector, useDispatch } from 'react-redux';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { Col, Form, FormGroup, Label, Table } from 'reactstrap';
+import { Col, Form, FormGroup, Label, Table, Button } from 'reactstrap';
 
-import { fetch_sales_by_date } from '../../Redux/ActionCreators';
+import { fetch_pc_repair_by_date } from '../../Redux/ActionCreators';
 
-function SalesStats() {
+function PCRepairStats() {
 
     const dispatch = useDispatch();
     const [date, setDate] = useState(new Date())
-    const sales = useSelector(state => state.sales_stats);
+    const sales = useSelector(state => state.pc_repair_stats);
+    const [total_profit, setTotalProfit] = useState(0);
+    const [showTotalProfit, setShowTotalProfit] = useState(false);
     useEffect(() => {
-        dispatch(fetch_sales_by_date(day, month, year));
-        
+        dispatch(fetch_pc_repair_by_date(day, month, year))
     }, [date])
     const Center = {
         padding: '10px',
@@ -29,13 +30,25 @@ function SalesStats() {
 
     const renderSalesList = sales.stats.map(sale => (
         <tr key={sale._id}>
-            <th scope='row'>{sale.name}</th>
-            <th>{sale.model}</th>
-            <th>{sale.count}</th>
-            <th>{sale.rate_sold}</th>
-            <th>profit</th>
+            <th scope='row'>{sale.item}</th>
+            <th>{sale.customer_name}</th>
+            <th>{sale.repair_cost}</th>
+            <th>{sale.retail_cost}</th>
+            <th>{sale.retail_cost - sale.repair_cost}</th>
         </tr>
     ))
+
+    const get_total_profit = () => {
+        sales.stats.forEach(stat => {
+            setTotalProfit(total_profit + (stat.retail_cost - stat.repair_cost));
+        });
+    }
+
+    const show_total_profit = () => {
+        get_total_profit();
+
+        setShowTotalProfit(!showTotalProfit);
+    }
     
     return (
         <div>
@@ -56,8 +69,8 @@ function SalesStats() {
                     <thead>
                         <tr style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
                             <th>Item</th>
-                            <th>Model</th>
-                            <th>Count</th>
+                            <th>Customer</th>
+                            <th>Cost</th>
                             <th>Rate</th>
                             <th>Profit</th>
                         </tr>
@@ -66,7 +79,9 @@ function SalesStats() {
                         {renderSalesList}
                         <tr>
                             <th>Total Sales : {sales.stats.length}</th>
-                            <th>Total Profit : N/A</th>
+                            <th>{showTotalProfit ? 
+                                <div>Total Profit : {total_profit}</div> 
+                                : <Button onClick={() => show_total_profit()}>Show Profit</Button>}</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -77,4 +92,4 @@ function SalesStats() {
     )
 }
 
-export default SalesStats;
+export default PCRepairStats;

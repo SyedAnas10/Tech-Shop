@@ -498,3 +498,44 @@ export const pc_make_stats_failed = (errMess) => {
         payload: errMess
     };
 }
+
+export const fetch_pc_repair_by_date = (day, month, year) => (dispatch) => {
+    const query_string = '?day=' + day + '&month=' + month + '&year=' + year;
+    return fetch(baseUrl + 'repairing' + query_string)
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(sales_stats => {
+        dispatch(add_pc_repair_stats(sales_stats));
+    }, error => { throw error; })
+    .catch(error => {
+        // alert(error.message);
+        dispatch(pc_repair_stats_failed(error.message));
+    });
+}
+
+export const pc_repair_stats_loading = () => {
+    return {
+        type: ActionTypes.PC_REPAIR_STATS_LOADING
+    };
+}
+
+export const add_pc_repair_stats = (pc_repair_stats) => {
+    return {
+        type: ActionTypes.ADD_PC_REPAIR_STATS,
+        payload: pc_repair_stats
+    };
+}
+
+export const pc_repair_stats_failed = (errMess) => {
+    return {
+        type: ActionTypes.PC_REPAIR_STATS_FAILED,
+        payload: errMess
+    };
+}
