@@ -31,8 +31,10 @@ function RepairList() {
             setActiveTab(tab)
     }
 
+    const filtered_orders = orders.pc_repairing.filter(pc_repair => pc_repair.completed !== true);
+
     function noOrder() {
-        if(orders.pc_repairing.length === 0 ) {
+        if(filtered_orders.length === 0 ) {
             return (
                 <div style={Center}>
                     No orders currently.
@@ -52,7 +54,7 @@ function RepairList() {
         );
     }
     else {
-        const renderList = orders.pc_repairing.map(order => (
+        const renderList = filtered_orders.map(order => (
             <div>
                 {
                     !order.completed ?

@@ -35,8 +35,10 @@ function MakeList() {
             setActiveTab(tab)
     }
 
+    const filtered_orders = orders.pc_making.filter(pc_repair => pc_repair.completed !== true);
+
     function noOrder() {
-        if(orders.pc_making.length === 0 ) {
+        if(filtered_orders.length === 0 ) {
             return (
                 <div style={Center}>
                     No orders currently.
@@ -56,7 +58,7 @@ function MakeList() {
         );
     }
     else {
-        const renderList = orders.pc_making.map(order => (
+        const renderList = filtered_orders.map(order => (
             <div>
                 {
                     !order.completed ?
