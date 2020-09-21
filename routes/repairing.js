@@ -49,13 +49,26 @@ router.post('/', (req, res, next) => {
 
 router.put('/', (req, res, next) => {
     Repairing.findOneAndUpdate(req.query, req.body)
-    .then(() => {
+    .then((repair_details) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json({
-            success: true,
-            message: 'Updated successfully'
-        });
+
+        const full_date = repair_details.updatedAt.toString();
+
+        const month = full_date.slice(4, 7);
+        const day = full_date.slice(8, 10);
+        const year = full_date.slice(11, 15);
+        repair_details.year = year;
+        repair_details.month = month;
+        repair_details.day = day;
+
+        repair_details.save()
+        .then(() => {
+            res.json({
+                success: true,
+                message: 'Updated successfully'
+            });
+        }, err => next(err));
     }, err => next(err))
     .catch(err => next(err));
 });

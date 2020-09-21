@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import AddWishListUtil from './AddlistUtil'
 
-import { fetch_pc_repairing } from '../../Redux/ActionCreators';
+import { fetch_pc_repairing, repairing_completed } from '../../Redux/ActionCreators';
 
 let fetch_called = false;
 
@@ -60,6 +60,7 @@ function RepairList() {
                         
                     </CardText>
                     <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
+                    <Button className='ml-3' color='success' onClick={() => dispatch(repairing_completed(order._id))}>Completed</Button>
                 </CardBody>
             </Card>
         ))

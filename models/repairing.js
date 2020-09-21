@@ -27,6 +27,19 @@ const Repairing_Schema = Schema({
     },
     details: {
         type: String
+    },
+    completed: {
+        type: Boolean,
+        default: false
+    }, 
+    day: {
+        type: String
+    },
+    month: {
+        type: String
+    },
+    year: {
+        type: String
     }
 }, {
     timestamps: true

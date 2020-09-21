@@ -407,3 +407,27 @@ export const decrease_item_count = (id, count) => (dispatch) => {
     .then(response => response.json())
     .catch(err => alert(err.message));
 }
+
+export const repairing_completed = (_id) => (dispatch) => {
+    const query_string = '?_id=' + _id;
+
+    return fetch(baseUrl + 'repairing' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            completed: true
+        })
+        .then(response => {
+            if(response.ok)
+                return response;
+    
+            const error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }, err => { throw err; })
+        .then(response => response.json())
+        .catch(err => alert(err.message))
+    });
+}
