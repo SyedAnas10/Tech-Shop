@@ -419,15 +419,15 @@ export const repairing_completed = (_id) => (dispatch) => {
         body: JSON.stringify({
             completed: true
         })
-        .then(response => {
-            if(response.ok)
-                return response;
-    
-            const error = new Error('Error ' + response.status + ': ' + response.statusText);
-            error.response = response;
-            throw error;
-        }, err => { throw err; })
-        .then(response => response.json())
-        .catch(err => alert(err.message))
-    });
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, err => { throw err; })
+    .then(response => response.json())
+    .catch(err => alert(err.message));
 }

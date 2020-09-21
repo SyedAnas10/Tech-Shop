@@ -53,16 +53,25 @@ function RepairList() {
     }
     else {
         const renderList = orders.pc_repairing.map(order => (
-            <Card body key={order._id}>
-                <CardHeader>{order.customer_name}</CardHeader>
-                <CardBody>
-                    <CardText>
-                        
-                    </CardText>
-                    <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
-                    <Button className='ml-3' color='success' onClick={() => dispatch(repairing_completed(order._id))}>Completed</Button>
-                </CardBody>
-            </Card>
+            <div>
+                {
+                    !order.completed ?
+
+                    <Card body key={order._id}>
+                        <CardHeader>{order.customer_name}</CardHeader>
+                        <CardBody>
+                            <CardText>
+                                
+                            </CardText>
+                            <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
+                            <Button className='ml-3' color='success' onClick={() => dispatch(repairing_completed(order._id))}>Mark Completed</Button>
+                        </CardBody>
+                    </Card> :
+
+                    <div>
+                    </div>
+                }
+            </div>
         ))
 
         return(
