@@ -17,7 +17,6 @@ function SalesStats() {
     const [showTotalProfit, setShowTotalProfit] = useState(false);
     useEffect(() => {
         dispatch(fetch_sales_by_date(day, month, year));
-        
     }, [date])
     const Center = {
         padding: '10px',
@@ -34,6 +33,12 @@ function SalesStats() {
         sales.stats.forEach(stat => {
             total_profit += stat.profit
         });
+    }
+
+    const setDateAndResetProfit = (date) => {
+        total_profit = 0;
+        setShowTotalProfit(!showTotalProfit);
+        setDate(date);
     }
 
     const show_total_profit = () => {
@@ -58,7 +63,7 @@ function SalesStats() {
                 <FormGroup row>
                     <Label for='date' sm={1}>Select Date</Label>
                     <Col>
-                        <ReactDatePicker selected={date} onChange={date => {setDate(date)}} />
+                        <ReactDatePicker selected={date} onChange={date => {setDateAndResetProfit(date)}} />
                     </Col>
                 </FormGroup>
                 <FormGroup row>

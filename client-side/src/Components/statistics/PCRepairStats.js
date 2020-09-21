@@ -39,6 +39,12 @@ function PCRepairStats() {
         </tr>
     ))
 
+    const setDateAndResetProfit = (date) => {
+        total_profit = 0;
+        setShowTotalProfit(!showTotalProfit);
+        setDate(date);
+    }
+
     const get_total_profit = () => {
         sales.stats.forEach(stat => {
             total_profit += (stat.retail_cost - stat.repair_cost);
@@ -57,7 +63,7 @@ function PCRepairStats() {
                 <FormGroup row>
                     <Label for='date' sm={1}>Select Date</Label>
                     <Col>
-                        <ReactDatePicker selected={date} onChange={date => {setDate(date)}} />
+                        <ReactDatePicker selected={date} onChange={date => {setDateAndResetProfit(date)}} />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
