@@ -39,7 +39,23 @@ router.post('/', (req, res, next) => {
     .then(item => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        return res.json(item);
+        
+        const full_date = item.createdAt.toString();
+
+        const month = full_date.slice(4, 7);
+        const day = full_date.slice(8, 10);
+        const year = full_date.slice(11, 15);
+        item.year = year;
+        item.month = month;
+        item.day = day;
+
+        item.save()
+        .then(() => {
+            res.json({
+                success: true,
+                message: 'Created successfully'
+            });
+        }, err => next(err));
     }, err => next(err))
     .catch(err => next(err));
 });

@@ -541,3 +541,25 @@ export const pc_repair_stats_failed = (errMess) => {
         payload: errMess
     };
 }
+
+export const fetch_items_by_date = (day, month, year) => (dispatch) => {
+    const query_string = '?day=' + day + '&month=' + month + '&year=' + year;
+    return fetch(baseUrl + 'items' + query_string)
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(sales_stats => {
+        // alert(JSON.stringify(sales_stats))
+        dispatch(add_items(sales_stats));
+    }, error => { throw error; })
+    .catch(error => {
+        // alert(error.message);
+        dispatch(items_failed(error.message));
+    });
+}

@@ -19,6 +19,15 @@ const ItemSchema = Schema({
     retail_price: {
         type: Number,
         required: true
+    }, 
+    day: {
+        type: String
+    },
+    month: {
+        type: String
+    },
+    year: {
+        type: String
     }
 }, {
     timestamps: true

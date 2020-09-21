@@ -39,7 +39,7 @@ function Sales() {
         if(prod[0].count < count) 
             alert('You don\'t have enough left in inventory');
         else {
-            dispatch(post_sales(item, model, count, rate, (rate - prod[0].cost_price)));
+            dispatch(post_sales(item, model, count, rate, (rate - prod[0].cost_price * count)));
             dispatch(decrease_item_count(prod[0]._id, (prod[0].count - count)));
         }
     }
