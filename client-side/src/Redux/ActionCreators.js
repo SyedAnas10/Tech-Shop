@@ -429,5 +429,31 @@ export const repairing_completed = (_id) => (dispatch) => {
         throw error;
     }, err => { throw err; })
     .then(response => response.json())
+    .then(dispatch(fetch_pc_repairing()))
+    .catch(err => alert(err.message));
+}
+
+export const pc_making_completed = (_id) => (dispatch) => {
+    const query_string = '?_id=' + _id;
+
+    return fetch(baseUrl + 'pc_making' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            completed: true
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, err => { throw err; })
+    .then(response => response.json())
+    .then(dispatch(fetch_pc_making()))
     .catch(err => alert(err.message));
 }

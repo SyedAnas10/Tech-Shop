@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import AddWishList from './AddList'
 
-import { fetch_pc_making } from '../../Redux/ActionCreators';
+import { fetch_pc_making, pc_making_completed } from '../../Redux/ActionCreators';
 
 let fetch_called = false;
 
@@ -57,19 +57,29 @@ function MakeList() {
     }
     else {
         const renderList = orders.pc_making.map(order => (
-            <Card body key={order._id} style={CardBox}>
-                <CardHeader>{order.customer_name}</CardHeader>
-                <CardBody>
-                    <CardText>
-                        {order.specs_list.split(' ').map(item => (
-                            <p>
-                                {item}
-                            </p>
-                        ))}
-                    </CardText>
-                    <Button outline color='success'><Badge color='success'pill>Rs. {order.specs_retail}</Badge></Button>
-                </CardBody>
-            </Card>
+            <div>
+                {
+                    !order.completed ?
+
+                    <Card body key={order._id} style={CardBox}>
+                        <CardHeader>{order.customer_name}</CardHeader>
+                        <CardBody>
+                            <CardText>
+                                {order.specs_list.split(' ').map(item => (
+                                    <p>
+                                        {item}
+                                    </p>
+                                ))}
+                            </CardText>
+                            <Button outline color='success'><Badge color='success'pill>Rs. {order.specs_retail}</Badge></Button>
+                            <Button className='mt-3' color='success' onClick={() => dispatch(pc_making_completed(order._id))}>Mark Completed</Button>
+                        </CardBody>
+                    </Card> :
+
+                    <div>
+                    </div>
+                }
+            </div>
         ))
 
         return(

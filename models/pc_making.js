@@ -20,6 +20,19 @@ const PC_Making_Schema = Schema({
     },
     advance_payment: {
         type: Number
+    },
+    completed: {
+        type: Boolean,
+        default: false
+    }, 
+    day: {
+        type: String
+    },
+    month: {
+        type: String
+    },
+    year: {
+        type: String
     }
 }, {
     timestamps: true
