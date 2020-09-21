@@ -457,3 +457,44 @@ export const pc_making_completed = (_id) => (dispatch) => {
     .then(dispatch(fetch_pc_making()))
     .catch(err => alert(err.message));
 }
+
+export const fetch_pc_making_by_date = (day, month, year) => (dispatch) => {
+    const query_string = '?day=' + day + '&month=' + month + '&year=' + year;
+    return fetch(baseUrl + 'pc_making' + query_string)
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(sales_stats => {
+        dispatch(add_pc_make_stats(sales_stats));
+    }, error => { throw error; })
+    .catch(error => {
+        // alert(error.message);
+        dispatch(pc_make_stats_failed(error.message));
+    });
+}
+
+export const pc_make_stats_loading = () => {
+    return {
+        type: ActionTypes.PC_MAKE_STATS_LOADING
+    };
+}
+
+export const add_pc_make_stats = (pc_make_stats) => {
+    return {
+        type: ActionTypes.ADD_PC_MAKE_STATS,
+        payload: pc_make_stats
+    };
+}
+
+export const pc_make_stats_failed = (errMess) => {
+    return {
+        type: ActionTypes.PC_MAKE_STATS_FAILED,
+        payload: errMess
+    };
+}
