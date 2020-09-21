@@ -39,7 +39,7 @@ function Sales() {
         if(prod[0].count < count) 
             alert('You don\'t have enough left in inventory');
         else {
-            dispatch(post_sales(item, model, count, rate));
+            dispatch(post_sales(item, model, count, rate, (rate - prod[0].cost_price)));
             dispatch(decrease_item_count(prod[0]._id, (prod[0].count - count)));
         }
     }
@@ -71,7 +71,7 @@ function Sales() {
                 </Col>
             </FormGroup>
             <FormGroup row>
-                <Label for="rate_sold" sm={1}>Rate</Label>
+                <Label for="rate_sold" sm={1}>Rate Sold</Label>
                 <Col sm={5}>
                 <Input type="number" value={rate} onChange={value => set_rate(value.target.value)} name="rate_sold" id="rate_sold" placeholder='Rs.'/>
                 </Col>

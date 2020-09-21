@@ -3,15 +3,18 @@ import ReactDatePicker from 'react-datepicker';
 import { useSelector, useDispatch } from 'react-redux';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { Col, Form, FormGroup, Label, Table } from 'reactstrap';
+import { Col, Form, FormGroup, Label, Table, Button } from 'reactstrap';
 
 import { fetch_sales_by_date } from '../../Redux/ActionCreators';
+
+let total_profit = 0;
 
 function SalesStats() {
 
     const dispatch = useDispatch();
     const [date, setDate] = useState(new Date())
     const sales = useSelector(state => state.sales_stats);
+    const [showTotalProfit, setShowTotalProfit] = useState(false);
     useEffect(() => {
         dispatch(fetch_sales_by_date(day, month, year));
         
@@ -27,13 +30,25 @@ function SalesStats() {
     const day = date_string.slice(8, 10);
     const year = date_string.slice(11, 15);
 
+    const get_total_profit = () => {
+        sales.stats.forEach(stat => {
+            total_profit += stat.profit
+        });
+    }
+
+    const show_total_profit = () => {
+        get_total_profit();
+
+        setShowTotalProfit(!showTotalProfit);
+    }
+
     const renderSalesList = sales.stats.map(sale => (
         <tr key={sale._id}>
             <th scope='row'>{sale.name}</th>
             <th>{sale.model}</th>
             <th>{sale.count}</th>
             <th>{sale.rate_sold}</th>
-            <th>profit</th>
+            <th>{sale.profit}</th>
         </tr>
     ))
     
@@ -66,7 +81,9 @@ function SalesStats() {
                         {renderSalesList}
                         <tr>
                             <th>Total Sales : {sales.stats.length}</th>
-                            <th>Total Profit : N/A</th>
+                            <th>{showTotalProfit ? 
+                                <div>Total Profit : {total_profit}</div> 
+                                : <Button onClick={() => show_total_profit()}>Show Total Profit</Button>}</th>
                             <th></th>
                             <th></th>
                         </tr>

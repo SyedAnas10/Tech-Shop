@@ -7,12 +7,13 @@ import { Col, Form, FormGroup, Label, Table, Button } from 'reactstrap';
 
 import { fetch_pc_repair_by_date } from '../../Redux/ActionCreators';
 
+let total_profit = 0;
+
 function PCRepairStats() {
 
     const dispatch = useDispatch();
     const [date, setDate] = useState(new Date())
     const sales = useSelector(state => state.pc_repair_stats);
-    const [total_profit, setTotalProfit] = useState(0);
     const [showTotalProfit, setShowTotalProfit] = useState(false);
     useEffect(() => {
         dispatch(fetch_pc_repair_by_date(day, month, year))
@@ -40,7 +41,7 @@ function PCRepairStats() {
 
     const get_total_profit = () => {
         sales.stats.forEach(stat => {
-            setTotalProfit(total_profit + (stat.retail_cost - stat.repair_cost));
+            total_profit += (stat.retail_cost - stat.repair_cost);
         });
     }
 
@@ -81,7 +82,7 @@ function PCRepairStats() {
                             <th>Total Sales : {sales.stats.length}</th>
                             <th>{showTotalProfit ? 
                                 <div>Total Profit : {total_profit}</div> 
-                                : <Button onClick={() => show_total_profit()}>Show Profit</Button>}</th>
+                                : <Button onClick={() => show_total_profit()}>Show Total Profit</Button>}</th>
                             <th></th>
                             <th></th>
                         </tr>
