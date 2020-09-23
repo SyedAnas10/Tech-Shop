@@ -38,7 +38,23 @@ router.post('/', (req, res, next) => {
     .then(purchasing_list => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        return res.json(purchasing_list);
+        
+        const full_date = purchasing_list.createdAt.toString();
+
+        const month = full_date.slice(4, 7);
+        const day = full_date.slice(8, 10);
+        const year = full_date.slice(11, 15);
+        purchasing_list.year = year;
+        purchasing_list.month = month;
+        purchasing_list.day = day;
+
+        purchasing_list.save()
+        .then(() => {
+            res.json({
+                success: true,
+                message: 'Updated successfully'
+            });
+        }, err => next(err));
     }, err => next(err))
     .catch(err => next(err));
 });

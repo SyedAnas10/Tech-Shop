@@ -33,7 +33,8 @@ router.post('/', (req, res, next) => {
         count: req.body.count,
         name: req.body.name,
         model: req.body.model,
-        rate_sold: req.body.rate_sold
+        rate_sold: req.body.rate_sold,
+        profit: req.body.profit
     })
     .then(sales => {
         res.statusCode = 200;

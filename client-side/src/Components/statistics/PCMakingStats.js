@@ -5,18 +5,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Col, Form, FormGroup, Label, Table, Button } from 'reactstrap';
 
-import { fetch_sales_by_date } from '../../Redux/ActionCreators';
+import { fetch_pc_making_by_date } from '../../Redux/ActionCreators';
 
 let total_profit = 0;
 
-function SalesStats() {
+function PCMakingStats() {
 
     const dispatch = useDispatch();
     const [date, setDate] = useState(new Date())
-    const sales = useSelector(state => state.sales_stats);
+    const sales = useSelector(state => state.pc_make_stats);
     const [showTotalProfit, setShowTotalProfit] = useState(false);
     useEffect(() => {
-        dispatch(fetch_sales_by_date(day, month, year));
+        dispatch(fetch_pc_making_by_date(day, month, year))
     }, [date])
     const Center = {
         padding: '10px',
@@ -29,11 +29,14 @@ function SalesStats() {
     const day = date_string.slice(8, 10);
     const year = date_string.slice(11, 15);
 
-    const get_total_profit = () => {
-        sales.stats.forEach(stat => {
-            total_profit += stat.profit
-        });
-    }
+    const renderSalesList = sales.stats.map(sale => (
+        <tr key={sale._id}>
+            <th scope='row'>{sale.customer_name}</th>
+            <th>{sale.specs_cost}</th>
+            <th>{sale.specs_retail}</th>
+            <th>{sale.specs_retail - sale.specs_cost}</th>
+        </tr>
+    ))
 
     const setDateAndResetProfit = (date) => {
         total_profit = 0;
@@ -41,21 +44,17 @@ function SalesStats() {
         setDate(date);
     }
 
+    const get_total_profit = () => {
+        sales.stats.forEach(stat => {
+            total_profit += (stat.specs_retail - stat.specs_cost);
+        });
+    }
+
     const show_total_profit = () => {
         get_total_profit();
 
         setShowTotalProfit(!showTotalProfit);
     }
-
-    const renderSalesList = sales.stats.map(sale => (
-        <tr key={sale._id}>
-            <th scope='row'>{sale.name}</th>
-            <th>{sale.model}</th>
-            <th>{sale.count}</th>
-            <th>{sale.rate_sold}</th>
-            <th>{sale.profit}</th>
-        </tr>
-    ))
     
     return (
         <div>
@@ -75,9 +74,8 @@ function SalesStats() {
                 <Table responsive hover>
                     <thead>
                         <tr style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
-                            <th>Item</th>
-                            <th>Model</th>
-                            <th>Count</th>
+                            <th>Customer</th>
+                            <th>Cost</th>
                             <th>Rate</th>
                             <th>Profit</th>
                         </tr>
@@ -99,4 +97,4 @@ function SalesStats() {
     )
 }
 
-export default SalesStats;
+export default PCMakingStats;

@@ -213,7 +213,8 @@ export const post_pc_repairing = (item, s_no, name, contact, cost, retail, detai
     .catch(err => alert(err.message));
 }
 
-export const post_sales = (item, model, count, rate) => (dispatch) => {
+export const post_sales = (item, model, count, rate, profit) => (dispatch) => {
+
     return fetch(baseUrl + 'individual_items_sales', {
         method: 'POST',
         headers: {
@@ -223,7 +224,8 @@ export const post_sales = (item, model, count, rate) => (dispatch) => {
             name: item,
             count: count,
             model: model,
-            rate_sold: rate
+            rate_sold: rate,
+            profit: profit
         })
     })
     .then(response => {
@@ -406,4 +408,158 @@ export const decrease_item_count = (id, count) => (dispatch) => {
     }, err => { throw err; })
     .then(response => response.json())
     .catch(err => alert(err.message));
+}
+
+export const repairing_completed = (_id) => (dispatch) => {
+    const query_string = '?_id=' + _id;
+
+    return fetch(baseUrl + 'repairing' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            completed: true
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, err => { throw err; })
+    .then(response => response.json())
+    .then(dispatch(fetch_pc_repairing()))
+    .catch(err => alert(err.message));
+}
+
+export const pc_making_completed = (_id) => (dispatch) => {
+    const query_string = '?_id=' + _id;
+
+    return fetch(baseUrl + 'pc_making' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            completed: true
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, err => { throw err; })
+    .then(response => response.json())
+    .then(dispatch(fetch_pc_making()))
+    .catch(err => alert(err.message));
+}
+
+export const fetch_pc_making_by_date = (day, month, year) => (dispatch) => {
+    const query_string = '?day=' + day + '&month=' + month + '&year=' + year;
+    return fetch(baseUrl + 'pc_making' + query_string)
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(sales_stats => {
+        dispatch(add_pc_make_stats(sales_stats));
+    }, error => { throw error; })
+    .catch(error => {
+        // alert(error.message);
+        dispatch(pc_make_stats_failed(error.message));
+    });
+}
+
+export const pc_make_stats_loading = () => {
+    return {
+        type: ActionTypes.PC_MAKE_STATS_LOADING
+    };
+}
+
+export const add_pc_make_stats = (pc_make_stats) => {
+    return {
+        type: ActionTypes.ADD_PC_MAKE_STATS,
+        payload: pc_make_stats
+    };
+}
+
+export const pc_make_stats_failed = (errMess) => {
+    return {
+        type: ActionTypes.PC_MAKE_STATS_FAILED,
+        payload: errMess
+    };
+}
+
+export const fetch_pc_repair_by_date = (day, month, year) => (dispatch) => {
+    const query_string = '?day=' + day + '&month=' + month + '&year=' + year;
+    return fetch(baseUrl + 'repairing' + query_string)
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(sales_stats => {
+        dispatch(add_pc_repair_stats(sales_stats));
+    }, error => { throw error; })
+    .catch(error => {
+        // alert(error.message);
+        dispatch(pc_repair_stats_failed(error.message));
+    });
+}
+
+export const pc_repair_stats_loading = () => {
+    return {
+        type: ActionTypes.PC_REPAIR_STATS_LOADING
+    };
+}
+
+export const add_pc_repair_stats = (pc_repair_stats) => {
+    return {
+        type: ActionTypes.ADD_PC_REPAIR_STATS,
+        payload: pc_repair_stats
+    };
+}
+
+export const pc_repair_stats_failed = (errMess) => {
+    return {
+        type: ActionTypes.PC_REPAIR_STATS_FAILED,
+        payload: errMess
+    };
+}
+
+export const fetch_items_by_date = (day, month, year) => (dispatch) => {
+    const query_string = '?day=' + day + '&month=' + month + '&year=' + year;
+    return fetch(baseUrl + 'items' + query_string)
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(sales_stats => {
+        // alert(JSON.stringify(sales_stats))
+        dispatch(add_items(sales_stats));
+    }, error => { throw error; })
+    .catch(error => {
+        // alert(error.message);
+        dispatch(items_failed(error.message));
+    });
 }

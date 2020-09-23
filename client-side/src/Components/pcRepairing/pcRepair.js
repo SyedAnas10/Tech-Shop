@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane, Input } from 'reactstrap'
 import AddWishListUtil from './AddlistUtil'
 
-import { fetch_pc_repairing } from '../../Redux/ActionCreators';
+import { fetch_pc_repairing, repairing_completed } from '../../Redux/ActionCreators';
 
 let fetch_called = false;
 
@@ -44,9 +44,10 @@ function RepairList() {
             return order.customer_name.toLowerCase().indexOf(query) > -1
         }))
     }
+    const filtered_orders = orders.pc_repairing.filter(pc_repair => pc_repair.completed !== true);
 
     function noOrder() {
-        if(orders.pc_repairing.length === 0 ) {
+        if(filtered_orders.length === 0 ) {
             return (
                 <div style={Center}>
                     No orders currently.
@@ -66,16 +67,26 @@ function RepairList() {
         );
     }
     else {
-        const renderList = filtered.map(order => (
-            <Card body key={order._id} style={CardBox}>
-                <CardHeader>{order.customer_name}</CardHeader>
-                <CardBody>
-                    <CardText>
-                        {order.details}
-                    </CardText>
-                    <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
-                </CardBody>
-            </Card>
+        const renderList = filtered_orders.map(order => (
+            <div>
+                {
+                    !order.completed ?
+
+                    <Card body key={order._id}>
+                        <CardHeader>{order.customer_name}</CardHeader>
+                        <CardBody>
+                            <CardText>
+                                
+                            </CardText>
+                            <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
+                            <Button className='ml-3' color='success' onClick={() => dispatch(repairing_completed(order._id))}>Mark Completed</Button>
+                        </CardBody>
+                    </Card> :
+
+                    <div>
+                    </div>
+                }
+            </div>
         ))
 
         return(

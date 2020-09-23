@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Nav, Navbar, NavItem, NavLink } from 'reactstrap'
 import PurchaseStats from './PurchaseStats'
 import SalesStats from './SalesStats'
+import PCMakingStats from './PCMakingStats'
+import PCRepairStats from './PCRepairStats'
 
 function Statistics() {
 
@@ -22,6 +24,16 @@ function Statistics() {
                     </NavItem>
                     <NavItem>
                         <NavLink className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
+                            PC Repairing Stats
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink className={{active: activeTab === '3'}} onClick={()=>{toggle('3')}}>
+                            PC Making Stats
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink className={{active: activeTab === '4'}} onClick={()=>{toggle('4')}}>
                             Purchases Stats
                         </NavLink>
                     </NavItem>
@@ -29,7 +41,9 @@ function Statistics() {
             </Navbar>
 
             {activeTab === '1' && <SalesStats/>}
-            {activeTab === '2' && <PurchaseStats/>}
+            {activeTab === '2' && <PCRepairStats/>}
+            {activeTab === '3' && <PCMakingStats/>}
+            {activeTab === '4' && <PurchaseStats/>}
         
         </div>
     )
