@@ -40,7 +40,7 @@ function PCMakingStats() {
 
     const setDateAndResetProfit = (date) => {
         total_profit = 0;
-        setShowTotalProfit(!showTotalProfit);
+        setShowTotalProfit(false);
         setDate(date);
     }
 
@@ -53,7 +53,7 @@ function PCMakingStats() {
     const show_total_profit = () => {
         get_total_profit();
 
-        setShowTotalProfit(!showTotalProfit);
+        setShowTotalProfit(true);
     }
     
     return (

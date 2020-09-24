@@ -27,7 +27,7 @@ function PurchaseStats() {
     
     const setDateAndResetExpenses = (date) => {
         total_expenses = 0;
-        setShowTotalExpenses(!showTotalExpenses);
+        setShowTotalExpenses(false);
         setDate(date);
     }
 
@@ -40,7 +40,7 @@ function PurchaseStats() {
     const show_total_expenses = () => {
         get_total_expenses();
 
-        setShowTotalExpenses(!showTotalExpenses);
+        setShowTotalExpenses(true);
     }
 
     const date_string = date.toString();
