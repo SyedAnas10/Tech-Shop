@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Col, Form, FormGroup, Label, Table, Button } from 'reactstrap';
 
-import { fetch_items_by_date } from '../../Redux/ActionCreators';
+import { fetch_purchases_by_date } from '../../Redux/ActionCreators';
 
 let total_expenses = 0;
 
@@ -13,10 +13,10 @@ function PurchaseStats() {
 
     const dispatch = useDispatch();
     const [date, setDate] = useState(new Date())
-    const purchases = useSelector(state => state.items);
+    const purchases = useSelector(state => state.purchases);
     const [showTotalExpenses, setShowTotalExpenses] = useState(false);
     useEffect(() => {
-        dispatch(fetch_items_by_date(day, month, year));
+        dispatch(fetch_purchases_by_date(day, month, year));
         // alert(JSON.stringify(purchases.items))
     }, [date])
     const Center = {
@@ -32,8 +32,8 @@ function PurchaseStats() {
     }
 
     const get_total_expenses = () => {
-        purchases.items.forEach(purchase => {
-            total_expenses += (purchase.cost_price * purchase.count);
+        purchases.purchases.forEach(purchase => {
+            total_expenses += (purchase.total_cost);
         });
     }
 
@@ -48,12 +48,12 @@ function PurchaseStats() {
     const day = date_string.slice(8, 10);
     const year = date_string.slice(11, 15);
 
-    const renderPurchaseList = purchases.items.map(purchase => (
+    const renderPurchaseList = purchases.purchases.map(purchase => (
         <tr key={purchase._id}>
-            <th scope='row'>{purchase.name}</th>
+            <th scope='row'>{purchase.item_name}</th>
             <th>{purchase.model}</th>
             <th>{purchase.count}</th>
-            <th>{purchase.cost_price * purchase.count}</th>
+            <th>{purchase.total_cost}</th>
         </tr>
     ))
     
@@ -84,7 +84,7 @@ function PurchaseStats() {
                     <tbody>
                         {renderPurchaseList}
                         <tr>
-                            <th>Total Purchases : {purchases.items.length}</th>
+                            <th>Total Purchases : {purchases.purchases.length}</th>
                             <th>{showTotalExpenses ? 
                                 <div>Total Expenses : {total_expenses}</div> 
                                 : <Button onClick={() => show_total_expenses()}>Show Total Expenses</Button>}</th>

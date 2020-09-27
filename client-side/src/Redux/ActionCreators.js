@@ -1,6 +1,5 @@
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../baseUrl';
-import { NotExtended } from 'http-errors';
 
 export const add_items = (items) => {
     return {
@@ -542,9 +541,9 @@ export const pc_repair_stats_failed = (errMess) => {
     };
 }
 
-export const fetch_items_by_date = (day, month, year) => (dispatch) => {
+export const fetch_purchases_by_date = (day, month, year) => (dispatch) => {
     const query_string = '?day=' + day + '&month=' + month + '&year=' + year;
-    return fetch(baseUrl + 'items' + query_string)
+    return fetch(baseUrl + 'purchasing' + query_string)
     .then(response => {
         if(response.ok)
             return response;
@@ -556,10 +555,30 @@ export const fetch_items_by_date = (day, month, year) => (dispatch) => {
     .then(response => response.json())
     .then(sales_stats => {
         // alert(JSON.stringify(sales_stats))
-        dispatch(add_items(sales_stats));
+        dispatch(add_purchases_stats(sales_stats));
     }, error => { throw error; })
     .catch(error => {
         // alert(error.message);
-        dispatch(items_failed(error.message));
+        dispatch(purchases_failed(error.message));
     });
 }
+
+export const purchases_loading = () => {
+    return {
+        type: ActionTypes.PURCHASES_STATS_LOADING
+    };
+};
+
+export const add_purchases_stats = (purchases_stats) => {
+    return {
+        type: ActionTypes.ADD_PURCHASES_STATS,
+        payload: purchases_stats
+    };
+};
+
+export const purchases_failed = (errMess) => {
+    return {
+        type: ActionTypes.PURCHASES_STATS_FAILED,
+        payload: errMess
+    };
+};

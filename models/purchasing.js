@@ -16,6 +16,15 @@ const Purchasing_Schema = Schema({
     total_cost: {
         type: Number,
         required: true
+    }, 
+    day: {
+        type: String
+    },
+    month: {
+        type: String
+    },
+    year: {
+        type: String
     }
 }, {
     timestamps: true
