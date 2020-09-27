@@ -22,7 +22,8 @@ function EditItemForm(props) {
     const retailChange = e => setRetail(e.target.value)
 
     const saveChanges = () => {
-        if(name&&model&&count&&cost_price&&retail_price) {
+        if(name&&model&&count) {
+            alert(props.item)
             dispatch(edit_item(_id, name, count, model, cost_price, retail_price));
 
             setName('')

@@ -69,8 +69,6 @@ function Inventory() {
                 <th>{product.model}</th>
                 <th>{product.count}</th>
                 <th>{product.cost_price}</th>
-                <th>{product.retail_price}</th>
-                <th>{product.retail_price - product.cost_price}</th>
                 <th>
                     <i className="fa fa-pencil" onClick={() => setEditItem(product)} style={{ fontSize: '25px', color: "rgb(48,201,42)"}}></i>
                     <i className="fa fa-trash-o" onClick={() => dispatch(delete_item(product._id))} style={buttonStyle}></i>
@@ -84,8 +82,6 @@ function Inventory() {
                 <th>{product.model}</th>
                 <th>{product.count}</th>
                 <th>{product.cost_price}</th>
-                <th>{product.retail_price}</th>
-                <th>{product.retail_price - product.cost_price}</th>
             </tr>
         ));
 
@@ -118,8 +114,6 @@ function Inventory() {
                                         <th>Model</th>
                                         <th>Stock Pieces</th>
                                         <th>Cost</th>
-                                        <th>Retail</th>
-                                        <th>Approx. Profit</th>
                                         {!editableItem && <th><Button color='dark' size='sm' onClick={() => {toggleEnter(!enterNew)}}>{enterNew?'Cancel':'Add new'}</Button></th>}
                                         {editableItem && <th><Button color='dark' size='sm' onClick={() => {setEditItem()}}>Cancel</Button></th>}
                                     </tr>
@@ -141,8 +135,6 @@ function Inventory() {
                                         <th>Model</th>
                                         <th>Stock Pieces</th>
                                         <th>Cost</th>
-                                        <th>Retail</th>
-                                        <th>Approx. Profit</th>
                                     </tr>
                                 </thead>
                                 <tbody>
