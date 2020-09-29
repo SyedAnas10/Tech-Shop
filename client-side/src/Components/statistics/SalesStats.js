@@ -17,6 +17,7 @@ function SalesStats() {
     const [showTotalProfit, setShowTotalProfit] = useState(false);
     useEffect(() => {
         dispatch(fetch_sales_by_date(day, month, year));
+        total_profit = 0;
     }, [date])
     const Center = {
         padding: '10px',

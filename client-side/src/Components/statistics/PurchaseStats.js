@@ -17,7 +17,7 @@ function PurchaseStats() {
     const [showTotalExpenses, setShowTotalExpenses] = useState(false);
     useEffect(() => {
         dispatch(fetch_purchases_by_date(day, month, year));
-        // alert(JSON.stringify(purchases.items))
+        total_expenses = 0;
     }, [date])
     const Center = {
         padding: '10px',
