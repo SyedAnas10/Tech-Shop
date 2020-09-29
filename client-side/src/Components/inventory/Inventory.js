@@ -13,7 +13,13 @@ function Inventory() {
 // PRIVATE STATE
     const dispatch = useDispatch();
     const products = useSelector(state => state.items)
+    const [state_update, setStateUpdate] = useState(true);
     useEffect(() => {
+        if(state_update) {
+            fetch_called = false;
+            setStateUpdate(false);
+        }
+
         if(!fetch_called) {
             dispatch(fetch_items());
             fetch_called = true;
