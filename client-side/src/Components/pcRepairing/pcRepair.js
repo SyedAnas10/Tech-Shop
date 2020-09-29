@@ -72,14 +72,14 @@ function RepairList() {
                 {
                     !order.completed ?
 
-                    <Card body key={order._id}>
+                    <Card body key={order._id} style={CardBox}>
                         <CardHeader>{order.customer_name}</CardHeader>
                         <CardBody>
                             <CardText>
-                                
+                                {order.details}
                             </CardText>
                             <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
-                            <Button className='ml-3' color='success' onClick={() => dispatch(repairing_completed(order._id))}>Mark Completed</Button>
+                            <Button color='success' onClick={() => dispatch(repairing_completed(order._id))}>Mark Completed</Button>
                         </CardBody>
                     </Card> :
 

@@ -72,11 +72,7 @@ function MakeList() {
                 <CardHeader>{order.customer_name}</CardHeader>
                 <CardBody>
                     <CardText>
-                        {order.specs_list.split(' ').map(item => (
-                            <p>
-                                {item}
-                            </p>
-                        ))}
+                        {order.specs_list}
                     </CardText>
                     <Button outline color='success'><Badge color='success'pill>Rs. {order.specs_retail}</Badge></Button>
                 </CardBody>

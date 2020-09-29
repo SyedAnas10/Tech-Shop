@@ -4,6 +4,7 @@ import PurchaseStats from './PurchaseStats'
 import SalesStats from './SalesStats'
 import PCMakingStats from './PCMakingStats'
 import PCRepairStats from './PCRepairStats'
+import CashFlow from './CashFlow'
 
 function Statistics() {
 
@@ -37,6 +38,11 @@ function Statistics() {
                             Purchases Stats
                         </NavLink>
                     </NavItem>
+                    <NavItem>
+                        <NavLink className={{active: activeTab === '5'}} onClick={()=>{toggle('5')}}>
+                            Cash Flow
+                        </NavLink>
+                    </NavItem>
                 </Nav>
             </Navbar>
 
@@ -44,6 +50,7 @@ function Statistics() {
             {activeTab === '2' && <PCRepairStats/>}
             {activeTab === '3' && <PCMakingStats/>}
             {activeTab === '4' && <PurchaseStats/>}
+            {activeTab === '5' && <CashFlow/> }
         
         </div>
     )
