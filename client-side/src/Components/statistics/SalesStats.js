@@ -37,14 +37,14 @@ function SalesStats() {
 
     const setDateAndResetProfit = (date) => {
         total_profit = 0;
-        setShowTotalProfit(!showTotalProfit);
+        setShowTotalProfit(false);
         setDate(date);
     }
 
     const show_total_profit = () => {
         get_total_profit();
 
-        setShowTotalProfit(!showTotalProfit);
+        setShowTotalProfit(true);
     }
 
     const renderSalesList = sales.stats.map(sale => (

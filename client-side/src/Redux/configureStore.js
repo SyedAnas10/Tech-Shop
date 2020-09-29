@@ -7,6 +7,7 @@ import { PC_Repairing } from './reducers/pcRepair';
 import { Sales_Stats } from './reducers/sales_stats';
 import { PC_Make_Stats } from './reducers/pc_make_stats';
 import { PC_Repair_Stats } from './reducers/pc_repair_stats';
+import { Purchases } from './reducers/purchases';
 
 export const configureStore = () => {
     const store = createStore(combineReducers({
@@ -15,7 +16,8 @@ export const configureStore = () => {
         pc_repairing: PC_Repairing,
         sales_stats: Sales_Stats,
         pc_make_stats: PC_Make_Stats,
-        pc_repair_stats: PC_Repair_Stats
+        pc_repair_stats: PC_Repair_Stats,
+        purchases: Purchases
     }), applyMiddleware(thunk));
 
     return store;
