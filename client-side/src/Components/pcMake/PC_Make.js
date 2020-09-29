@@ -76,7 +76,7 @@ function MakeList() {
                         {order.specs_list}
                     </CardText>
                     <Button outline color='success'><Badge color='success'pill>Rs. {order.specs_retail}</Badge></Button>
-                    <Button color='success' onClick={() => dispatch(pc_making_completed(order._id))}>Mark Completed</Button>
+                    <Button className='mt-3' color='success' onClick={() => dispatch(pc_making_completed(order._id))}>Mark Completed</Button>
                 </CardBody>
             </Card>
         ))

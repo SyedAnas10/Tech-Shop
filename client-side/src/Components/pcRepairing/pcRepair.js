@@ -75,7 +75,7 @@ function RepairList() {
                         {order.details}
                     </CardText>
                     <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
-                    <Button color='success' onClick={() => dispatch(repairing_completed(order._id))}>Mark Completed</Button>
+                    <Button className='mt-3' color='success' onClick={() => dispatch(repairing_completed(order._id))}>Mark Completed</Button>
                 </CardBody>
             </Card> 
         ))
