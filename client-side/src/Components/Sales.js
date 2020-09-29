@@ -28,11 +28,12 @@ function Sales() {
     const [rate, set_rate] = useState('');
     const [count, set_count] = useState(0);
 
-    const renderOptions = products.items.map(product => (
+    const renderOptions = products.items.map(product => 
         <option value={product.name}/>
-    ));
-
-    const renderModels = products.items.map(product => <option value={product.model} />);
+    );
+    const renderModels = products.items.filter(product => product.name === item).map(models => 
+        <option value={models.model} />
+    );
 
     const onRegister = () => {
         const prod = products.items.filter(prod_item => prod_item.name === item && prod_item.model === model);

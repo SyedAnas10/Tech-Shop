@@ -44,10 +44,10 @@ function RepairList() {
             return order.customer_name.toLowerCase().indexOf(query) > -1
         }))
     }
-    const filtered_orders = orders.pc_repairing.filter(pc_repair => pc_repair.completed !== true);
+    const filtered_orders = filtered.filter(pc_repair => pc_repair.completed !== true);
 
     function noOrder() {
-        if(filtered_orders.length === 0 ) {
+        if(orders.pc_repairing.length === 0 ) {
             return (
                 <div style={Center}>
                     No orders currently.
@@ -68,25 +68,16 @@ function RepairList() {
     }
     else {
         const renderList = filtered_orders.map(order => (
-            <div>
-                {
-                    !order.completed ?
-
-                    <Card body key={order._id} style={CardBox}>
-                        <CardHeader>{order.customer_name}</CardHeader>
-                        <CardBody>
-                            <CardText>
-                                {order.details}
-                            </CardText>
-                            <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
-                            <Button color='success' onClick={() => dispatch(repairing_completed(order._id))}>Mark Completed</Button>
-                        </CardBody>
-                    </Card> :
-
-                    <div>
-                    </div>
-                }
-            </div>
+            <Card body key={order._id} style={CardBox}>
+                <CardHeader>{order.customer_name}</CardHeader>
+                <CardBody>
+                    <CardText>
+                        {order.details}
+                    </CardText>
+                    <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
+                    <Button color='success' onClick={() => dispatch(repairing_completed(order._id))}>Mark Completed</Button>
+                </CardBody>
+            </Card> 
         ))
 
         return(

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane, Input } from 'reactstrap'
 import AddWishList from './AddList'
 
-import { fetch_pc_making } from '../../Redux/ActionCreators';
+import { fetch_pc_making, pc_making_completed } from '../../Redux/ActionCreators';
 
 let fetch_called = false;
 
@@ -45,6 +45,7 @@ function MakeList() {
             return order.customer_name.toLowerCase().indexOf(query) > -1
         }))
     }
+    const filtered_orders = filtered.filter(pc_make => pc_make.completed !== true);
 
     function noOrder() {
         if(orders.pc_making.length === 0 ) {
@@ -67,7 +68,7 @@ function MakeList() {
         );
     }
     else {
-        const renderList = filtered.map(order => (
+        const renderList = filtered_orders.map(order => (
             <Card body key={order._id} style={CardBox}>
                 <CardHeader>{order.customer_name}</CardHeader>
                 <CardBody>
@@ -75,6 +76,7 @@ function MakeList() {
                         {order.specs_list}
                     </CardText>
                     <Button outline color='success'><Badge color='success'pill>Rs. {order.specs_retail}</Badge></Button>
+                    <Button color='success' onClick={() => dispatch(pc_making_completed(order._id))}>Mark Completed</Button>
                 </CardBody>
             </Card>
         ))
