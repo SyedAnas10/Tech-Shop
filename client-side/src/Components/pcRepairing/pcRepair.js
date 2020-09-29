@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane, Input } from 'reactstrap'
 import AddWishListUtil from './AddlistUtil'
 
 import { fetch_pc_repairing, repairing_completed } from '../../Redux/ActionCreators';
@@ -10,15 +10,22 @@ let fetch_called = false;
 function RepairList() {
     const dispatch = useDispatch();
     const orders = useSelector(state => state.pc_repairing)
+    const [filtered, filter] = useState(orders.pc_repairing)
+    useEffect(()=> {
+        filter(orders.pc_repairing)
+    }, [orders.pc_repairing])
     const [activeTab, setActiveTab] = useState('1')
     const Center = {
-        padding: '20px',
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         flexWrap: 'wrap',
+        flexDirection: 'row'
     }
-
+    const CardBox = {
+        maxWidth: '300px',  
+        border: '0.5px solid lightgray',
+        margin: '10px',
+        textAlign: 'center'
+    }
     useEffect(() => {
         if(!fetch_called) {
             dispatch(fetch_pc_repairing());
@@ -31,10 +38,16 @@ function RepairList() {
             setActiveTab(tab)
     }
 
-    const filtered_orders = orders.pc_repairing.filter(pc_repair => pc_repair.completed !== true);
+    const handleSearch = (event) => {
+        const query = event.target.value.toLowerCase();
+        filter(orders.pc_repairing.filter(order => {
+            return order.customer_name.toLowerCase().indexOf(query) > -1
+        }))
+    }
+    const filtered_orders = filtered.filter(pc_repair => pc_repair.completed !== true);
 
     function noOrder() {
-        if(filtered_orders.length === 0 ) {
+        if(orders.pc_repairing.length === 0 ) {
             return (
                 <div style={Center}>
                     No orders currently.
@@ -55,25 +68,16 @@ function RepairList() {
     }
     else {
         const renderList = filtered_orders.map(order => (
-            <div>
-                {
-                    !order.completed ?
-
-                    <Card body key={order._id}>
-                        <CardHeader>{order.customer_name}</CardHeader>
-                        <CardBody>
-                            <CardText>
-                                
-                            </CardText>
-                            <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
-                            <Button className='ml-3' color='success' onClick={() => dispatch(repairing_completed(order._id))}>Mark Completed</Button>
-                        </CardBody>
-                    </Card> :
-
-                    <div>
-                    </div>
-                }
-            </div>
+            <Card body key={order._id} style={CardBox}>
+                <CardHeader>{order.customer_name}</CardHeader>
+                <CardBody>
+                    <CardText>
+                        {order.details}
+                    </CardText>
+                    <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
+                    <Button color='success' onClick={() => dispatch(repairing_completed(order._id))}>Mark Completed</Button>
+                </CardBody>
+            </Card> 
         ))
 
         return(
@@ -95,6 +99,7 @@ function RepairList() {
     
                 <TabContent activeTab={activeTab}>
                     <TabPane tabId='1'>
+                        <Input type='text' placeholder="Search" autoComplete='off' onChange={(event) => handleSearch(event)}/>
                         {noOrder()}
                         <div style={Center}>
                             {renderList}

@@ -25,12 +25,6 @@ function EditItemForm(props) {
         if(name&&model&&count) {
             alert(props.item)
             dispatch(edit_item(_id, name, count, model, cost_price, retail_price));
-
-            setName('')
-            setModel('')
-            setPieces('')
-            setCost('')
-            setRetail('')
         }
     }
 

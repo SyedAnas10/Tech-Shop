@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane, Input } from 'reactstrap'
 import AddWishList from './AddList'
 
 import { fetch_pc_making, pc_making_completed } from '../../Redux/ActionCreators';
@@ -10,6 +10,10 @@ let fetch_called = false;
 function MakeList() {
     const dispatch = useDispatch();
     const orders = useSelector(state => state.pc_making)
+    const [filtered, filter] = useState(orders.pc_making)
+    useEffect(()=>{
+        filter(orders.pc_making)
+    }, [orders.pc_making])
     const [activeTab, setActiveTab] = useState('1')
     const Center = {
         display: 'flex',
@@ -35,10 +39,16 @@ function MakeList() {
             setActiveTab(tab)
     }
 
-    const filtered_orders = orders.pc_making.filter(pc_repair => pc_repair.completed !== true);
+    const handleSearch = (event) => {
+        const query = event.target.value.toLowerCase();
+        filter(orders.pc_making.filter(order => {
+            return order.customer_name.toLowerCase().indexOf(query) > -1
+        }))
+    }
+    const filtered_orders = filtered.filter(pc_make => pc_make.completed !== true);
 
     function noOrder() {
-        if(filtered_orders.length === 0 ) {
+        if(orders.pc_making.length === 0 ) {
             return (
                 <div style={Center}>
                     No orders currently.
@@ -59,29 +69,16 @@ function MakeList() {
     }
     else {
         const renderList = filtered_orders.map(order => (
-            <div>
-                {
-                    !order.completed ?
-
-                    <Card body key={order._id} style={CardBox}>
-                        <CardHeader>{order.customer_name}</CardHeader>
-                        <CardBody>
-                            <CardText>
-                                {order.specs_list.split(' ').map(item => (
-                                    <p>
-                                        {item}
-                                    </p>
-                                ))}
-                            </CardText>
-                            <Button outline color='success'><Badge color='success'pill>Rs. {order.specs_retail}</Badge></Button>
-                            <Button className='mt-3' color='success' onClick={() => dispatch(pc_making_completed(order._id))}>Mark Completed</Button>
-                        </CardBody>
-                    </Card> :
-
-                    <div>
-                    </div>
-                }
-            </div>
+            <Card body key={order._id} style={CardBox}>
+                <CardHeader>{order.customer_name}</CardHeader>
+                <CardBody>
+                    <CardText>
+                        {order.specs_list}
+                    </CardText>
+                    <Button outline color='success'><Badge color='success'pill>Rs. {order.specs_retail}</Badge></Button>
+                    <Button color='success' onClick={() => dispatch(pc_making_completed(order._id))}>Mark Completed</Button>
+                </CardBody>
+            </Card>
         ))
 
         return(
@@ -103,6 +100,7 @@ function MakeList() {
     
                 <TabContent activeTab={activeTab}>
                     <TabPane tabId='1'>
+                    <Input type='text' placeholder="Search" autoComplete='off' onChange={(event) => handleSearch(event)}/>
                         {noOrder()}
                         <div style={Center}>
                             {renderList}
