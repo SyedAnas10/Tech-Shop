@@ -2,15 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, CardBody, CardFooter, CardHeader, CardText, CardTitle, Col, Row } from 'reactstrap';
 
-import { fetch_items, fetch_pc_making, fetch_pc_making_by_date, fetch_pc_repairing, fetch_pc_repair_by_date, fetch_sales_by_date } from '../Redux/ActionCreators';
+import { fetch_items, 
+        fetch_pc_making, 
+        fetch_pc_making_by_date, 
+        fetch_pc_repairing, 
+        fetch_pc_repair_by_date, 
+        fetch_sales_by_date,
+        fetch_purchases_by_date } from '../Redux/ActionCreators';
 
 let items_fetch = false
 let makeOrders_fetch = false
 let repairOrders_fetch = false
-
-let totalSalesProfit = 0;
-let totalRepairProfit = 0;
-let totalMakeProfit = 0;
+let sales_by_date_fetch = false;
+let make_by_date_fetch = false;
+let repair_by_date_fetch = false;
+let purchases_by_date_fetch = false;
 
 function Dashboard() {
 
@@ -27,6 +33,7 @@ function Dashboard() {
     const Sales = useSelector(state => state.sales_stats)
     const Repair = useSelector(state => state.pc_repair_stats)
     const Make = useSelector(state => state.pc_make_stats)
+    const Purchases = useSelector(state => state.purchases)
 
     const Center = {
         padding: '20px',
@@ -50,32 +57,99 @@ function Dashboard() {
             repairOrders_fetch = true;
         }
 
-        dispatch(fetch_sales_by_date(day,month,year))
-        totalSalesProfit = 0
-        Sales.stats.forEach(stat => {
-            totalSalesProfit += stat.profit
-        })
+        if(!sales_by_date_fetch) {
+            dispatch(fetch_sales_by_date(day,month,year))
+            
+            sales_by_date_fetch = true;
+        }
 
-        dispatch(fetch_pc_repair_by_date(day,month,year))
-        totalRepairProfit = 0
-        Repair.stats.forEach(stat => {
-            totalRepairProfit += stat.profit
-        })
+        if(!repair_by_date_fetch) {
+            dispatch(fetch_pc_repair_by_date(day,month,year))
 
-        dispatch(fetch_pc_making_by_date(day,month,year))
-        totalMakeProfit = 0
-        Make.stats.forEach(stat => {
-            totalMakeProfit += stat.profit
-        })
+            repair_by_date_fetch = true;
+        }
+
+        if(!make_by_date_fetch) {
+            dispatch(fetch_pc_making_by_date(day,month,year))
+
+            make_by_date_fetch = true;
+        }
+
+        if(!purchases_by_date_fetch) {
+            dispatch(fetch_purchases_by_date(day, month, year));
+
+            purchases_by_date_fetch = true;
+        }
     }, [products.items,
         makeOrders.pc_making,
         repairOrders.pc_repairing,
         Sales.stats,
         Repair.stats,
-        Make.stats]);
+        Make.stats,
+        Purchases.purchases]);
 
     const filtered_repair_orders = repairOrders.pc_repairing.filter(order => order.completed === false);
     const filtered_make_orders = makeOrders.pc_making.filter(order => order.completed === false);
+
+    const get_sales_cash_in = () => {
+        let sales_cash_in = 0;
+
+        Sales.stats.forEach(stat => {
+            sales_cash_in += stat.rate_sold;        
+        });
+
+        return sales_cash_in;
+    }
+
+    const get_pc_make_cash_in = () => {
+        let pc_make_cash_in = 0;
+
+        Make.stats.forEach(stat => {
+            pc_make_cash_in += stat.specs_retail;        
+        });
+
+        return pc_make_cash_in;
+    }
+
+    const get_pc_repair_cash_in = () => {
+        let pc_repair_cash_in = 0;
+
+        Repair.stats.forEach(stat => {
+            pc_repair_cash_in += stat.retail_cost;        
+        });
+
+        return pc_repair_cash_in;
+    }
+
+    const get_purchases_cash_out = () => {
+        let purchases_cash_out = 0;
+
+        Purchases.purchases.forEach(stat => {
+            purchases_cash_out += stat.total_cost;        
+        });
+
+        return purchases_cash_out;
+    }
+
+    const get_pc_make_cash_out = () => {
+        let pc_make_cash_out = 0;
+
+        Make.stats.forEach(stat => {
+            pc_make_cash_out += stat.specs_cost;        
+        });
+
+        return pc_make_cash_out;
+    }
+
+    const get_pc_repair_cash_out = () => {
+        let pc_repair_cash_out = 0;
+
+        Repair.stats.forEach(stat => {
+            pc_repair_cash_out += stat.repair_cost;        
+        });
+
+        return pc_repair_cash_out;
+    }
 
 {/* FUNCTIONS TO RENDER COUNTS */}
     function itemsCount() {
@@ -116,12 +190,12 @@ function Dashboard() {
             <Card className='text-right'>
                 <CardHeader tag='h3'>Today's Cash In</CardHeader>
                 <CardBody>
-                    <CardText tag='h4'>Sales Profit</CardText>
-                    <CardTitle> {totalSalesProfit} </CardTitle>
-                    <CardText tag='h4'>Repairing Profit</CardText>
-                    <CardTitle> {totalRepairProfit} </CardTitle>
-                    <CardText tag='h4'>PC-Make Profit</CardText>
-                    <CardTitle> {totalMakeProfit} </CardTitle>
+                    <CardText tag='h4'>Inventory Cash In</CardText>
+                    <CardTitle> {get_sales_cash_in()} </CardTitle>
+                    <CardText tag='h4'>Repairing Cash In</CardText>
+                    <CardTitle> {get_pc_repair_cash_in()} </CardTitle>
+                    <CardText tag='h4'>PC-Make Cash In</CardText>
+                    <CardTitle> {get_pc_make_cash_in()} </CardTitle>
                 </CardBody>
                 <CardFooter className='text-muted'>{date.toLocaleDateString()}</CardFooter>
             </Card>
@@ -133,11 +207,11 @@ function Dashboard() {
                 <CardHeader tag='h3'>Today's Cash Out</CardHeader>
                 <CardBody>
                     <CardText tag='h4'>Purchase Expenses</CardText>
-                    <CardTitle> {totalSalesProfit} </CardTitle>
+                    <CardTitle> {get_purchases_cash_out()} </CardTitle>
                     <CardText tag='h4'>Repairing Expenses</CardText>
-                    <CardTitle> {totalRepairProfit} </CardTitle>
+                    <CardTitle> {get_pc_repair_cash_out()} </CardTitle>
                     <CardText tag='h4'>PC-Make Expenses</CardText>
-                    <CardTitle> {totalMakeProfit} </CardTitle>
+                    <CardTitle> {get_pc_make_cash_out()} </CardTitle>
                 </CardBody>
                 <CardFooter className='text-muted'>{date.toLocaleDateString()}</CardFooter>
             </Card>
