@@ -10,12 +10,6 @@ let fetch_called = false;
 function Sales() {
     const dispatch = useDispatch();
     const products = useSelector(state => state.items)
-    const Center = {
-        padding: '50px',
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-
     useEffect(() => {
         if(!fetch_called) {
             dispatch(fetch_items());
@@ -27,6 +21,11 @@ function Sales() {
     const [item, set_item] = useState('');
     const [rate, set_rate] = useState('');
     const [count, set_count] = useState(0);
+    const Center = {
+        padding: '50px',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 
     const renderOptions = products.items.map(product => 
         <option value={product.name}/>

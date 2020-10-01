@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, FormGroup, Input, Label } from 'reactstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { post_purchase, post_item } from '../Redux/ActionCreators';
+import { post_purchase, post_item, fetch_items } from '../Redux/ActionCreators';
+
+let fetch_called = false;
 
 function Purchasing() {
 
     const dispatch = useDispatch();
+    const products = useSelector(state => state.items)
+    useEffect(() => {
+        if(!fetch_called) {
+            dispatch(fetch_items());
+            fetch_called = true;
+        }
+    }, [products.items]);
+
     const [item_name, setName] = useState('');
     const [model, setModel] = useState('');
     const [count, setCount] = useState();
@@ -16,6 +26,13 @@ function Purchasing() {
         justifyContent: 'center',
         alignItems: 'center'
     }
+
+    const renderOptions = products.items.map(product => 
+        <option value={product.name}/>
+    );
+    const renderModels = products.items.filter(product => product.name === item_name).map(models => 
+        <option value={models.model} />
+    );
 
     const on_purchasing = () => {
         dispatch(post_purchase(item_name, model, count, total_cost));
@@ -27,13 +44,19 @@ function Purchasing() {
             <FormGroup row>
                 <Label for='name' sm={1}>Item Name</Label>
                 <Col sm={5}>
-                    <Input type='text' name='name' value={item_name} onChange={event => setName(event.target.value)}></Input>
+                    <Input type='text' name='name' value={item_name} onChange={event => setName(event.target.value)} list='products'/>
+                    <datalist id='products'>
+                        {renderOptions}
+                    </datalist>
                 </Col>
             </FormGroup>
             <FormGroup row>
                 <Label for='model' sm={1}>Model</Label>
                 <Col sm={5}>
-                    <Input type='text' name='model' value={model} onChange={event => setModel(event.target.value)}></Input>
+                    <Input type='text' name='model' value={model} onChange={event => setModel(event.target.value)} list='models' />
+                    <datalist id='models'>
+                        {renderModels}
+                    </datalist>
                 </Col>
             </FormGroup>
             <FormGroup row>
