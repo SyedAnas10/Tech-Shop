@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, FormGroup, Input, Label } from 'reactstrap';
+import { Alert, Button, Col, Form, FormGroup, Input, Label } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { post_purchase, post_item, fetch_items } from '../Redux/ActionCreators';
@@ -26,6 +26,7 @@ function Purchasing() {
         justifyContent: 'center',
         alignItems: 'center'
     }
+    const [showToast,toggleToast] = useState(false)
 
     const renderOptions = products.items.map(product => 
         <option value={product.name}/>
@@ -37,6 +38,16 @@ function Purchasing() {
     const on_purchasing = () => {
         dispatch(post_purchase(item_name, model, count, total_cost));
         dispatch(post_item(item_name, model, count, (total_cost / count), '0'));
+        
+        setName('')
+        setModel('')
+        setCount('')
+        setCost('')
+
+        toggleToast(true);
+        window.setTimeout(() => {
+            toggleToast(false)
+        },3000)
     }
 
     return(
@@ -78,6 +89,9 @@ function Purchasing() {
                         Record Purchase
                     </Button>
                 </Col>
+                <Alert color="success" isOpen={showToast}>
+                    Item stored in the inventory list.
+                </Alert>
             </FormGroup>
         </Form>
     )

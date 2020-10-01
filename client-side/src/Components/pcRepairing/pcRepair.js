@@ -26,6 +26,13 @@ function RepairList() {
         margin: '10px',
         textAlign: 'center'
     }
+    const LoadCenter = {
+        padding: '50px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+    
     useEffect(() => {
         if(!fetch_called) {
             dispatch(fetch_pc_repairing());
@@ -61,7 +68,7 @@ function RepairList() {
 
     if(orders.isLoading) {
         return(
-            <div style={Center}>
+            <div style={LoadCenter}>
                 <Spinner color="success" style={{ width: '3rem', height: '3rem' }} />
             </div>
         );

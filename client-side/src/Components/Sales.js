@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetch_items } from '../Redux/ActionCreators';
 
@@ -26,6 +26,8 @@ function Sales() {
         justifyContent: 'center',
         alignItems: 'center'
     }
+    const [showToast,toggleToast] = useState(false)
+    const [showError, toggleError] = useState(false)
 
     const renderOptions = products.items.map(product => 
         <option value={product.name}/>
@@ -36,11 +38,25 @@ function Sales() {
 
     const onRegister = () => {
         const prod = products.items.filter(prod_item => prod_item.name === item && prod_item.model === model);
-        if(prod[0].count < count) 
-            alert('You don\'t have enough left in inventory');
+        if(prod[0].count < count) {        
+            toggleError(true);
+            window.setTimeout(() => {
+                toggleError(false)
+            },3000)
+        }
         else {
             dispatch(post_sales(item, model, count, rate, (rate - prod[0].cost_price * count)));
             dispatch(decrease_item_count(prod[0]._id, (prod[0].count - count)));
+
+            set_item('')
+            set_model('')
+            set_count('')
+            set_rate('')
+
+            toggleToast(true);
+            window.setTimeout(() => {
+                toggleToast(false)
+            },3000)
         }
     }
 
@@ -81,6 +97,12 @@ function Sales() {
                 <Col sm={{ size: 10, offset: 1 }}>
                 <Button onClick={onRegister} >Register Sale</Button>
                 </Col>
+                <Alert color="success" isOpen={showToast}>
+                    Sales Registered succesfully. Congratulations!
+                </Alert>
+                <Alert color="danger" isOpen={showError}>
+                    You dont have enough items in your inventory.
+                </Alert>
             </FormGroup>
         </Form>
     )
