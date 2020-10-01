@@ -7,7 +7,7 @@ import { Col, Form, FormGroup, Label, Table, Button } from 'reactstrap';
 
 import { fetch_sales_by_date } from '../../Redux/ActionCreators';
 
-let total_profit = 0;
+let total_profit = 0;   
 
 function SalesStats() {
 
@@ -66,10 +66,6 @@ function SalesStats() {
                     <Col>
                         <ReactDatePicker selected={date} onChange={date => {setDateAndResetProfit(date)}} />
                     </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for='date' sm={2}> 
-                    </Label>
                 </FormGroup>
             </Form>
             <div style={Center}>

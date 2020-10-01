@@ -66,10 +66,6 @@ function PurchaseStats() {
                         <ReactDatePicker selected={date} onChange={date => {setDateAndResetExpenses(date)}} />
                     </Col>
                 </FormGroup>
-                <FormGroup row>
-                    <Label for='date' sm={2}> 
-                    </Label>
-                </FormGroup>
             </Form>
             <div style={Center}>
                 <Table responsive hover>

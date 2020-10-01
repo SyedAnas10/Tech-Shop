@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane, Input } from 'reactstrap'
+import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane, Input, Spinner } from 'reactstrap'
 import AddWishList from './AddList'
 
 import { fetch_pc_making, pc_making_completed } from '../../Redux/ActionCreators';
@@ -62,8 +62,8 @@ function MakeList() {
 
     if(orders.isLoading) {
         return(
-            <div>
-                Loading
+            <div style={Center}>
+                <Spinner color="success" style={{ width: '3rem', height: '3rem' }} />
             </div>
         );
     }

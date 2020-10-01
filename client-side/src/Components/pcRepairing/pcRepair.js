@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane, Input } from 'reactstrap'
+import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane, Input, Spinner } from 'reactstrap'
 import AddWishListUtil from './AddlistUtil'
 
 import { fetch_pc_repairing, repairing_completed } from '../../Redux/ActionCreators';
@@ -61,8 +61,8 @@ function RepairList() {
 
     if(orders.isLoading) {
         return(
-            <div>
-                Loading
+            <div style={Center}>
+                <Spinner color="success" style={{ width: '3rem', height: '3rem' }} />
             </div>
         );
     }

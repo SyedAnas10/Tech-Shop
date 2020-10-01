@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Table, Nav, NavItem, NavLink, TabContent, TabPane, Navbar, Badge, Button, Input } from 'reactstrap';
+import { Table, Nav, NavItem, NavLink, TabContent, TabPane, Navbar, Badge, Button, Input, Spinner } from 'reactstrap';
 import AddItemForm from './AddItem';
 
 import { fetch_items, delete_item } from '../../Redux/ActionCreators';
@@ -63,8 +63,8 @@ function Inventory() {
 
     if(products.isLoading) {
         return(
-            <div>
-                Loading
+            <div style={Center}>
+                <Spinner color="success" style={{ width: '3rem', height: '3rem' }} />
             </div>
         );
     }

@@ -20,21 +20,18 @@ function Dashboard() {
         alignItems: 'center'
     }
 
-{/* USE-EFFECT FOR PRODUCT */}
     useEffect(() => {
         if(!items_fetch) {
             dispatch(fetch_items());
             items_fetch = true;
         }
     }, [products.items])
-{/* USE-EFFECT FOR PC ORDERS*/}
     useEffect(() => {
         if(!makeOrders_fetch) {
             dispatch(fetch_pc_making());
             makeOrders_fetch = true;
         }
     }, [makeOrders.pc_making])
-{/* USE-EFFECT FOR REPAIR ORDERS */}
     useEffect(() => {
         if(!repairOrders_fetch) {
             dispatch(fetch_pc_repairing());
@@ -71,7 +68,7 @@ function Dashboard() {
 
     return (
         <div style={Center}> 
-            <h3>Low Stocked items</h3>
+            <h3>Low Stocked Items</h3>
             {itemsCount()}
             <h3>Repairing Orders</h3>
             {repairCount()}
