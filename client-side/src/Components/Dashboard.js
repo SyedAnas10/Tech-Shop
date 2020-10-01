@@ -39,41 +39,43 @@ function Dashboard() {
             dispatch(fetch_items());
             items_fetch = true;
         }
-    }, [products.items])
-    useEffect(() => {
+
         if(!makeOrders_fetch) {
             dispatch(fetch_pc_making());
             makeOrders_fetch = true;
         }
-    }, [makeOrders.pc_making])
-    useEffect(() => {
+
         if(!repairOrders_fetch) {
             dispatch(fetch_pc_repairing());
             repairOrders_fetch = true;
         }
-    }, [repairOrders.pc_repairing])
-    useEffect(() => {
+
         dispatch(fetch_sales_by_date(day,month,year))
         totalSalesProfit = 0
         Sales.stats.forEach(stat => {
             totalSalesProfit += stat.profit
         })
-    }, [Sales.stats])
-    useEffect(() => {
+
         dispatch(fetch_pc_repair_by_date(day,month,year))
         totalRepairProfit = 0
         Repair.stats.forEach(stat => {
             totalRepairProfit += stat.profit
         })
-    }, [Repair.stats])
-    useEffect(() => {
+
         dispatch(fetch_pc_making_by_date(day,month,year))
         totalMakeProfit = 0
         Make.stats.forEach(stat => {
             totalMakeProfit += stat.profit
         })
-    }, [Make.stats])
+    }, [products.items,
+        makeOrders.pc_making,
+        repairOrders.pc_repairing,
+        Sales.stats,
+        Repair.stats,
+        Make.stats]);
 
+    const filtered_repair_orders = repairOrders.pc_repairing.filter(order => order.completed === false);
+    const filtered_make_orders = makeOrders.pc_making.filter(order => order.completed === false);
 
 {/* FUNCTIONS TO RENDER COUNTS */}
     function itemsCount() {
@@ -89,22 +91,22 @@ function Dashboard() {
     }
     function repairCount() {
         return(
-            <Card body inverse color= {repairOrders.pc_repairing.length === 0 ? 'success' : 'danger'} >
-                <CardHeader tag='h2'>{repairOrders.pc_repairing.length}</CardHeader>
+            <Card body inverse color= {filtered_repair_orders.length === 0 ? 'success' : 'danger'} >
+                <CardHeader tag='h2'>{filtered_repair_orders.length}</CardHeader>
                 <CardBody>
                     <CardText tag='h4'>Orders</CardText>
-                    <CardTitle>in your repair list.</CardTitle>
+                    <CardTitle>in your PC Repair list.</CardTitle>
                 </CardBody>
             </Card>
         )
     }
     function makeCount() {
         return(
-            <Card body inverse color= {makeOrders.pc_making.length === 0 ? 'success' : 'danger'} >
-                <CardHeader tag='h2'>{makeOrders.pc_making.length}</CardHeader>
+            <Card body inverse color= {filtered_make_orders.length === 0 ? 'success' : 'danger'} >
+                <CardHeader tag='h2'>{filtered_make_orders.length}</CardHeader>
                 <CardBody>
                     <CardText tag='h4'>Orders</CardText>
-                    <CardTitle>in your wish list.</CardTitle>
+                    <CardTitle>in your PC Making list.</CardTitle>
                 </CardBody>
             </Card>
         )

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Nav, Navbar, NavItem, NavLink } from 'reactstrap'
 import PurchaseStats from './PurchaseStats'
 import SalesStats from './SalesStats'
