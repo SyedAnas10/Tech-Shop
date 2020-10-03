@@ -8,32 +8,13 @@ import {
     NavbarText
 } from 'reactstrap';
 
-import { useDispatch } from 'react-redux';
-import { fetch_sales_by_date, 
-        fetch_pc_making_by_date, 
-        fetch_pc_repair_by_date } from '../Redux/ActionCreators.js';
-
 function Header() {
-    const dispatch = useDispatch();
-
-    const fetchData = () => {
-        const date = new Date();
-
-        const date_string = date.toString();
-        const month = date_string.slice(4, 7);
-        const day = date_string.slice(8, 10);
-        const year = date_string.slice(11, 15);
-
-        fetch_sales_by_date(day, month, year);
-        fetch_pc_making_by_date(day, month, year);
-        fetch_pc_repair_by_date(day, month, year);
-    }
 
     return (
         <div>
         <Navbar style={{backgroundColor:'rgb(48,201,42)'}} dark expand="md">
-            <NavbarBrand href="/" style={{fontSize: 48+'px'}}>Tech Shop</NavbarBrand>
-            <NavbarText style={{paddingTop: 40+'px'}}>Your very own tagline</NavbarText>
+            <NavbarBrand href="/" style={{fontSize: 48+'px'}}>Computer World</NavbarBrand>
+            {/*<NavbarText style={{paddingTop: 40+'px'}}>Your very own tagline</NavbarText>*/}
         </Navbar>
 
         {/* LINKS TO EACH COMPONENT FOR BROWSER ROUTER */}
