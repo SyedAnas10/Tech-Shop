@@ -14,7 +14,7 @@ import Purchasing from './Components/Purchasing';
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter forceRefresh={true}>
         <Header />
 
 {/* PATHS FOR LEFT SIDE NAV-BAR ITEMS */}
