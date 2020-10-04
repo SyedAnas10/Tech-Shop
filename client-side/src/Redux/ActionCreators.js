@@ -193,7 +193,7 @@ export const post_pc_repairing = (item, s_no, name, contact, cost, retail, detai
             item: item,
             serial_no: s_no,
             customer_name: name,
-            contact_no: contact,
+            contact_number: contact,
             repair_cost: cost,
             retail_cost: retail,
             details: details

@@ -33,7 +33,7 @@ router.post('/', (req, res, next) => {
         item: req.body.item,
         serial_no: req.body.serial_no,
         customer_name: req.body.customer_name,
-        contact_no: req.body.contact_no,
+        contact_number: req.body.contact_number,
         repair_cost: req.body.repair_cost,
         retail_cost: req.body.retail_cost,
         profit: req.body.profit,

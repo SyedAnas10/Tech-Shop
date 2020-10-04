@@ -92,12 +92,12 @@ function MakeList() {
                 <Navbar>
                     <Nav tabs> 
                         <NavItem>
-                        <NavLink className={{active: activeTab === '1'}} onClick={()=>{toggle('1')}}>
+                            <NavLink href="#" className={{active: activeTab === '1'}} onClick={()=>{toggle('1')}}>
                                 All Orders
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
+                            <NavLink href="#" className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
                                 Add Order
                             </NavLink>
                         </NavItem>

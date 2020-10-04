@@ -97,12 +97,12 @@ function Inventory() {
                 <Navbar>
                     <Nav tabs> 
                         <NavItem>
-                            <NavLink className={{active: activeTab === '1'}} onClick={()=>{toggle('1')}}>
+                            <NavLink href="#" className={{active: activeTab === '1'}} onClick={()=>{toggle('1')}}>
                                 All Items
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
+                            <NavLink href="#" className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
                                 Low Stock List <Badge color='success'>{lowStocked.length}</Badge>
                             </NavLink>
                         </NavItem>
