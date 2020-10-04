@@ -14,7 +14,7 @@ function Header() {
         <div>
         <Navbar style={{backgroundColor:'rgb(48,201,42)'}} dark expand="md">
             <NavbarBrand href="/" style={{fontSize: 48+'px'}}>Computer World</NavbarBrand>
-            {/*<NavbarText style={{paddingTop: 40+'px'}}>Your very own tagline</NavbarText>*/}
+            {<NavbarText style={{paddingTop: 40+'px'}}>Your very own tagline</NavbarText>}
         </Navbar>
 
         {/* LINKS TO EACH COMPONENT FOR BROWSER ROUTER */}

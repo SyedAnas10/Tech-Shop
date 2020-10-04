@@ -19,7 +19,7 @@ function Statistics() {
             <Navbar>
                 <Nav tabs>
                     <NavItem>
-                        <NavLink className={{active: activeTab === '1'}} onClick={()=>{toggle('1')}}>
+                        <NavLink href='#' className={{active: activeTab === '1'}} onClick={()=>{toggle('1')}}>
                             Sales Stats
                         </NavLink>
                     </NavItem>
