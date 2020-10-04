@@ -98,7 +98,7 @@ function Sales() {
                 <Button onClick={onRegister} >Register Sale</Button>
                 </Col>
                 <Alert color="success" isOpen={showToast}>
-                    Sales Registered succesfully. Congratulations!
+                    Sales Registered succesfully.
                 </Alert>
                 <Alert color="danger" isOpen={showError}>
                     You dont have enough items in your inventory.

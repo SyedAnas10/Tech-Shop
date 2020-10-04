@@ -97,12 +97,12 @@ function Inventory() {
                 <Navbar>
                     <Nav tabs> 
                         <NavItem>
-                            <NavLink className={{active: activeTab === '1'}} onClick={()=>{toggle('1')}}>
+                            <NavLink href="#" className={{active: activeTab === '1'}} onClick={()=>{toggle('1')}}>
                                 All Items
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
+                            <NavLink href="#" className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
                                 Low Stock List <Badge color='success'>{lowStocked.length}</Badge>
                             </NavLink>
                         </NavItem>
@@ -121,7 +121,7 @@ function Inventory() {
                                         <th>Stock Pieces</th>
                                         <th>Cost</th>
                                         {!editableItem && <th><Button color='dark' size='sm' onClick={() => {toggleEnter(!enterNew)}}>{enterNew?'Cancel':'Add new'}</Button></th>}
-                                        {editableItem && <th><Button color='dark' size='sm' onClick={() => {setEditItem()}}>Cancel</Button></th>}
+                                        {editableItem && <th><Button color='dark' size='sm' onClick={() => {setEditItem()}}>Close</Button></th>}
                                     </tr>
                                 </thead>
                                 <tbody>

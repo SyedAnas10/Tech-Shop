@@ -4,8 +4,7 @@ import {
     Navbar, 
     NavbarBrand, 
     Nav, 
-    NavItem, 
-    NavbarText
+    NavItem
 } from 'reactstrap';
 
 function Header() {
@@ -13,8 +12,9 @@ function Header() {
     return (
         <div>
         <Navbar style={{backgroundColor:'rgb(48,201,42)'}} dark expand="md">
-            <NavbarBrand href="/" style={{fontSize: 48+'px'}}>Computer World</NavbarBrand>
-            {<NavbarText style={{paddingTop: 40+'px'}}>Your very own tagline</NavbarText>}
+            <NavbarBrand href="/" style={{fontSize: 55+'px',fontVariant:'small-caps',fontWeight:'lighter',fontFamily:'serif'}}>
+                Computer World
+            </NavbarBrand>
         </Navbar>
 
         {/* LINKS TO EACH COMPONENT FOR BROWSER ROUTER */}

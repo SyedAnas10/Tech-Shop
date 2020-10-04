@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import { post_pc_repairing } from '../../Redux/ActionCreators';
 
 function AddWishListUtil() {
@@ -11,11 +11,13 @@ function AddWishListUtil() {
         justifyContent: 'center',
         alignItems: 'center'
     }
+    const [showToast, toggleToast] = useState(false)
+    const [showError, toggleError] = useState(false)
 
     const [item,setItem] = useState('')
     const [serial_no,setNo] = useState('')
     const [customer_name,setName] = useState('')
-    const [contact,setContact] = useState('')
+    const [contact_number,setContact] = useState('')
     const [repair_cost,setRepairCost] = useState('')
     const [retail_cost,setRetailCost] = useState('')
     const [details,setDetails] = useState('')
@@ -29,8 +31,15 @@ function AddWishListUtil() {
     const details_change = e => setDetails(e.target.value)
 
     const saveChanges = () => {
-        if(item && serial_no && customer_name && contact && repair_cost && retail_cost && details) {
-            dispatch(post_pc_repairing(item, serial_no, customer_name, contact, repair_cost, retail_cost, details));
+        if(item && serial_no && customer_name && contact_number && repair_cost && retail_cost && details) {
+
+            toggleToast(true);
+            window.setTimeout(() => {
+                toggleToast(false)
+            },2000)
+
+            dispatch(post_pc_repairing(item, serial_no, customer_name, contact_number, repair_cost, retail_cost, details));
+
             setItem('')
             setNo('')
             setName('')
@@ -38,6 +47,12 @@ function AddWishListUtil() {
             setRepairCost('')
             setRetailCost('')
             setDetails('')
+        }
+        else {
+            toggleError(true);
+            window.setTimeout(() => {
+                toggleError(false)
+            },2000)
         }
     }
 
@@ -64,7 +79,7 @@ function AddWishListUtil() {
             <FormGroup row>
                 <Label sm={1}>Contact No</Label>
                 <Col sm={5}>
-                <Input type="text" autoComplete='off' value={contact} onChange={contact_change} />
+                <Input type="text" autoComplete='off' value={contact_number} onChange={contact_change} />
                 </Col>
             </FormGroup>
             <FormGroup row>
@@ -89,8 +104,21 @@ function AddWishListUtil() {
             <FormGroup check row>
                 <Col sm={{ size: 10, offset: 1 }}>
                 <Button onClick={saveChanges}>Create Order</Button>
+                <div style={{padding:'10px'}}></div>
                 </Col>
             </FormGroup>
+
+            <FormGroup>
+                <Col>
+                <Alert color='success' isOpen={showToast}>
+                    Repair order has been stored succesfully.
+                </Alert>
+                <Alert color='danger' isOpen={showError}>
+                    Please fill out all the fields.
+                </Alert>
+                </Col>
+            </FormGroup>
+
         </Form>
     )
 

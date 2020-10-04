@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane, Input, Spinner } from 'reactstrap'
+import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane, Input, Spinner, CardFooter, Alert } from 'reactstrap'
 import AddWishListUtil from './AddlistUtil'
 
 import { fetch_pc_repairing, repairing_completed } from '../../Redux/ActionCreators';
@@ -15,6 +15,8 @@ function RepairList() {
         filter(orders.pc_repairing)
     }, [orders.pc_repairing])
     const [activeTab, setActiveTab] = useState('1')
+    const [showToast,toggleToast] = useState(false)
+
     const Center = {
         display: 'flex',
         flexWrap: 'wrap',
@@ -46,24 +48,36 @@ function RepairList() {
     }
 
     const handleSearch = (event) => {
-        const query = event.target.value.toLowerCase();
+        const query = event.target.value;
         filter(orders.pc_repairing.filter(order => {
-            return order.customer_name.toLowerCase().indexOf(query) > -1
+            return order.customer_name.toLowerCase().indexOf(query) > -1 || order.serial_no == query
         }))
     }
     const filtered_orders = filtered.filter(pc_repair => pc_repair.completed !== true);
 
     function noOrder() {
-        if(orders.pc_repairing.length === 0 ) {
+        const uncomplete = orders.pc_repairing.filter(order => {
+            return order.completed === false
+        })
+        if(uncomplete.length === 0 ) {
             return (
                 <div style={Center}>
-                    No orders currently.
+                    No pending orders currently.
                 </div>
             )
         }
         else {
             return null;
         }
+    }
+
+    function completeOrder(order) {
+        dispatch(repairing_completed(order._id))
+        
+        toggleToast(true);
+        window.setTimeout(() => {
+            toggleToast(false)
+        },3000)
     }
 
     if(orders.isLoading) {
@@ -76,14 +90,18 @@ function RepairList() {
     else {
         const renderList = filtered_orders.map(order => (
             <Card body key={order._id} style={CardBox}>
-                <CardHeader>{order.customer_name}</CardHeader>
+                <CardHeader>{order.item} - {order.customer_name}</CardHeader>
                 <CardBody>
                     <CardText>
                         {order.details}
                     </CardText>
-                    <Button outline color='success'><Badge color='success'pill>Rs. {order.retail_cost}</Badge></Button>
-                    <Button className='mt-3' color='success' onClick={() => dispatch(repairing_completed(order._id))}>Mark Completed</Button>
+                    <b>Serial Number : </b> {order.serial_no}<br />
+                    <b>Contact : </b> {order.contact_number}<br />
+                    <b>Retail : </b> Rs. {order.retail_cost}
                 </CardBody>
+                <CardFooter>
+                    <Button className='mt-3' color='success' onClick={() => completeOrder(order)}>Mark Completed</Button>
+                </CardFooter>
             </Card> 
         ))
 
@@ -92,12 +110,12 @@ function RepairList() {
                 <Navbar>
                     <Nav tabs> 
                         <NavItem>
-                        <NavLink className={{active: activeTab === '1'}} onClick={()=>{toggle('1')}}>
+                            <NavLink href="#" className={{active: activeTab === '1'}} onClick={()=>{toggle('1')}}>
                                 All Orders
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
+                            <NavLink href="#" className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
                                 Add Order
                             </NavLink>
                         </NavItem>
@@ -108,6 +126,9 @@ function RepairList() {
                     <TabPane tabId='1'>
                         <Input type='text' placeholder="Search" autoComplete='off' onChange={(event) => handleSearch(event)}/>
                         {noOrder()}
+                        <Alert color='success' isOpen={showToast}>
+                            Order Completed!
+                        </Alert>
                         <div style={Center}>
                             {renderList}
                         </div>

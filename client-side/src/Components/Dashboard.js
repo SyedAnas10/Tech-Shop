@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, CardBody, CardFooter, CardHeader, CardText, CardTitle, Col, Row } from 'reactstrap';
+import { Button, Card, CardBody, CardFooter, CardHeader, CardText, CardTitle, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
 
 import { fetch_items, 
         fetch_pc_making, 
@@ -34,6 +34,9 @@ function Dashboard() {
     const Repair = useSelector(state => state.pc_repair_stats)
     const Make = useSelector(state => state.pc_make_stats)
     const Purchases = useSelector(state => state.purchases)
+    const [isLoggedIn, toggleLogin] = useState(false)
+    const [userName, setUserName] = useState('')
+    const [password, setPassword] = useState('')
 
     const Center = {
         padding: '20px',
@@ -151,6 +154,11 @@ function Dashboard() {
         return pc_repair_cash_out;
     }
 
+    const checkLogin = () => {
+        if(userName === 'admin' && password === '1234')
+            toggleLogin(true)
+    }
+
 {/* FUNCTIONS TO RENDER COUNTS */}
     function itemsCount() {
         return(
@@ -191,11 +199,11 @@ function Dashboard() {
                 <CardHeader tag='h3'>Today's Cash In</CardHeader>
                 <CardBody>
                     <CardText tag='h4'>Inventory Cash In</CardText>
-                    <CardTitle> {get_sales_cash_in()} </CardTitle>
+                    <CardTitle> Rs. {get_sales_cash_in()} </CardTitle>
                     <CardText tag='h4'>Repairing Cash In</CardText>
-                    <CardTitle> {get_pc_repair_cash_in()} </CardTitle>
+                    <CardTitle> Rs. {get_pc_repair_cash_in()} </CardTitle>
                     <CardText tag='h4'>PC-Make Cash In</CardText>
-                    <CardTitle> {get_pc_make_cash_in()} </CardTitle>
+                    <CardTitle> Rs. {get_pc_make_cash_in()} </CardTitle>
                 </CardBody>
                 <CardFooter className='text-muted'>{date.toLocaleDateString()}</CardFooter>
             </Card>
@@ -207,11 +215,11 @@ function Dashboard() {
                 <CardHeader tag='h3'>Today's Cash Out</CardHeader>
                 <CardBody>
                     <CardText tag='h4'>Purchase Expenses</CardText>
-                    <CardTitle> {get_purchases_cash_out()} </CardTitle>
+                    <CardTitle> Rs. {get_purchases_cash_out()} </CardTitle>
                     <CardText tag='h4'>Repairing Expenses</CardText>
-                    <CardTitle> {get_pc_repair_cash_out()} </CardTitle>
+                    <CardTitle> Rs. {get_pc_repair_cash_out()} </CardTitle>
                     <CardText tag='h4'>PC-Make Expenses</CardText>
-                    <CardTitle> {get_pc_make_cash_out()} </CardTitle>
+                    <CardTitle> Rs. {get_pc_make_cash_out()} </CardTitle>
                 </CardBody>
                 <CardFooter className='text-muted'>{date.toLocaleDateString()}</CardFooter>
             </Card>
@@ -220,6 +228,28 @@ function Dashboard() {
 
     return (
         <div style={Center}> 
+        <Modal isOpen={isLoggedIn}>
+            <ModalHeader>Login to your account</ModalHeader>
+            <ModalBody>
+                <Form>
+                    <FormGroup row>
+                        <Label sm={3}>Username : </Label>
+                        <Col>
+                            <Input onChange={e => setUserName(e.target.value)}/>
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label sm={3}>Password : </Label>
+                        <Col>
+                            <Input type='password' onChange={e => setPassword(e.target.value)}/>
+                        </Col>
+                    </FormGroup>
+                </Form>
+            </ModalBody>
+            <ModalFooter>
+                <Button color='success' onClick={checkLogin}>Login</Button>
+            </ModalFooter>
+    </Modal>
         <Row>
             <Col sm='4'>
                 {itemsCount()}

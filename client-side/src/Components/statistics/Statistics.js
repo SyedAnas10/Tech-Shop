@@ -24,22 +24,22 @@ function Statistics() {
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
+                        <NavLink href="#" className={{active: activeTab === '2'}} onClick={()=>{toggle('2')}}>
                             PC Repairing Stats
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink className={{active: activeTab === '3'}} onClick={()=>{toggle('3')}}>
+                        <NavLink href="#" className={{active: activeTab === '3'}} onClick={()=>{toggle('3')}}>
                             PC Making Stats
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink className={{active: activeTab === '4'}} onClick={()=>{toggle('4')}}>
+                        <NavLink href="#" className={{active: activeTab === '4'}} onClick={()=>{toggle('4')}}>
                             Purchases Stats
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink className={{active: activeTab === '5'}} onClick={()=>{toggle('5')}}>
+                        <NavLink href="#" className={{active: activeTab === '5'}} onClick={()=>{toggle('5')}}>
                             Cash Flow
                         </NavLink>
                     </NavItem>
