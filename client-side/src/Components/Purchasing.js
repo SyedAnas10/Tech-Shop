@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Button, Col, Form, FormGroup, Input, Label } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { post_purchase, post_item, fetch_items } from '../Redux/ActionCreators';
+import { post_purchase, post_item, fetch_items, edit_item } from '../Redux/ActionCreators';
 
 let fetch_called = false;
 
@@ -21,6 +21,10 @@ function Purchasing() {
     const [model, setModel] = useState('');
     const [count, setCount] = useState();
     const [total_cost, setCost] = useState();
+
+    let itemAlreadyAdded = false;
+    let tempId, tempCount, tempCost;
+
     const Center = {
         padding: '50px',
         justifyContent: 'center',
@@ -36,8 +40,24 @@ function Purchasing() {
     );
 
     const on_purchasing = () => {
+        products.items.forEach(item => {
+            if(item_name == item.name && model == item.model) {
+                itemAlreadyAdded = true;
+                tempId = item._id;
+                tempCost = item.cost_price;
+                tempCount = item.count;
+            }
+                
+        });
+
+        if(itemAlreadyAdded) {
+            dispatch(edit_item(tempId, item_name, (tempCount + Number(count)), model, ((tempCost * tempCount + Number(total_cost)) / (tempCount + Number(count))), '0'));
+            itemAlreadyAdded = false;
+        }
+        else 
+            dispatch(post_item(item_name, model, count, (total_cost / count), '0'));
+
         dispatch(post_purchase(item_name, model, count, total_cost));
-        dispatch(post_item(item_name, model, count, (total_cost / count), '0'));
         
         setName('')
         setModel('')
