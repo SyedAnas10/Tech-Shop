@@ -73,7 +73,7 @@ function RepairList() {
 
     function completeOrder(order) {
         dispatch(repairing_completed(order._id))
-        
+        dispatch(fetch_pc_repairing())        
         toggleToast(true);
         window.setTimeout(() => {
             toggleToast(false)
