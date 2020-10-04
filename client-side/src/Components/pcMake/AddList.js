@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 
 import { post_pc_making } from '../../Redux/ActionCreators';
 
@@ -13,6 +13,8 @@ function AddWishList() {
         justifyContent: 'center',
         alignItems: 'center'
     }
+    const [showToast, toggleToast] = useState(false)
+    const [showError, toggleError] = useState(false)
 
     const [customer_name,setName] = useState('')
     const [specs_list,setList] = useState('')
@@ -28,12 +30,25 @@ function AddWishList() {
 
     const saveChanges = () => {
         if(customer_name&&specs_list&&specs_cost&&specs_retail&&advance_payment) {
+
+            toggleToast(true);
+            window.setTimeout(() => {
+                toggleToast(false)
+            },2000)
+
             dispatch(post_pc_making(customer_name, specs_list, specs_cost, specs_retail, advance_payment))
+
             setName('')
             setList('')
             setCost('')
             setRetail('')
             setAdvance('')
+        }
+        else {
+            toggleError(true);
+            window.setTimeout(() => {
+                toggleError(false)
+            },2000)
         }
     }
 
@@ -73,8 +88,21 @@ function AddWishList() {
             <FormGroup check row>
                 <Col sm={{ size: 10, offset: 1 }}>
                 <Button onClick={saveChanges}>Create Order</Button>
+                <div style={{padding:'10px'}}></div>
                 </Col>
             </FormGroup>
+
+            <FormGroup>
+                <Col>
+                <Alert color='success' isOpen={showToast}>
+                    PC-Make order has been stored succesfully.
+                </Alert>
+                <Alert color='danger' isOpen={showError}>
+                    Please fill out all the fields.
+                </Alert>
+                </Col>
+            </FormGroup>
+            
         </Form>
     )
 

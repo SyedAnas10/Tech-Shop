@@ -56,10 +56,13 @@ function RepairList() {
     const filtered_orders = filtered.filter(pc_repair => pc_repair.completed !== true);
 
     function noOrder() {
-        if(orders.pc_repairing.length === 0 ) {
+        const uncomplete = orders.pc_repairing.filter(order => {
+            return order.completed === false
+        })
+        if(uncomplete.length === 0 ) {
             return (
                 <div style={Center}>
-                    No orders currently.
+                    No pending orders currently.
                 </div>
             )
         }
@@ -96,7 +99,9 @@ function RepairList() {
                     <b>Contact : </b> {order.contact_number}<br />
                     <b>Retail : </b> Rs. {order.retail_cost}
                 </CardBody>
-                <Button className='mt-3' color='success' onClick={() => completeOrder(order)}>Mark Completed</Button>
+                <CardFooter>
+                    <Button className='mt-3' color='success' onClick={() => completeOrder(order)}>Mark Completed</Button>
+                </CardFooter>
             </Card> 
         ))
 

@@ -121,7 +121,7 @@ function Inventory() {
                                         <th>Stock Pieces</th>
                                         <th>Cost</th>
                                         {!editableItem && <th><Button color='dark' size='sm' onClick={() => {toggleEnter(!enterNew)}}>{enterNew?'Cancel':'Add new'}</Button></th>}
-                                        {editableItem && <th><Button color='dark' size='sm' onClick={() => {setEditItem()}}>Cancel</Button></th>}
+                                        {editableItem && <th><Button color='dark' size='sm' onClick={() => {setEditItem()}}>Close</Button></th>}
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Button, Input } from 'reactstrap'
+import { Button, Input, Toast, ToastBody, ToastHeader } from 'reactstrap'
 
 import { edit_item } from '../../Redux/ActionCreators';
 
@@ -20,20 +20,18 @@ function EditItemForm(props) {
     const costChange = e => setCost(e.target.value)
 
     const saveChanges = () => {
-        if(name&&model&&count) {
-            alert(props.item)
-            dispatch(edit_item(_id, name, count, model, cost_price));
-        }
+        dispatch(edit_item(_id, name, count, model, cost_price));
+        
     }
 
     return (
-        <tr>
-            <th><Input type='text' autoComplete='off' value={name} onChange={nameChange} /></th>
-            <th><Input type='text' autoComplete='off' value={model} onChange={modelChange} /></th>
-            <th><Input type='text' autoComplete='off' value={count} onChange={pieceChange} /></th>
-            <th><Input type='text' autoComplete='off' value={cost_price} onChange={costChange} /></th>
-            <th><Button color='warning' size='sm' onClick={saveChanges}>Update</Button> </th>
-        </tr>
+            <tr>
+                <th><Input type='text' autoComplete='off' value={name} onChange={nameChange} /></th>
+                <th><Input type='text' autoComplete='off' value={model} onChange={modelChange} /></th>
+                <th><Input type='text' autoComplete='off' value={count} onChange={pieceChange} /></th>
+                <th><Input type='text' autoComplete='off' value={cost_price} onChange={costChange} /></th>
+                <th><Button color='warning' size='sm' onClick={saveChanges}>Update</Button> </th>
+            </tr>
     )
 
 }

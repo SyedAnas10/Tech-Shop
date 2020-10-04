@@ -39,7 +39,7 @@ function Statistics() {
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="/" className={{active: activeTab === '5'}} onClick={()=>{toggle('5')}}>
+                        <NavLink href="#" className={{active: activeTab === '5'}} onClick={()=>{toggle('5')}}>
                             Cash Flow
                         </NavLink>
                     </NavItem>

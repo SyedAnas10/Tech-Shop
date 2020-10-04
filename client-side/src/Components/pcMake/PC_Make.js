@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, CardHeader, CardBody, CardText, Badge, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane, Input, Spinner } from 'reactstrap'
+import { Card, CardHeader, CardBody, CardText, Button, Navbar, Nav, NavItem, NavLink, TabContent, TabPane, Input, Spinner, Alert } from 'reactstrap'
 import AddWishList from './AddList'
 
 import { fetch_pc_making, pc_making_completed } from '../../Redux/ActionCreators';
@@ -15,6 +15,8 @@ function MakeList() {
         filter(orders.pc_making)
     }, [orders.pc_making])
     const [activeTab, setActiveTab] = useState('1')
+    const [showToast,toggleToast] = useState(false)
+
     const Center = {
         display: 'flex',
         flexWrap: 'wrap',
@@ -54,16 +56,28 @@ function MakeList() {
     const filtered_orders = filtered.filter(pc_make => pc_make.completed !== true);
 
     function noOrder() {
-        if(orders.pc_making.length === 0 ) {
+        const uncomplete = orders.pc_making.filter(order => {
+            return order.completed === false
+        })
+        if(uncomplete.length === 0 ) {
             return (
                 <div style={Center}>
-                    No orders currently.
+                    No pending orders currently.
                 </div>
             )
         }
         else {
             return null;
         }
+    }
+
+    function completeOrder(order) {
+        dispatch(pc_making_completed(order._id))
+        
+        toggleToast(true);
+        window.setTimeout(() => {
+            toggleToast(false)
+        },3000)
     }
 
     if(orders.isLoading) {
@@ -81,9 +95,12 @@ function MakeList() {
                     <CardText>
                         {order.specs_list}
                     </CardText>
-                    <Button outline color='success'><Badge color='success'pill>Rs. {order.specs_retail}</Badge></Button>
-                    <Button className='mt-3' color='success' onClick={() => dispatch(pc_making_completed(order._id))}>Mark Completed</Button>
+                    <b>Specs Cost : </b> Rs. {order.specs_cost} <br />
+                    <b>Retail Price : </b> Rs. {order.specs_retail} <br />
+                    <b>Advance Payment : </b> Rs. {order.advance_payment}
                 </CardBody>
+                <Button className='mt-3' color='success' onClick={() => completeOrder(order)}>Mark Completed</Button>
+                
             </Card>
         ))
 
@@ -108,6 +125,9 @@ function MakeList() {
                     <TabPane tabId='1'>
                     <Input type='text' placeholder="Search" autoComplete='off' onChange={(event) => handleSearch(event)}/>
                         {noOrder()}
+                        <Alert color='success' isOpen={showToast}>
+                            Order Completed!
+                        </Alert>
                         <div style={Center}>
                             {renderList}
                         </div>
