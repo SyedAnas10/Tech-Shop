@@ -99,9 +99,7 @@ function RepairList() {
                     <b>Contact : </b> {order.contact_number}<br />
                     <b>Retail : </b> Rs. {order.retail_cost}
                 </CardBody>
-                <CardFooter>
-                    <Button className='mt-3' color='success' onClick={() => completeOrder(order)}>Mark Completed</Button>
-                </CardFooter>
+                <Button className='mt-3' color='success' onClick={() => completeOrder(order)}>Mark Completed</Button>
             </Card> 
         ))
 
