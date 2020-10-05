@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import Inventory from './Components/inventory/Inventory';
@@ -12,6 +12,7 @@ import Sales from './Components/Sales';
 import Purchasing from './Components/Purchasing';
 
 function App() {
+
   return (
     <div className="App">
       <BrowserRouter forceRefresh={true}>

@@ -17,6 +17,7 @@ let sales_by_date_fetch = false;
 let make_by_date_fetch = false;
 let repair_by_date_fetch = false;
 let purchases_by_date_fetch = false;
+//let isLoggedIn = false;
 
 function Dashboard() {
 
@@ -228,7 +229,7 @@ function Dashboard() {
 
     return (
         <div style={Center}> 
-        <Modal isOpen={isLoggedIn}>
+        {!isLoggedIn && <Modal isOpen={!isLoggedIn}>
             <ModalHeader>Login to your account</ModalHeader>
             <ModalBody>
                 <Form>
@@ -249,7 +250,7 @@ function Dashboard() {
             <ModalFooter>
                 <Button color='success' onClick={checkLogin}>Login</Button>
             </ModalFooter>
-    </Modal>
+    </Modal>}
         <Row>
             <Col sm='4'>
                 {itemsCount()}
