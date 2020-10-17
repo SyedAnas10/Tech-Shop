@@ -35,6 +35,9 @@ function Header() {
                 <NavItem>
                     <NavLink to="/stats" className='nav-link'> <i className="fa fa-bar-chart"></i> Sales </NavLink>
                 </NavItem>
+                <NavItem>
+                    <NavLink to="/credit" className='nav-link'> <i className="fa fa-address-card"></i> Credit</NavLink>
+                </NavItem>
 
 
                 <NavItem className='ml-auto'>

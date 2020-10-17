@@ -10,6 +10,7 @@ import Dashboard from './Components/Dashboard';
 import Header from './Components/Header';
 import Sales from './Components/Sales';
 import Purchasing from './Components/Purchasing';
+import Credit from './Components/credit/Credit';
 
 function App() {
 
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <Route path='/stats'>
             <Statistics />
+          </Route>
+          <Route path='/credit'>
+            <Credit />
           </Route>
 
 {/* PATHS FOR RIGHT SIDE NAV-BAR ITEMS */}

@@ -35,7 +35,7 @@ function Dashboard() {
     const Repair = useSelector(state => state.pc_repair_stats)
     const Make = useSelector(state => state.pc_make_stats)
     const Purchases = useSelector(state => state.purchases)
-    const [isLoggedIn, toggleLogin] = useState(false)
+    const [isLoggedIn, toggleLogin] = useState(true)
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
 
@@ -194,6 +194,28 @@ function Dashboard() {
             </Card>
         )
     }
+    function creditSale() {
+        return (
+            <Card body inverse color='success' className='text-right'>
+                <CardHeader tag='h2'>0</CardHeader>
+                <CardBody>
+                    <CardText tag='h4'>Credit Sales</CardText>
+                    <CardTitle>pending to be collected.</CardTitle>
+                </CardBody>
+            </Card>
+        )
+    }
+    function creditPurchase() {
+        return (
+            <Card body inverse color='success' className='text-left'>
+                <CardHeader tag='h2'>0</CardHeader>
+                <CardBody>
+                    <CardText tag='h4'>Credit Purchases</CardText>
+                    <CardTitle>pending to be cleared.</CardTitle>
+                </CardBody>
+            </Card>
+        )
+    }
     function cashIn() {
         return (
             <Card className='text-right'>
@@ -260,6 +282,15 @@ function Dashboard() {
             </Col>
             <Col sm='4'>
                 {makeCount()}
+            </Col>
+        </Row>
+        <br></br>
+        <Row>
+            <Col sm='6'>
+                {creditSale()}
+            </Col>
+            <Col sm='6'>
+                {creditPurchase()}
             </Col>
         </Row>
         <br></br>

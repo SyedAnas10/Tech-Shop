@@ -28,6 +28,9 @@ function Sales() {
     }
     const [showToast,toggleToast] = useState(false)
     const [showError, toggleError] = useState(false)
+    const [onCredit, toggleCredit] = useState(false)
+
+    const [cname, setCname] = useState('')
 
     const renderOptions = products.items.map(product => 
         <option value={product.name}/>
@@ -60,12 +63,32 @@ function Sales() {
         }
     }
 
+    function showCredit() {
+        return (
+            <div>
+                <FormGroup row>
+                    <Label for='cname' sm={1}>Customer Name</Label>
+                    <Col sm={5}>
+                    <Input type='text' name='cname'></Input>
+                    </Col>
+                </FormGroup>
+            </div>
+        )
+    }
+
     return (
+        <div>
         <Form style={Center}>
+            <FormGroup row>
+                <Label for='check' sm={1}>On Credit?</Label>
+                <Col sm={5}>
+                    <Input type='checkbox' name='check' defaultChecked={onCredit} onChange={value => toggleCredit(value.target.checked)}></Input>
+                </Col>
+            </FormGroup>
             <FormGroup row>
                 <Label for="name" sm={1}>Item Name</Label>
                 <Col sm={5}>
-                <Input type="text" name="name" value={item} onChange={value => set_item(value.target.value)} placeholder="Enter item name" list='products' />
+                <Input type="text" name="name" value={item} onChange={value => set_item(value.target.value)} placeholder="Enter item name" list='products' autoComplete='off'/>
                 <datalist id='products'>
                     {renderOptions}
                 </datalist>
@@ -74,7 +97,7 @@ function Sales() {
             <FormGroup row>
                 <Label for="model" sm={1}>Model</Label>
                 <Col sm={5}>
-                <Input type="text" name="model" value={model} onChange={value => set_model(value.target.value)} placeholder="Enter model" list='models' />
+                <Input type="text" name="model" value={model} onChange={value => set_model(value.target.value)} placeholder="Enter model" list='models' autoComplete='off' />
                 <datalist id='models'>
                     {renderModels}
                 </datalist>
@@ -83,15 +106,17 @@ function Sales() {
             <FormGroup row>
                 <Label for="count" sm={1}>Count</Label>
                 <Col sm={5}>
-                <Input type="number" value={count} onChange={value => set_count(value.target.value)} name="count" id="count" placeholder='0' />
+                <Input type="number" value={count} onChange={value => set_count(value.target.value)} name="count" id="count" placeholder='0' autoComplete='off'/>
                 </Col>
             </FormGroup>
             <FormGroup row>
                 <Label for="rate_sold" sm={1}>Rate Sold</Label>
                 <Col sm={5}>
-                <Input type="number" value={rate} onChange={value => set_rate(value.target.value)} name="rate_sold" id="rate_sold" placeholder='Rs.'/>
+                <Input type="number" value={rate} onChange={value => set_rate(value.target.value)} name="rate_sold" id="rate_sold" placeholder='Rs.' autoComplete='off'/>
                 </Col>
             </FormGroup>
+
+            {onCredit && showCredit()}
             
             <FormGroup check row>
                 <Col sm={{ size: 10, offset: 1 }}>
@@ -105,6 +130,7 @@ function Sales() {
                 </Alert>
             </FormGroup>
         </Form>
+        </div>
     )
 }
 
