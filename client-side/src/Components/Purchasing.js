@@ -3,6 +3,7 @@ import { Alert, Button, Col, Form, FormGroup, Input, Label } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { post_purchase, post_item, fetch_items, edit_item } from '../Redux/ActionCreators';
+import ReactDatePicker from 'react-datepicker';
 
 let fetch_called = false;
 
@@ -31,6 +32,11 @@ function Purchasing() {
         alignItems: 'center'
     }
     const [showToast,toggleToast] = useState(false)
+    const [onCredit, toggleCredit] = useState(false)
+
+    const [cname, setCname] = useState('')
+    const [cnumber, setCnumber] = useState('')
+    const [dueDate, setDate] = useState(new Date())
 
     const renderOptions = products.items.map(product => 
         <option value={product.name}/>
@@ -70,8 +76,39 @@ function Purchasing() {
         },3000)
     }
 
+    function showCredit() {
+        return (
+            <div>
+                <FormGroup row>
+                    <Label for='cname' sm={1}>Customer Name</Label>
+                    <Col sm={5}>
+                    <Input type='text' name='cname' value={cname} onChange={value => {setCname(value.target.value)}}></Input>
+                    </Col>
+                </FormGroup>
+                <FormGroup row>
+                    <Label for='cname' sm={1}>Phone Number</Label>
+                    <Col sm={5}>
+                    <Input type='text' name='cnumber' value={cnumber} onChange={value => {setCnumber(value.target.value)}}></Input>
+                    </Col>
+                </FormGroup>
+                <FormGroup row>
+                    <Label for='duedate' sm={1}>Due-Date</Label>
+                    <Col sm={5}>
+                    <ReactDatePicker selected={dueDate} onChange={date => setDate(date)} />
+                    </Col>
+                </FormGroup>
+            </div>
+        )
+    }
+
     return(
         <Form style={Center}>
+            <FormGroup row>
+                <Label for='check' sm={1}>On Credit?</Label>
+                <Col sm={5}>
+                    <Input type='checkbox' name='check' defaultChecked={onCredit} onChange={value => toggleCredit(value.target.checked)}></Input>
+                </Col>
+            </FormGroup>
             <FormGroup row>
                 <Label for='name' sm={1}>Item Name</Label>
                 <Col sm={5}>
@@ -102,6 +139,8 @@ function Purchasing() {
                     <Input type='number' name='cost' value={total_cost} onChange={event => setCost(event.target.value)}></Input>
                 </Col>
             </FormGroup>
+
+            {onCredit && showCredit()}
 
             <FormGroup check row>
                 <Col sm={{ size:10 , offset:1 }}>

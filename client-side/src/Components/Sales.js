@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetch_items } from '../Redux/ActionCreators';
 
 import { post_sales, decrease_item_count } from '../Redux/ActionCreators';
+import ReactDatePicker from 'react-datepicker';
 
 let fetch_called = false;
 
@@ -31,6 +32,8 @@ function Sales() {
     const [onCredit, toggleCredit] = useState(false)
 
     const [cname, setCname] = useState('')
+    const [cnumber, setCnumber] = useState('')
+    const [dueDate, setDate] = useState(new Date())
 
     const renderOptions = products.items.map(product => 
         <option value={product.name}/>
@@ -69,7 +72,19 @@ function Sales() {
                 <FormGroup row>
                     <Label for='cname' sm={1}>Customer Name</Label>
                     <Col sm={5}>
-                    <Input type='text' name='cname'></Input>
+                    <Input type='text' name='cname' value={cname} onChange={value => {setCname(value.target.value)}}></Input>
+                    </Col>
+                </FormGroup>
+                <FormGroup row>
+                    <Label for='cname' sm={1}>Phone Number</Label>
+                    <Col sm={5}>
+                    <Input type='text' name='cnumber' value={cnumber} onChange={value => {setCnumber(value.target.value)}}></Input>
+                    </Col>
+                </FormGroup>
+                <FormGroup row>
+                    <Label for='duedate' sm={1}>Due-Date</Label>
+                    <Col sm={5}>
+                    <ReactDatePicker selected={dueDate} onChange={date => setDate(date)} />
                     </Col>
                 </FormGroup>
             </div>
