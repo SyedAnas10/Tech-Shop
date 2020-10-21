@@ -13,6 +13,7 @@ const individual_items_sales_router = require('./routes/individual_items_sales')
 const pc_making_router = require('./routes/pc_making');
 const repairing_router = require('./routes/repairing');
 const purchasing_router = require('./routes/purchasing');
+const purchasing_credit_router = require('./routes/purchasing_credit');
 
 mongoose.connect('mongodb://localhost:27017/tech-shop', {
   useNewUrlParser: true,
@@ -46,6 +47,7 @@ app.use('/individual_items_sales', cors(), individual_items_sales_router);
 app.use('/pc_making', cors(), pc_making_router);
 app.use('/repairing', cors(), repairing_router);
 app.use('/purchasing', cors(), purchasing_router)
+app.use('/purchasing_credit', cors(), purchasing_credit_router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

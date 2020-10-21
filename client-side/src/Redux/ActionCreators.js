@@ -582,3 +582,34 @@ export const purchases_failed = (errMess) => {
         payload: errMess
     };
 };
+
+export const post_purchase_credit = (name, model, count, cost, customer_name, phone, date) => (dispatch) => {
+    return fetch(baseUrl + 'purchasing_credit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            item_name: name,
+            model: model,
+            count: count,
+            total_cost: cost,
+            customer_name: customer_name,
+            phone_no: phone,
+            due_date: date
+        }) 
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(response => {
+        alert(JSON.stringify(response));
+    }, error => { throw error; })
+    .catch(error => alert(error.message));
+}

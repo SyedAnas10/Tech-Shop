@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Button, Col, Form, FormGroup, Input, Label } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { post_purchase, post_item, fetch_items, edit_item } from '../Redux/ActionCreators';
+import { post_purchase, post_item, fetch_items, edit_item, post_purchase_credit } from '../Redux/ActionCreators';
 import ReactDatePicker from 'react-datepicker';
 
 let fetch_called = false;
@@ -64,6 +64,9 @@ function Purchasing() {
             dispatch(post_item(item_name, model, count, (total_cost / count), '0'));
 
         dispatch(post_purchase(item_name, model, count, total_cost));
+        
+        if(onCredit)
+            dispatch(post_purchase_credit(item_name, model, count, total_cost, cname, cnumber, dueDate));
         
         setName('')
         setModel('')
