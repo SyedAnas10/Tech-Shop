@@ -722,3 +722,57 @@ export const fetch_sales_credit = () => (dispatch) => {
     }, err => { throw err; })
     .catch(err => dispatch(sales_credit_failed(err.message)));
 };
+
+export const edit_purchasing_credit = (id, payed) => (dispatch) => {
+    const query_string = '?_id=' + id;
+
+    return fetch(baseUrl + 'purchasing_credit' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            payed: payed
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(() => {
+        alert('Updated')
+    }, err => { throw err; })
+    .catch(err => alert(err.message));
+}
+
+export const edit_sales_credit = (id, payed) => (dispatch) => {
+    const query_string = '?_id=' + id;
+
+    return fetch(baseUrl + 'sales_credit' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            payed: payed
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(() => {
+        alert('Updated')
+    }, err => { throw err; })
+    .catch(err => alert(err.message));
+}
