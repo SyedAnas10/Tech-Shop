@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const Purchasing_Credit_Schema = Schema({
+const Sales_Credit_Schema = Schema({
     item_name: {
         type: String,
         required: true
@@ -13,7 +13,7 @@ const Purchasing_Credit_Schema = Schema({
         type: Number,
         required: true
     },
-    total_cost: {
+    rate_sold: {
         type: Number,
         required: true
     },
@@ -46,5 +46,5 @@ const Purchasing_Credit_Schema = Schema({
     timestamps: true
 });
 
-const Purchasing_Credit = mongoose.model('Purchasing_Credit', Purchasing_Credit_Schema);
-module.exports = Purchasing_Credit;
+const Sales_Credit = mongoose.model('Sales_Credit', Sales_Credit_Schema);
+module.exports = Sales_Credit;

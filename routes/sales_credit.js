@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const body_parser = require('body-parser');
 
-const Purchasing_Credit = require('../models/purchasing_credit');
+const Sales_Credit = require('../models/sales_credit');
 
 const router = express.Router();
 
@@ -10,41 +10,40 @@ router.use(body_parser.json());
 
 router.get('/', (req, res, next) => {
     if(req.query != null) {
-        Purchasing_Credit.find(req.query)
-        .then((purchasing) => {
+        Sales_Credit.find(req.query)
+        .then((sales) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
-            return res.json(purchasing);
+            return res.json(sales);
         }, err => next(err))
         .catch(err => next(err));
     }
     
-    Purchasing_Credit.find()
-    .then((purchasing) => {
+    Sales_Credit.find()
+    .then((sales) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        return res.json(purchasing);
+        return res.json(sales);
     }, err => next(err))
     .catch(err => next(err));
 });
 
 router.post('/', (req, res, next) => {
-    console.log(JSON.stringify(req.body));
-    Purchasing_Credit.create(req.body)
-    .then(purchasing => {
+    Sales_Credit.create(req.body)
+    .then(sales => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
 
-        const full_date = purchasing.createdAt.toString();
+        const full_date = sales.createdAt.toString();
 
         const month = full_date.slice(4, 7);
         const day = full_date.slice(8, 10);
         const year = full_date.slice(11, 15);
-        purchasing.year = year;
-        purchasing.month = month;
-        purchasing.day = day;
+        sales.year = year;
+        sales.month = month;
+        sales.day = day;
 
-        purchasing.save()
+        sales.save()
         .then(() => {
             res.json({
                 success: true,
@@ -56,11 +55,11 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/', (req, res, next) => {
-    Purchasing_Credit.findOneAndUpdate(req.query, req.body)
-    .then(purchasing => {
+    Sales_Credit.findOneAndUpdate(req.query, req.body)
+    .then(sales => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        return res.json(purchasing);
+        return res.json(sales);
     }, err => next(err))
     .catch(err => next(err));
 });
