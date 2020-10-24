@@ -8,6 +8,9 @@ import { Sales_Stats } from './reducers/sales_stats';
 import { PC_Make_Stats } from './reducers/pc_make_stats';
 import { PC_Repair_Stats } from './reducers/pc_repair_stats';
 import { Purchases } from './reducers/purchases';
+import { Purchasing_Credit } from './reducers/purchasing_credit';
+import { Sales_Credit } from './reducers/sales_credit';
+
 
 export const configureStore = () => {
     const store = createStore(combineReducers({
@@ -17,7 +20,9 @@ export const configureStore = () => {
         sales_stats: Sales_Stats,
         pc_make_stats: PC_Make_Stats,
         pc_repair_stats: PC_Repair_Stats,
-        purchases: Purchases
+        purchases: Purchases,
+        purchasing_credit: Purchasing_Credit,
+        sales_credit: Sales_Credit
     }), applyMiddleware(thunk));
 
     return store;
