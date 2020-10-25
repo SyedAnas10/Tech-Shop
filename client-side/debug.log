@@ -12,3 +12,8 @@
 [0909/013103.145:ERROR:exception_snapshot_win.cc(99)] thread ID 3816 not found in process
 [0909/013103.145:ERROR:exception_snapshot_win.cc(99)] thread ID 8856 not found in process
 [0909/013103.145:ERROR:exception_snapshot_win.cc(99)] thread ID 9300 not found in process
+[1018/093739.548:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1018/202636.092:ERROR:file_io.cc(135)] WriteFile: The pipe is being closed. (0xE8)
+[1019/114133.000:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1020/174708.606:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1021/174709.158:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
