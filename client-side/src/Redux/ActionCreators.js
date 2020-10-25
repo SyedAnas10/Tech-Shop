@@ -608,8 +608,8 @@ export const post_purchase_credit = (name, model, count, cost, customer_name, ph
         throw error;
     }, error => { throw error; })
     .then(response => response.json())
-    .then(response => {
-        alert(JSON.stringify(response));
+    .then(() => {
+        
     }, error => { throw error; })
     .catch(error => alert(error.message));
 }
@@ -639,8 +639,8 @@ export const post_sales_credit = (name, model, count, cost, customer_name, phone
         throw error;
     }, error => { throw error; })
     .then(response => response.json())
-    .then(response => {
-        alert(JSON.stringify(response));
+    .then(() => {
+        
     }, error => { throw error; })
     .catch(error => alert(error.message));
 }
@@ -745,7 +745,7 @@ export const edit_purchasing_credit = (id, payed) => (dispatch) => {
     }, error => { throw error; })
     .then(response => response.json())
     .then(() => {
-        alert('Updated')
+        
     }, err => { throw err; })
     .catch(err => alert(err.message));
 }
@@ -772,7 +772,6 @@ export const edit_sales_credit = (id, payed) => (dispatch) => {
     }, error => { throw error; })
     .then(response => response.json())
     .then(() => {
-        alert('Updated')
     }, err => { throw err; })
     .catch(err => alert(err.message));
 }

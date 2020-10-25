@@ -115,6 +115,8 @@ function Dashboard() {
 
     const filtered_repair_orders = repairOrders.pc_repairing.filter(order => order.completed === false);
     const filtered_make_orders = makeOrders.pc_making.filter(order => order.completed === false);
+    const filtered_purchasing_credits = purchaseCredit.purchasing_credit.filter(purchasing_credit => purchasing_credit.payed === false);
+    const filtered_sales_credits = saleCredit.sales_credit.filter(sales_credit => sales_credit.payed === false);
 
     const get_sales_cash_in = () => {
         let sales_cash_in = 0;
@@ -217,8 +219,8 @@ function Dashboard() {
     }
     function creditSale() {
         return (
-            <Card body inverse color= {saleCredit.sales_credit.length === 0 ? 'success':'danger'} className='text-right'>
-                <CardHeader tag='h2'>{saleCredit.sales_credit.length}</CardHeader>
+            <Card body inverse color= {filtered_sales_credits.length === 0 ? 'success':'danger'} className='text-right'>
+                <CardHeader tag='h2'>{filtered_sales_credits.length}</CardHeader>
                 <CardBody>
                     <CardText tag='h4'>Credit Sales</CardText>
                     <CardTitle>pending to be collected.</CardTitle>
@@ -228,8 +230,8 @@ function Dashboard() {
     }
     function creditPurchase() {
         return (
-            <Card body inverse color= {purchaseCredit.purchasing_credit.length === 0 ? 'success':'danger'} className='text-left'>
-                <CardHeader tag='h2'>{purchaseCredit.purchasing_credit.length}</CardHeader>
+            <Card body inverse color= {filtered_purchasing_credits.length === 0 ? 'success':'danger'} className='text-left'>
+                <CardHeader tag='h2'>{filtered_purchasing_credits.length}</CardHeader>
                 <CardBody>
                     <CardText tag='h4'>Credit Purchases</CardText>
                     <CardTitle>pending to be cleared.</CardTitle>
