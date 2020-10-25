@@ -8,7 +8,9 @@ import { fetch_items,
         fetch_pc_repairing, 
         fetch_pc_repair_by_date, 
         fetch_sales_by_date,
-        fetch_purchases_by_date } from '../Redux/ActionCreators';
+        fetch_purchases_by_date, 
+        fetch_sales_credit,
+        fetch_purchasing_credit} from '../Redux/ActionCreators';
 
 let items_fetch = false
 let makeOrders_fetch = false
@@ -17,6 +19,8 @@ let sales_by_date_fetch = false;
 let make_by_date_fetch = false;
 let repair_by_date_fetch = false;
 let purchases_by_date_fetch = false;
+let scredit_fetch = false;
+let pcredit_fetch = false;
 //let isLoggedIn = false;
 
 function Dashboard() {
@@ -35,6 +39,8 @@ function Dashboard() {
     const Repair = useSelector(state => state.pc_repair_stats)
     const Make = useSelector(state => state.pc_make_stats)
     const Purchases = useSelector(state => state.purchases)
+    const saleCredit = useSelector(state => state.sales_credit)
+    const purchaseCredit = useSelector(state => state.purchasing_credit)
     const [isLoggedIn, toggleLogin] = useState(true)
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
@@ -84,13 +90,28 @@ function Dashboard() {
 
             purchases_by_date_fetch = true;
         }
+
+        if(!scredit_fetch) {
+            dispatch(fetch_sales_credit());
+
+            scredit_fetch = true;
+        }
+
+        if(!pcredit_fetch) {
+            dispatch(fetch_purchasing_credit());
+
+            pcredit_fetch = true;
+        }
     }, [products.items,
         makeOrders.pc_making,
         repairOrders.pc_repairing,
         Sales.stats,
         Repair.stats,
         Make.stats,
-        Purchases.purchases]);
+        Purchases.purchases,
+        purchaseCredit.purchasing_credit,
+        saleCredit.sales_credit
+    ]);
 
     const filtered_repair_orders = repairOrders.pc_repairing.filter(order => order.completed === false);
     const filtered_make_orders = makeOrders.pc_making.filter(order => order.completed === false);
@@ -196,8 +217,8 @@ function Dashboard() {
     }
     function creditSale() {
         return (
-            <Card body inverse color='success' className='text-right'>
-                <CardHeader tag='h2'>0</CardHeader>
+            <Card body inverse color= {saleCredit.sales_credit.length === 0 ? 'success':'danger'} className='text-right'>
+                <CardHeader tag='h2'>{saleCredit.sales_credit.length}</CardHeader>
                 <CardBody>
                     <CardText tag='h4'>Credit Sales</CardText>
                     <CardTitle>pending to be collected.</CardTitle>
@@ -207,8 +228,8 @@ function Dashboard() {
     }
     function creditPurchase() {
         return (
-            <Card body inverse color='success' className='text-left'>
-                <CardHeader tag='h2'>0</CardHeader>
+            <Card body inverse color= {purchaseCredit.purchasing_credit.length === 0 ? 'success':'danger'} className='text-left'>
+                <CardHeader tag='h2'>{purchaseCredit.purchasing_credit.length}</CardHeader>
                 <CardBody>
                     <CardText tag='h4'>Credit Purchases</CardText>
                     <CardTitle>pending to be cleared.</CardTitle>

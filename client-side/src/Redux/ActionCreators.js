@@ -582,3 +582,197 @@ export const purchases_failed = (errMess) => {
         payload: errMess
     };
 };
+
+export const post_purchase_credit = (name, model, count, cost, customer_name, phone, date) => (dispatch) => {
+    return fetch(baseUrl + 'purchasing_credit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            item_name: name,
+            model: model,
+            count: count,
+            total_cost: cost,
+            customer_name: customer_name,
+            phone_no: phone,
+            due_date: date
+        }) 
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(response => {
+        alert(JSON.stringify(response));
+    }, error => { throw error; })
+    .catch(error => alert(error.message));
+}
+
+export const post_sales_credit = (name, model, count, cost, customer_name, phone, date) => (dispatch) => {
+    return fetch(baseUrl + 'sales_credit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            item_name: name,
+            model: model,
+            count: count,
+            rate_sold: cost,
+            customer_name: customer_name,
+            phone_no: phone,
+            due_date: date
+        }) 
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(response => {
+        alert(JSON.stringify(response));
+    }, error => { throw error; })
+    .catch(error => alert(error.message));
+}
+
+export const purchasing_credit_loading = () => {
+    return {
+        type: ActionTypes.PURCHASES_CREDIT_LOADING
+    };
+};
+
+export const add_purchasing_credit = (purchasing_credit) => {
+    return {
+        type: ActionTypes.ADD_PURCHASES_CREDIT,
+        payload: purchasing_credit
+    };
+};
+
+export const purchasing_credit_failed = (errMess) => {
+    return {
+        type: ActionTypes.PURCHASES_CREDIT_FAILED,
+        payload: errMess
+    };
+};
+
+export const fetch_purchasing_credit = () => (dispatch) => {
+    dispatch(purchasing_credit_loading());    
+
+    return fetch(baseUrl + 'purchasing_credit')
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(purchasing_credit => {
+        dispatch(add_purchasing_credit(purchasing_credit));
+    }, err => { throw err; })
+    .catch(err => dispatch(purchasing_credit_failed(err.message)));
+};
+
+export const sales_credit_loading = () => {
+    return {
+        type: ActionTypes.SALES_CREDIT_LOADING
+    };
+};
+
+export const add_sales_credit = (sales_credit) => {
+    return {
+        type: ActionTypes.ADD_SALES_CREDIT,
+        payload: sales_credit
+    };
+};
+
+export const sales_credit_failed = (errMess) => {
+    return {
+        type: ActionTypes.SALES_CREDIT_FAILED,
+        payload: errMess
+    };
+};
+
+export const fetch_sales_credit = () => (dispatch) => {
+    dispatch(sales_credit_loading());    
+
+    return fetch(baseUrl + 'sales_credit')
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(sales_credit => {
+        dispatch(add_sales_credit(sales_credit));
+    }, err => { throw err; })
+    .catch(err => dispatch(sales_credit_failed(err.message)));
+};
+
+export const edit_purchasing_credit = (id, payed) => (dispatch) => {
+    const query_string = '?_id=' + id;
+
+    return fetch(baseUrl + 'purchasing_credit' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            payed: payed
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(() => {
+        alert('Updated')
+    }, err => { throw err; })
+    .catch(err => alert(err.message));
+}
+
+export const edit_sales_credit = (id, payed) => (dispatch) => {
+    const query_string = '?_id=' + id;
+
+    return fetch(baseUrl + 'sales_credit' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            payed: payed
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(() => {
+        alert('Updated')
+    }, err => { throw err; })
+    .catch(err => alert(err.message));
+}

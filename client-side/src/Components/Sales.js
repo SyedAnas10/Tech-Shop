@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetch_items } from '../Redux/ActionCreators';
+import { fetch_items, post_sales_credit } from '../Redux/ActionCreators';
 
 import { post_sales, decrease_item_count } from '../Redux/ActionCreators';
 import ReactDatePicker from 'react-datepicker';
@@ -53,6 +53,7 @@ function Sales() {
         else {
             dispatch(post_sales(item, model, count, rate, (rate - prod[0].cost_price * count)));
             dispatch(decrease_item_count(prod[0]._id, (prod[0].count - count)));
+            dispatch(post_sales_credit(item, model, count, rate, cname, cnumber, dueDate));
 
             set_item('')
             set_model('')
