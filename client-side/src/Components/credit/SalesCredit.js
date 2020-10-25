@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Card, CardBody, CardHeader, CardText, Spinner } from 'reactstrap';
-import { fetch_sales_credit } from '../../Redux/ActionCreators';
+import { edit_sales_credit, fetch_sales_credit } from '../../Redux/ActionCreators';
 
 let fetch_called = false;
 
@@ -34,6 +34,11 @@ function SalesCredit() {
         }
     }, [sales_credit])
 
+    function creditDone(credit) {
+        dispatch(edit_sales_credit(credit._id,true))
+        dispatch(fetch_sales_credit())
+    }
+
     const renderList = sales_credit.sales_credit.filter(c => c.payed === false).map(credit => (
         <Card body key={credit._id} style={CardBox}>
             <CardHeader>{credit.customer_name}</CardHeader>
@@ -42,7 +47,7 @@ function SalesCredit() {
                 <b>Payment : </b> Rs. {credit.rate_sold} <br/>
                 <b>Due Date : </b> {credit.day}-{credit.month}-{credit.year}
             </CardBody>
-            <Button className='mt-3' color='success'>Mark Completed</Button>
+            <Button className='mt-3' color='success' onClick={() => {creditDone(credit)}}>Mark Completed</Button>
         </Card>
     ))
 
