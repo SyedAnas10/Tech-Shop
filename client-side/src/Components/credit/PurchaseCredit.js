@@ -44,7 +44,7 @@ function PurchaseCredit() {
             <CardHeader>{credit.customer_name}</CardHeader>
             <CardBody>
                 <CardText>{credit.model} - {credit.item_name}</CardText>
-                <b>Payment : </b> Rs. {credit.rate_sold} <br/>
+                <b>Payment : </b> Rs. {credit.total_cost} <br/>
                 <b>Due Date : </b> {credit.day}-{credit.month}-{credit.year}
             </CardBody>
             <Button className='mt-3' color='success' onClick={() => {creditDone(credit)}}>Mark Completed</Button>
