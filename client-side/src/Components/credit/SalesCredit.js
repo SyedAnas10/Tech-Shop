@@ -59,7 +59,7 @@ function SalesCredit() {
         );
     }
     else {
-        if( sales_credit.sales_credit.length === 0 )
+        if( sales_credit.sales_credit.filter(c => c.payed === false).length === 0 )
             return (
                 <div style={Center}>
                     No pending credit.

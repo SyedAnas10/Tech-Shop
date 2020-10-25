@@ -59,7 +59,7 @@ function PurchaseCredit() {
         );
     }
     else {
-        if( purchasing_credit.purchasing_credit.length === 0 )
+        if( purchasing_credit.purchasing_credit.filter(c => c.payed === false).length === 0 )
             return (
                 <div style={Center}>
                     No pending credit.

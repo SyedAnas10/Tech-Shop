@@ -21,7 +21,6 @@ let repair_by_date_fetch = false;
 let purchases_by_date_fetch = false;
 let scredit_fetch = false;
 let pcredit_fetch = false;
-//let isLoggedIn = false;
 
 function Dashboard() {
 
@@ -41,7 +40,7 @@ function Dashboard() {
     const Purchases = useSelector(state => state.purchases)
     const saleCredit = useSelector(state => state.sales_credit)
     const purchaseCredit = useSelector(state => state.purchasing_credit)
-    const [isLoggedIn, toggleLogin] = useState(true)
+    const [isLoggedIn, toggleLogin] = useState(false)
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
 
