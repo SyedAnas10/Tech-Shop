@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Card, CardBody, CardFooter, CardHeader, CardText, CardTitle, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
+import { Button, Card, CardBody, CardFooter, CardHeader, CardText, CardTitle, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, NavLink, Row } from 'reactstrap';
 
 import { fetch_items, 
         fetch_pc_making, 
@@ -43,6 +43,10 @@ function Dashboard() {
     const [isLoggedIn, toggleLogin] = useState(false)
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
+    const [newUserName, setNewUserName] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [modal, setModal] = useState(false);
+    const toggle = () => setModal(!modal);
 
     const Center = {
         padding: '20px',
@@ -271,30 +275,68 @@ function Dashboard() {
         )
     }
 
+    function loginModal() {
+        if(!isLoggedIn) {
+            return (
+                <Modal isOpen={!isLoggedIn}>
+                    <ModalHeader>Login to your account</ModalHeader>
+                    <ModalBody>
+                    <Form>
+                        <FormGroup row>
+                            <Label sm={3}>Username : </Label>
+                            <Col>
+                                <Input onChange={e => setUserName(e.target.value)}/>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                            <Label sm={3}>Password : </Label>
+                            <Col>
+                                <Input type='password' onChange={e => setPassword(e.target.value)}/>
+                            </Col>
+                        </FormGroup>
+                    </Form>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color='success' onClick={checkLogin}>Login</Button>
+                    </ModalFooter>
+                </Modal>
+            )
+        }
+    }
+
+    function changeCredential() {
+        if(modal) {
+            return (
+                <Modal isOpen={modal} toggle={toggle}>
+                    <ModalHeader>Change Username and Password</ModalHeader>
+                    <ModalBody>
+                        <Form>
+                            <FormGroup row>
+                            <Label sm={4}>Username : </Label>
+                                <Col>
+                                    <Input onChange={e => setNewUserName(e.target.value)}/>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Label sm={4}>New Password : </Label>
+                                <Col>
+                                    <Input type='password' onChange={e => setNewPassword(e.target.value)}/>
+                                </Col>
+                            </FormGroup>
+                        </Form>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color='success' onClick={() => {window.alert({newUserName}+"and"+{newPassword})}}>Save</Button>
+                    </ModalFooter>
+                </Modal>
+            )
+        }
+    }
+
     return (
         <div style={Center}> 
-        {!isLoggedIn && <Modal isOpen={!isLoggedIn}>
-            <ModalHeader>Login to your account</ModalHeader>
-            <ModalBody>
-                <Form>
-                    <FormGroup row>
-                        <Label sm={3}>Username : </Label>
-                        <Col>
-                            <Input onChange={e => setUserName(e.target.value)}/>
-                        </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                        <Label sm={3}>Password : </Label>
-                        <Col>
-                            <Input type='password' onChange={e => setPassword(e.target.value)}/>
-                        </Col>
-                    </FormGroup>
-                </Form>
-            </ModalBody>
-            <ModalFooter>
-                <Button color='success' onClick={checkLogin}>Login</Button>
-            </ModalFooter>
-    </Modal>}
+        {loginModal()}
+        {changeCredential()}
         <Row>
             <Col sm='4'>
                 {itemsCount()}
@@ -322,6 +364,14 @@ function Dashboard() {
             </Col>
             <Col sm='6'>
                 {cashOut()}
+            </Col>
+        </Row>
+        <br></br>
+        <Row>
+            <Col className='text-right'>
+                <NavLink href='#' style={{color:'rgb(48,201,42)'}} onClick={toggle}>
+                    Change credentials?
+                </NavLink>
             </Col>
         </Row>
         </div>
