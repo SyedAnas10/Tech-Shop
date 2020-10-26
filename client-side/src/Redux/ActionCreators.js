@@ -775,3 +775,99 @@ export const edit_sales_credit = (id, payed) => (dispatch) => {
     }, err => { throw err; })
     .catch(err => alert(err.message));
 }
+
+export const users_loading = () => {
+    return {
+        type: ActionTypes.USERS_LOADING
+    };
+};
+
+export const add_users = (users) => {
+    return {
+        type: ActionTypes.ADD_USERS,
+        payload: users
+    };
+};
+
+export const users_failed = (errMess) => {
+    return {
+        type: ActionTypes.USERS_FAILED,
+        payload: errMess
+    };
+};
+
+export const fetch_users = () => (dispatch) => {
+    return fetch(baseUrl + 'users')
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(users => dispatch(add_users(users)))
+    .catch(err => alert(err.message));
+}
+
+export const post_users = (username, password) => (dispatch) => {
+    return fetch(baseUrl + 'users', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(() => alert('Credentials changed'))
+    .catch(err => alert(err.message));
+}
+
+export const edit_user = (username, password, id) => (dispatch) => {
+    const query_string = '?_id=' + id;
+    return fetch(baseUrl + 'users' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(() => alert('Credentials changed'))
+    .catch(err => alert(err.message));
+}
+
+export const authentication_status_changed = (status) => {
+
+    return {
+        type: ActionTypes.AUTHENTICATION_STATUS_CHANGED,
+        payload: status
+    };
+};
+
+export const authenticate = (status) => (dispatch) => {
+    dispatch(authentication_status_changed(status));
+}

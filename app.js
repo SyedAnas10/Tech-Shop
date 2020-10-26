@@ -42,7 +42,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users', cors(), usersRouter);
 app.use('/items', cors(), items_router);
 app.use('/individual_items_sales', cors(), individual_items_sales_router);
 app.use('/pc_making', cors(), pc_making_router);

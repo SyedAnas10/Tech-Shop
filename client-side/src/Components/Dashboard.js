@@ -10,7 +10,11 @@ import { fetch_items,
         fetch_sales_by_date,
         fetch_purchases_by_date, 
         fetch_sales_credit,
-        fetch_purchasing_credit} from '../Redux/ActionCreators';
+        fetch_purchasing_credit,
+        fetch_users,
+        authenticate,
+        post_users,
+        edit_user } from '../Redux/ActionCreators';
 
 let items_fetch = false
 let makeOrders_fetch = false
@@ -21,6 +25,7 @@ let repair_by_date_fetch = false;
 let purchases_by_date_fetch = false;
 let scredit_fetch = false;
 let pcredit_fetch = false;
+let users_fetch = false;
 
 function Dashboard() {
 
@@ -40,12 +45,15 @@ function Dashboard() {
     const Purchases = useSelector(state => state.purchases)
     const saleCredit = useSelector(state => state.sales_credit)
     const purchaseCredit = useSelector(state => state.purchasing_credit)
+    const users = useSelector(state => state.users);
+    const authentication = useSelector(state => state.authentication_status);
     const [isLoggedIn, toggleLogin] = useState(false)
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [newUserName, setNewUserName] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [modal, setModal] = useState(false);
+    const [changeCredentialsModal, setChangeCredentialsModal] = useState(false);
     const toggle = () => setModal(!modal);
 
     const Center = {
@@ -105,6 +113,12 @@ function Dashboard() {
 
             pcredit_fetch = true;
         }
+
+        if(!users_fetch) {
+            dispatch(fetch_users());
+
+            users_fetch = true;
+        }
     }, [products.items,
         makeOrders.pc_making,
         repairOrders.pc_repairing,
@@ -113,7 +127,8 @@ function Dashboard() {
         Make.stats,
         Purchases.purchases,
         purchaseCredit.purchasing_credit,
-        saleCredit.sales_credit
+        saleCredit.sales_credit,
+        authentication.authenticated
     ]);
 
     const filtered_repair_orders = repairOrders.pc_repairing.filter(order => order.completed === false);
@@ -183,7 +198,17 @@ function Dashboard() {
 
     const checkLogin = () => {
         if(userName === 'admin' && password === '1234')
-            toggleLogin(true)
+            dispatch(authenticate(true));
+
+        else 
+            if(users.users.filter(user => user.username === userName && user.password === password).length)
+                dispatch(authenticate(true));
+            else {
+                dispatch(authenticate(false));
+                setModal(true);
+                alert('Wrong username or password');
+            }
+                
     }
 
 {/* FUNCTIONS TO RENDER COUNTS */}
@@ -276,9 +301,9 @@ function Dashboard() {
     }
 
     function loginModal() {
-        if(!isLoggedIn) {
+        if(!authentication.authenticated) {
             return (
-                <Modal isOpen={!isLoggedIn}>
+                <Modal isOpen={authentication.authenticated === false}>
                     <ModalHeader>Login to your account</ModalHeader>
                     <ModalBody>
                     <Form>
@@ -304,10 +329,23 @@ function Dashboard() {
         }
     }
 
+    const deal_credentials = () => {
+        if(!users.users.length)
+            dispatch(post_users(newUserName, newPassword));
+        
+        else
+            dispatch(edit_user(newUserName, newPassword, users.users[0]._id));
+
+        dispatch(authenticate(false));
+        toggle()
+        dispatch(fetch_users());
+        setChangeCredentialsModal(false);
+    }
+
     function changeCredential() {
-        if(modal) {
+        if(changeCredentialsModal) {
             return (
-                <Modal isOpen={modal} toggle={toggle}>
+                <Modal isOpen={changeCredentialsModal}>
                     <ModalHeader>Change Username and Password</ModalHeader>
                     <ModalBody>
                         <Form>
@@ -326,7 +364,7 @@ function Dashboard() {
                         </Form>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color='success' onClick={() => {window.alert({newUserName}+"and"+{newPassword})}}>Save</Button>
+                        <Button color='success' onClick={() => deal_credentials()}>Save</Button>
                     </ModalFooter>
                 </Modal>
             )
@@ -369,7 +407,7 @@ function Dashboard() {
         <br></br>
         <Row>
             <Col className='text-right'>
-                <NavLink href='#' style={{color:'rgb(48,201,42)'}} onClick={toggle}>
+                <NavLink href='#' style={{color:'rgb(48,201,42)'}} onClick={() => setChangeCredentialsModal(true)}>
                     Change credentials?
                 </NavLink>
             </Col>
