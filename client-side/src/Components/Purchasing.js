@@ -115,7 +115,7 @@ function Purchasing() {
             <FormGroup row>
                 <Label for='name' sm={1}>Item Name</Label>
                 <Col sm={5}>
-                    <Input type='text' name='name' value={item_name} onChange={event => setName(event.target.value)} list='products'/>
+                    <Input type='text' name='name' value={item_name} onChange={event => setName(event.target.value)} list='products' autoComplete='off'/>
                     <datalist id='products'>
                         {renderOptions}
                     </datalist>
@@ -124,7 +124,7 @@ function Purchasing() {
             <FormGroup row>
                 <Label for='model' sm={1}>Model</Label>
                 <Col sm={5}>
-                    <Input type='text' name='model' value={model} onChange={event => setModel(event.target.value)} list='models' />
+                    <Input type='text' name='model' value={model} onChange={event => setModel(event.target.value)} list='models' autoComplete='off'/>
                     <datalist id='models'>
                         {renderModels}
                     </datalist>
@@ -133,13 +133,13 @@ function Purchasing() {
             <FormGroup row>
                 <Label for='count' sm={1}>Count</Label>
                 <Col sm={5}>
-                    <Input type='number' name='count' value={count} onChange={event => setCount(event.target.value)}></Input>
+                    <Input type='number' name='count' value={count} onChange={event => setCount(event.target.value)} autoComplete='off'></Input>
                 </Col>
             </FormGroup>
             <FormGroup row>
                 <Label for='cost' sm={1}>Wholesale Cost</Label>
                 <Col sm={5}>
-                    <Input type='number' name='cost' value={total_cost} onChange={event => setCost(event.target.value)}></Input>
+                    <Input type='number' name='cost' value={total_cost} onChange={event => setCost(event.target.value)} autoComplete='off'></Input>
                 </Col>
             </FormGroup>
 

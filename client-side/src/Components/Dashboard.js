@@ -47,14 +47,13 @@ function Dashboard() {
     const purchaseCredit = useSelector(state => state.purchasing_credit)
     const users = useSelector(state => state.users);
     const authentication = useSelector(state => state.authentication_status);
-    const [isLoggedIn, toggleLogin] = useState(false)
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [newUserName, setNewUserName] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [modal, setModal] = useState(false);
     const [changeCredentialsModal, setChangeCredentialsModal] = useState(false);
-    const toggle = () => setModal(!modal);
+    const toggle = () => setChangeCredentialsModal(!changeCredentialsModal);
 
     const Center = {
         padding: '20px',
@@ -345,7 +344,7 @@ function Dashboard() {
     function changeCredential() {
         if(changeCredentialsModal) {
             return (
-                <Modal isOpen={changeCredentialsModal}>
+                <Modal isOpen={changeCredentialsModal} toggle={toggle} backdrop={true}>
                     <ModalHeader>Change Username and Password</ModalHeader>
                     <ModalBody>
                         <Form>
@@ -406,9 +405,14 @@ function Dashboard() {
         </Row>
         <br></br>
         <Row>
-            <Col className='text-right'>
+            <Col sm={11} className='text-right'>
                 <NavLink href='#' style={{color:'rgb(48,201,42)'}} onClick={() => setChangeCredentialsModal(true)}>
                     Change credentials?
+                </NavLink>
+            </Col>
+            <Col sm={1} className='text-left'>
+                <NavLink href='#' style={{color:'rgb(48,201,42)'}}>
+                    Logout
                 </NavLink>
             </Col>
         </Row>
