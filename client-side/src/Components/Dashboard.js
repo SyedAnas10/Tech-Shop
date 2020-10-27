@@ -210,6 +210,11 @@ function Dashboard() {
                 
     }
 
+    const logout = () => {
+        dispatch(authenticate(false));
+        setModal(true);
+    }
+
 {/* FUNCTIONS TO RENDER COUNTS */}
     function itemsCount() {
         return(
@@ -411,7 +416,7 @@ function Dashboard() {
                 </NavLink>
             </Col>
             <Col sm={1} className='text-left'>
-                <NavLink href='#' style={{color:'rgb(48,201,42)'}}>
+                <NavLink href='#' style={{color:'rgb(48,201,42)'}} onClick={() => logout()}>
                     Logout
                 </NavLink>
             </Col>
