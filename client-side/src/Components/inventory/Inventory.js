@@ -57,7 +57,7 @@ function Inventory() {
     const handleSearch = (event) => {
         const query = event.target.value.toLowerCase();
         filter(products.items.filter(product => {
-            return product.name.toLowerCase().indexOf(query) > -1; 
+            return product.name.toLowerCase().indexOf(query) > -1 || product.model.toLowerCase().indexOf(query) > -1; 
         }))
     }
 

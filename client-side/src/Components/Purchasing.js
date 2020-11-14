@@ -22,6 +22,7 @@ function Purchasing() {
     const [model, setModel] = useState('');
     const [count, setCount] = useState();
     const [total_cost, setCost] = useState();
+    const [retial_price, setPrice] = useState();
 
     let itemAlreadyAdded = false;
     let tempId, tempCount, tempCost;
@@ -72,6 +73,7 @@ function Purchasing() {
         setModel('')
         setCount('')
         setCost('')
+        setPrice('');
 
         toggleToast(true);
         window.setTimeout(() => {
@@ -140,6 +142,12 @@ function Purchasing() {
                 <Label for='cost' sm={1}>Wholesale Cost</Label>
                 <Col sm={5}>
                     <Input type='number' name='cost' value={total_cost} onChange={event => setCost(event.target.value)} autoComplete='off'></Input>
+                </Col>
+            </FormGroup>
+            <FormGroup row>
+                <Label for='price' sm={1}>Retail Price</Label>
+                <Col sm={5}>
+                    <Input type='number' name='price' value={retial_price} onChange={event => setPrice(event.target.value)} autoComplete='off'></Input>
                 </Col>
             </FormGroup>
 

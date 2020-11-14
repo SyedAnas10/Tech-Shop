@@ -3,7 +3,7 @@ import ReactDatePicker from 'react-datepicker';
 import { useSelector, useDispatch } from 'react-redux';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { Col, Form, FormGroup, Label, Table, Button } from 'reactstrap';
+import { Col, Form, FormGroup, Label, Table, Button, Input } from 'reactstrap';
 
 import { fetch_purchases_by_date } from '../../Redux/ActionCreators';
 
@@ -12,8 +12,10 @@ let total_expenses = 0;
 function PurchaseStats() {
 
     const dispatch = useDispatch();
-    const [date, setDate] = useState(new Date())
     const purchases = useSelector(state => state.purchases);
+    const [returnItem, setReturn] = useState(false);
+    const [returningItem, setReturningItem] = useState();
+    const [date, setDate] = useState(new Date())
     const [showTotalExpenses, setShowTotalExpenses] = useState(false);
     useEffect(() => {
         dispatch(fetch_purchases_by_date(day, month, year));
@@ -48,12 +50,46 @@ function PurchaseStats() {
     const day = date_string.slice(8, 10);
     const year = date_string.slice(11, 15);
 
+    const renderReturnSale = () => {
+        return(
+        <div>
+            <thead>
+                <tr style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
+                    <th>Item Name</th>
+                    <th>Returning Count</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th><Input type='text' value={returningItem.item_name} disabled/></th>
+                    <th><Input type='number' autoComplete='off' value={returningItem.count} /></th>
+                    <th><Button color='dark' size='sm' style={{marginLeft:'5px'}} onClick={() => setReturn(false)}>Cancel</Button></th>
+                    <th><Button color='warning' size='sm' style={{marginLeft:'5px'}} onClick={() => setReturn(false)}>Continue</Button></th>
+                </tr>
+            </tbody>
+        </div>
+        )
+    }
+
     const renderPurchaseList = purchases.purchases.map(purchase => (
         <tr key={purchase._id}>
             <th scope='row'>{purchase.item_name}</th>
             <th>{purchase.model}</th>
             <th>{purchase.count}</th>
             <th>{purchase.total_cost}</th>
+            {!returnItem && 
+            <th>
+                <Button color='warning' size='sm' onClick={() => {
+                    setReturn(true);
+                    setReturningItem(purchase)}}>
+                        Return
+                </Button> 
+            </th>
+            }
+            
         </tr>
     ))
     
@@ -69,12 +105,14 @@ function PurchaseStats() {
             </Form>
             <div style={Center}>
                 <Table responsive hover>
+                    {returnItem && renderReturnSale()}
                     <thead>
                         <tr style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
                             <th>Name</th>
                             <th>Model</th>
                             <th>Count</th>
                             <th>Cost</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

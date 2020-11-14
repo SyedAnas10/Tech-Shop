@@ -3,7 +3,7 @@ import ReactDatePicker from 'react-datepicker';
 import { useSelector, useDispatch } from 'react-redux';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { Col, Form, FormGroup, Label, Table, Button } from 'reactstrap';
+import { Col, Form, FormGroup, Label, Table, Button, Input } from 'reactstrap';
 
 import { fetch_sales_by_date } from '../../Redux/ActionCreators';
 
@@ -12,8 +12,10 @@ let total_profit = 0;
 function SalesStats() {
 
     const dispatch = useDispatch();
-    const [date, setDate] = useState(new Date())
     const sales = useSelector(state => state.sales_stats);
+    const [returnItem, setReturn] = useState(false);
+    const [returningItem, setReturningItem] = useState();
+    const [date, setDate] = useState(new Date())
     const [showTotalProfit, setShowTotalProfit] = useState(false);
     useEffect(() => {
         dispatch(fetch_sales_by_date(day, month, year));
@@ -48,6 +50,30 @@ function SalesStats() {
         setShowTotalProfit(true);
     }
 
+    const renderReturnSale = () => {
+        return(
+        <div>
+            <thead>
+                <tr style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
+                    <th>Item Name</th>
+                    <th>Returning Count</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th><Input type='text' value={returningItem.name} disabled/></th>
+                    <th><Input type='number' autoComplete='off' value={returningItem.count} /></th>
+                    <th><Button color='dark' size='sm' style={{marginLeft:'5px'}} onClick={() => setReturn(false)}>Cancel</Button></th>
+                    <th><Button color='warning' size='sm' style={{marginLeft:'5px'}} onClick={() => setReturn(false)}>Continue</Button></th>
+                </tr>
+            </tbody>
+        </div>
+        )
+    }
+
     const renderSalesList = sales.stats.map(sale => (
         <tr key={sale._id}>
             <th scope='row'>{sale.name}</th>
@@ -55,6 +81,15 @@ function SalesStats() {
             <th>{sale.count}</th>
             <th>{sale.rate_sold}</th>
             <th>{sale.profit}</th>
+            {!returnItem && 
+            <th>
+                <Button color='warning' size='sm' onClick={() => {
+                    setReturn(true);
+                    setReturningItem(sale);
+                    }}>Return
+                </Button> 
+            </th>
+            }
         </tr>
     ))
     
@@ -70,6 +105,7 @@ function SalesStats() {
             </Form>
             <div style={Center}>
                 <Table responsive hover>
+                    {returnItem && renderReturnSale()}
                     <thead>
                         <tr style={{backgroundColor: 'rgb(48,201,42)', color:"white"}}>
                             <th>Item</th>
@@ -77,6 +113,7 @@ function SalesStats() {
                             <th>Count</th>
                             <th>Rate</th>
                             <th>Profit</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
