@@ -74,7 +74,7 @@ function Inventory() {
                 <th scope="row">{product.name}</th>
                 <th>{product.model}</th>
                 <th>{product.count}</th>
-                <th>{product.cost_price}</th>
+                <th>{product.retail_price}</th>
                 <th>
                     <i className="fa fa-pencil" onClick={() => setEditItem(product)} style={{ fontSize: '25px', color: "rgb(48,201,42)"}}></i>
                     <i className="fa fa-trash-o" onClick={() => dispatch(delete_item(product._id))} style={buttonStyle}></i>
@@ -119,7 +119,7 @@ function Inventory() {
                                         <th>Name</th>
                                         <th>Model</th>
                                         <th>Stock Pieces</th>
-                                        <th>Cost Per Piece</th>
+                                        <th>Retail Price Per Piece</th>
                                         {!editableItem && <th></th>}
                                         {/*!editableItem && <th><Button color='dark' size='sm' onClick={() => {toggleEnter(!enterNew)}}>{enterNew?'Cancel':'Add new'}</Button></th>*/}
                                         {editableItem && <th><Button color='dark' size='sm' onClick={() => {setEditItem()}}>Close</Button></th>}

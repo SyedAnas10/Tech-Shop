@@ -22,7 +22,7 @@ function Purchasing() {
     const [model, setModel] = useState('');
     const [count, setCount] = useState();
     const [total_cost, setCost] = useState();
-    const [retial_price, setPrice] = useState();
+    const [retail_price, setPrice] = useState();
 
     let itemAlreadyAdded = false;
     let tempId, tempCount, tempCost;
@@ -58,11 +58,11 @@ function Purchasing() {
         });
 
         if(itemAlreadyAdded) {
-            dispatch(edit_item(tempId, item_name, (tempCount + Number(count)), model, ((tempCost * tempCount + Number(total_cost)) / (tempCount + Number(count))), '0'));
+            dispatch(edit_item(tempId, item_name, (tempCount + Number(count)), model, ((tempCost * tempCount + Number(total_cost)) / (tempCount + Number(count))), retail_price));
             itemAlreadyAdded = false;
         }
         else 
-            dispatch(post_item(item_name, model, count, (total_cost / count), '0'));
+            dispatch(post_item(item_name, model, count, (total_cost / count), retail_price));
 
         dispatch(post_purchase(item_name, model, count, total_cost));
         
@@ -147,7 +147,7 @@ function Purchasing() {
             <FormGroup row>
                 <Label for='price' sm={1}>Retail Price</Label>
                 <Col sm={5}>
-                    <Input type='number' name='price' value={retial_price} onChange={event => setPrice(event.target.value)} autoComplete='off'></Input>
+                    <Input type='number' name='price' value={retail_price} onChange={event => setPrice(event.target.value)} autoComplete='off'></Input>
                 </Col>
             </FormGroup>
 

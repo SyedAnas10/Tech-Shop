@@ -16,7 +16,7 @@ const Purchasing_Schema = Schema({
     total_cost: {
         type: Number,
         required: true
-    }, 
+    },
     day: {
         type: String
     },

@@ -35,7 +35,7 @@ router.post('/', (req, res, next) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
 
-        const full_date = purchasing.createdAt.toString();
+        const full_date = purchasing.due_date.toString();
 
         const month = full_date.slice(4, 7);
         const day = full_date.slice(8, 10);
