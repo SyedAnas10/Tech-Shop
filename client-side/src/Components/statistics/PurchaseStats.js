@@ -5,22 +5,30 @@ import { useSelector, useDispatch } from 'react-redux';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Col, Form, FormGroup, Label, Table, Button, Input } from 'reactstrap';
 
-import { fetch_purchases_by_date } from '../../Redux/ActionCreators';
+import { fetch_purchases_by_date, fetch_items, edit_purchase, edit_item } from '../../Redux/ActionCreators';
 
 let total_expenses = 0;
+let fetch_called = false;
 
 function PurchaseStats() {
 
     const dispatch = useDispatch();
     const purchases = useSelector(state => state.purchases);
+    const items = useSelector(state => state.items)
     const [returnItem, setReturn] = useState(false);
     const [returningItem, setReturningItem] = useState();
+    const [return_count, set_return_count] = useState(0);
     const [date, setDate] = useState(new Date())
     const [showTotalExpenses, setShowTotalExpenses] = useState(false);
     useEffect(() => {
         dispatch(fetch_purchases_by_date(day, month, year));
+
+        if(!fetch_called) {
+            dispatch(fetch_items());
+            fetch_called = true;
+        }
         total_expenses = 0;
-    }, [date])
+    }, [date, purchases])
     const Center = {
         padding: '10px',
         justifyContent: 'center',
@@ -45,6 +53,20 @@ function PurchaseStats() {
         setShowTotalExpenses(true);
     }
 
+    const return_item = () => {
+        if(return_count > returningItem.count)
+            alert('Error! Returning more items than sold')
+        else {
+            setReturn(false);
+            let temp_item = items.items.filter(item => item.name === returningItem.item_name && item.model === returningItem.model)[0];
+            dispatch(edit_item(temp_item._id, temp_item.name, (temp_item.count - Number(return_count)), temp_item.model, 
+                            temp_item.cost_price, temp_item.retail_price));
+            
+            dispatch(edit_purchase(returningItem._id, (returningItem.count - return_count), 
+                (returningItem.total_cost / returningItem.count) * (returningItem.count - return_count)))
+        }
+    }
+
     const date_string = date.toString();
     const month = date_string.slice(4, 7);
     const day = date_string.slice(8, 10);
@@ -65,9 +87,9 @@ function PurchaseStats() {
             <tbody>
                 <tr>
                     <th><Input type='text' value={returningItem.item_name} disabled/></th>
-                    <th><Input type='number' autoComplete='off' value={returningItem.count} /></th>
+                    <th><Input type='number' autoComplete='off' value={return_count} onChange={(e) => set_return_count(e.target.value)} /></th>
                     <th><Button color='dark' size='sm' style={{marginLeft:'5px'}} onClick={() => setReturn(false)}>Cancel</Button></th>
-                    <th><Button color='warning' size='sm' style={{marginLeft:'5px'}} onClick={() => setReturn(false)}>Continue</Button></th>
+                    <th><Button color='warning' size='sm' style={{marginLeft:'5px'}} onClick={() => return_item()}>Continue</Button></th>
                 </tr>
             </tbody>
         </div>

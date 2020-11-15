@@ -918,3 +918,28 @@ export const delete_item_sales = (id) => (dispatch) => {
     .then(() => alert('Inventory updated'))
     .catch(error => alert(error.message));
 }
+
+export const edit_purchase = (id, count, total_cost) => (dispatch) => {
+    const query_string = '?_id=' + id;
+
+    return fetch(baseUrl + 'purchasing' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            count: count,
+            total_cost: total_cost
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(() => alert('Inventory updated'))
+    .catch(error => alert(error.message));
+}
