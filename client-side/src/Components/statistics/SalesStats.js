@@ -5,22 +5,30 @@ import { useSelector, useDispatch } from 'react-redux';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Col, Form, FormGroup, Label, Table, Button, Input } from 'reactstrap';
 
-import { fetch_sales_by_date } from '../../Redux/ActionCreators';
+import { fetch_sales_by_date, fetch_items, edit_item, edit_items_sales, delete_item_sales } from '../../Redux/ActionCreators';
 
-let total_profit = 0;   
+let total_profit = 0;
+let fetch_called = false;
 
 function SalesStats() {
 
     const dispatch = useDispatch();
     const sales = useSelector(state => state.sales_stats);
+    const items = useSelector(state => state.items)
     const [returnItem, setReturn] = useState(false);
     const [returningItem, setReturningItem] = useState();
+    const [return_count, set_return_count] = useState(0);
     const [date, setDate] = useState(new Date())
     const [showTotalProfit, setShowTotalProfit] = useState(false);
     useEffect(() => {
         dispatch(fetch_sales_by_date(day, month, year));
+        if(!fetch_called) {
+            dispatch(fetch_items())
+            fetch_called = true;
+        }
+
         total_profit = 0;
-    }, [date])
+    }, [date, sales])
     const Center = {
         padding: '10px',
         justifyContent: 'center',
@@ -50,6 +58,25 @@ function SalesStats() {
         setShowTotalProfit(true);
     }
 
+    const return_item = () => {
+        if(return_count > returningItem.count)
+            alert('Error! Returning more items than sold')
+        else {
+            setReturn(false);
+            let temp_item = items.items.filter(item => item.name === returningItem.name && item.model === returningItem.model)[0];
+            dispatch(edit_item(temp_item._id, temp_item.name, (temp_item.count + Number(return_count)), temp_item.model, 
+                            temp_item.cost_price, temp_item.retail_price));
+            if(return_count != returningItem.count) {
+                dispatch(edit_items_sales(returningItem._id, (returningItem.count - return_count), 
+                    (returningItem.rate_sold / returningItem.count) * (returningItem.count - return_count), 
+                    ((returningItem.rate_sold / returningItem.count) * (returningItem.count - return_count)) - (temp_item.cost_price * (returningItem.count - return_count))))
+            }
+            else {
+                dispatch(delete_item_sales(returningItem._id));
+            }
+        }
+    }
+
     const renderReturnSale = () => {
         return(
         <div>
@@ -65,9 +92,9 @@ function SalesStats() {
             <tbody>
                 <tr>
                     <th><Input type='text' value={returningItem.name} disabled/></th>
-                    <th><Input type='number' autoComplete='off' value={returningItem.count} /></th>
+                    <th><Input type='number' autoComplete='off' value={return_count} onChange={(count) => set_return_count(count.target.value)} /></th>
                     <th><Button color='dark' size='sm' style={{marginLeft:'5px'}} onClick={() => setReturn(false)}>Cancel</Button></th>
-                    <th><Button color='warning' size='sm' style={{marginLeft:'5px'}} onClick={() => setReturn(false)}>Continue</Button></th>
+                    <th><Button color='warning' size='sm' style={{marginLeft:'5px'}} onClick={() => return_item()}>Continue</Button></th>
                 </tr>
             </tbody>
         </div>

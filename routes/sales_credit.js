@@ -64,4 +64,28 @@ router.put('/', (req, res, next) => {
     .catch(err => next(err));
 });
 
+router.delete('/', (req, res, next) => {
+    if(req.query != null) {
+        Sales_Credit.findOneAndDelete(req.query)
+        .then(() => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            return res.json({
+                success: true,
+                message: 'Deleted successfully'
+            });
+        }, err => next(err))
+        .catch(err => next(err));
+    }  
+    else {
+        Sales_Credit.deleteMany()
+        .then(resp => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(resp);
+        }, err => next(err))
+        .catch(err => next(err));
+    }
+});
+
 module.exports = router;

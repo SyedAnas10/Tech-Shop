@@ -871,3 +871,50 @@ export const authentication_status_changed = (status) => {
 export const authenticate = (status) => (dispatch) => {
     dispatch(authentication_status_changed(status));
 }
+
+export const edit_items_sales = (id, count, rate_sold, profit) => (dispatch) => {
+    const query_string = '?_id=' + id;
+
+    return fetch(baseUrl + 'individual_items_sales' + query_string, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            count: count,
+            rate_sold: rate_sold,
+            profit: profit
+        })
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(() => alert('Inventory updated'))
+    .catch(error => alert(error.message));
+}
+
+export const delete_item_sales = (id) => (dispatch) => {
+    const query_string = '?_id=' + id;
+
+    return fetch(baseUrl + 'individual_items_sales' + query_string, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => {
+        if(response.ok)
+            return response;
+
+        const error = new Error('Error ' + response.status + ': ' + response.statusText);
+        throw error;
+    }, error => { throw error; })
+    .then(response => response.json())
+    .then(() => alert('Inventory updated'))
+    .catch(error => alert(error.message));
+}
